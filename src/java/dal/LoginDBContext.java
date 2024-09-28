@@ -151,8 +151,8 @@ public class LoginDBContext extends DBContext<Account> {
     }
 
     public void signup(String user, String pass, String email, String fullname, String address, String gender, String phone) {
-        //String query = "insert into Account values(?,?,?, ?,?,?,?,'5',?,'')";
-        String query = "insert into Account(Username, Email, Password , Fullname,Address,Gender, Phone,DOB,RoleID) values(?, ?, ?,?,?, ?, ?,'',5)";
+        //String query = "insert into Account values(?,?,?, ?,?,?,?,'1',?,'',true)";
+        String query = "insert into Account(Username, Email, Password , Fullname,Address,Gender, Phone,DOB,RoleID) values(?, ?, ?,?,?, ?, ?,'',1)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, user);
@@ -174,5 +174,24 @@ public class LoginDBContext extends DBContext<Account> {
         LoginDBContext lg = new LoginDBContext();
         Account a = lg.getEmail("hoangngoclong2001@gmail.com");
         System.out.print(a.getUserName());
+    }
+     public void updateProfile(String userName, String fullName, String Address, String gender , String dob, String phone, String avatar, String email) {
+        String query = "update Account set Username = ? , Fullname = ? , Address = ?, Gender =?, DOB = ? ,Phone = ?, Avatar= ? where Email = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, userName);
+            ps.setString(2, fullName);
+             ps.setString(3, Address);
+              ps.setString(4, gender);
+               ps.setString(5, dob);
+                ps.setString(6, phone);
+                 ps.setString(7, avatar);
+                                ps.setString(8, email);
+            rs = ps.executeQuery();
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+        }
+
     }
 }
