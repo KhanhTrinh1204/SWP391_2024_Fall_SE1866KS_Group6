@@ -13,5 +13,6 @@
     </head>
         <body>
           <a href="/WebApplication1/ChangePassword.jsp">Change password</a>
+             <a href="/WebApplication1/viewProfile">View profile</a>
     </body>
 </html>
