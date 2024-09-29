@@ -1,47 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>VerifyCode</servlet-name>
-        <servlet-class>Controllers.VerifyCode</servlet-class>
+        <servlet-name>listVehicle</servlet-name>
+        <servlet-class>controller.vehicle.listVehicle</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>VerifyCode</servlet-name>
-        <url-pattern>/VerifyCode</url-pattern>
-    </servlet-mapping>
     <servlet>
-        <servlet-name>LoginControl</servlet-name>
-        <servlet-class>Controllers.LoginControl</servlet-class>
+        <servlet-name>addVehicle</servlet-name>
+        <servlet-class>controller.vehicle.adminAddVehicle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminListVehicle</servlet-name>
+        <servlet-class>controller.vehicle.adminListVehicle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminEditVehicle</servlet-name>
+        <servlet-class>controller.vehicle.adminEditVehicle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminDeleteVehicle</servlet-name>
+        <servlet-class>controller.vehicle.adminDeleteVehicle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userVehicleDetails</servlet-name>
+        <servlet-class>controller.vehicle.userVehicleDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminAddVehicleDetails</servlet-name>
+        <servlet-class>controller.vehicle.adminAddVehicleDetails</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginControl</servlet-name>
-        <url-pattern>/login</url-pattern>
+        <servlet-name>listVehicle</servlet-name>
+        <url-pattern>/listVehicle</url-pattern>
     </servlet-mapping>
-    
-       <servlet>
-        <servlet-name>ForgotPasswordControl</servlet-name>
-        <servlet-class>Controllers.ForgotPasswordControl</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>ForgotPasswordControl</servlet-name>
-        <url-pattern>/ForgotPasswordControl</url-pattern>
+        <servlet-name>addVehicle</servlet-name>
+        <url-pattern>/addVehicle</url-pattern>
     </servlet-mapping>
-          <servlet>
-        <servlet-name>ChangePasswordControl</servlet-name>
-        <servlet-class>Controllers.ChangePasswordControl</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>ChangePasswordControl</servlet-name>
-        <url-pattern>/ChangePasswordControl</url-pattern>
+        <servlet-name>adminListVehicle</servlet-name>
+        <url-pattern>/adminListVehicle</url-pattern>
     </servlet-mapping>
-    
-     <servlet>
-        <servlet-name>VerifyChangePass</servlet-name>
-        <servlet-class>Controllers.VerifyChangePass</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>VerifyChangePass</servlet-name>
-        <url-pattern>/VerifyChangePass</url-pattern>
+        <servlet-name>adminEditVehicle</servlet-name>
+        <url-pattern>/adminEditVehicle</url-pattern>
     </servlet-mapping>
-     
-  
+    <servlet-mapping>
+        <servlet-name>adminDeleteVehicle</servlet-name>
+        <url-pattern>/adminDeleteVehicle</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userVehicleDetails</servlet-name>
+        <url-pattern>/userVehicleDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminAddVehicleDetails</servlet-name>
+        <url-pattern>/adminAddVehicleDetails</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>listVehicle.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
