@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/staff/listStaff.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/tourDetail.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/staff/AddStaffServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/staff/EditStaffServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/admin/TourDetailServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/admin/AddTourServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/addTour.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/staff/ListStaffServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/list.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/dal/StaffDao.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/staff/editStaff.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/updateTour.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/admin/UpdateTourServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/index.html</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/staff/DeleteStaffServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/web/staff/addStaff.jsp</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/admin/DeleteServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/controller/admin/ListTourServerlet.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/dal/TourDao.java</file>
+            <file>file:/D:/Yassuke's_Floder/Chuyen_Nganh/Fall2024/SWP391/SupportService/src/java/model/Staff.java</file>
+        </group>
+    </open-files>
+</project-private>
