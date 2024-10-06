@@ -20,11 +20,11 @@
     <body>
         <div class="container" id="container">
             <div class="form-container sign-in-container">
-                <form action="ConfirmPassWord" method="post">
+                <form action="ConfirmPassWord" method="post" onsubmit="return validateFormPasswordReset()">
                     <h1>Verification</h1>
                     <input type="text" name="authcode" placeholder="Verification"></input>
-                    <input type="text" name="confirm" placeholder="New-Password"></input>
-                    <input type="text" name="reconfirm" placeholder="ReNew-Password"></input>
+                    <input  id="confirm" type="text" name="confirm" placeholder="New-Password"></input>
+                    <input id="reconfirm"  type="text" name="reconfirm" placeholder="ReNew-Password"></input>
                     <% String errorMessage = (String)request.getAttribute("errorMessage");
       if (errorMessage != null && !errorMessage.isEmpty()) {
                     %>

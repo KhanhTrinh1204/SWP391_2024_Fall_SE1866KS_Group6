@@ -5,6 +5,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -32,11 +34,14 @@ public class ViewProfileControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-         HttpSession session = request.getSession();
-           Account user = (Account) session.getAttribute("authcode");
-           request.setAttribute("user", user);
-           request.getRequestDispatcher("ViewProfile.jsp").forward(request, response);
+
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("authcode");
+        ILoginDAO dao = new LoginDAO();
+        Account currentUser = dao.viewProfile(user.getEmail());
+         // request.setAttribute("user2", user);
+        request.setAttribute("user", currentUser);
+        request.getRequestDispatcher("ViewProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

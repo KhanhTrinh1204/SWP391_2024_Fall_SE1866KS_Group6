@@ -5,6 +5,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,17 +37,17 @@ public class VerifyChangePass extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-              long otpTimestamp = (long) session.getAttribute("otpTimestamp");
+            long otpTimestamp = (long) session.getAttribute("otpTimestamp");
 
-        // Time limit for OTP validity (30 seconds)
-              long timeLimitMillis = 30000;
+            // Time limit for OTP validity (30 seconds)
+            long timeLimitMillis = 30000;
             Account user = (Account) session.getAttribute("authcode");
             String code = request.getParameter("authcode");
             if (code.equals(user.getCode()) && (System.currentTimeMillis() - otpTimestamp) <= timeLimitMillis) {
-                LoginDBContext dao = new LoginDBContext();
+                ILoginDAO dao = new LoginDAO();
                 dao.updatePassword(user.getEmail(), user.getPassword());
 //                    String alertMessage = "Create account successful!";
 //                  request.setAttribute("alertMessage1", alertMessage);

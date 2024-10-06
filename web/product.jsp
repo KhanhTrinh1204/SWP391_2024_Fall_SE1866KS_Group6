@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
         <body>
-          <a href="/WebApplication1/ChangePassword.jsp">Change password</a>
-             <a href="/WebApplication1/viewProfile">View profile</a>
+          <a href="/SupportProject/ChangePassword.jsp">Change password</a>
+             <a href="/SupportProject/viewProfile">View profile</a>
+               <a href="/SupportProject/LogoutControl">Log out</a>
     </body>
 </html>

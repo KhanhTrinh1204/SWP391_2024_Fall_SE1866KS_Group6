@@ -134,7 +134,6 @@
 
     <h1>User Profile</h1>
     <!-- Image Section -->
-
     
     <form action="updateProfile" method="post" onsubmit="return validateForm()">
        <img id="profileImage" src="${user.avatar}" alt="Profile Picture" class="profile-img">

@@ -6,6 +6,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import dal.SendEmail;
 import java.io.IOException;
@@ -39,47 +41,44 @@ public class SignupControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("newuser");
-        String email = request.getParameter("email");
+        String user = request.getParameter("newuser").trim();
+        String email = request.getParameter("email").trim();
         String newpass = request.getParameter("newpass");
-         String rewpass = request.getParameter("repass");
-          String fullname = request.getParameter("fullname");
-         String gender = request.getParameter("gender");
-           String phone = request.getParameter("phone");
-         String address = request.getParameter("address");
-        LoginDBContext dao = new LoginDBContext();
+        String rewpass = request.getParameter("repass");
+        String fullname = request.getParameter("fullname").trim();
+        String gender = request.getParameter("gender").trim();
+        String phone = request.getParameter("phone").trim();
+        String address = request.getParameter("address").trim();
+        ILoginDAO dao = new LoginDAO();
         Account checkusername = dao.checkAccount(user);
         long otpTimestamp = System.currentTimeMillis();
-         Account chekcemail =dao.getEmail(email);
-        if(checkusername !=null || chekcemail !=null ){
-              String alertMessage = "Sign up failed, Email and password exist!";
-              request.setAttribute("alertMessage", alertMessage);
-             request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }
-       else if(!newpass.equals(rewpass)){
-           String alertMessage = "Re-password failed!";
-              request.setAttribute("alertMessage", alertMessage);
-             request.getRequestDispatcher("Login.jsp").forward(request, response);
-       }
-       else if(user==null || email== null || newpass == null|| fullname==null || rewpass == null || gender == null || phone ==null|| address == null){
-           String alertMessage = " Please fill all information!";
-              request.setAttribute("alertMessage", alertMessage);
-             request.getRequestDispatcher("Login.jsp").forward(request, response);
-       }
-        else{
-        SendEmail sm = new SendEmail();
-        String code = sm.getRandom();
-        Account a = new Account(user, code, email, newpass,fullname,address,gender, phone);
-        boolean test = sm.sendEmail(a);
-        
-        if (test) {
-            HttpSession session = request.getSession();
-            session.setAttribute("otpTimestamp", otpTimestamp);
-            session.setAttribute("authcode", a);
-            response.sendRedirect("verify.jsp");
+        Account chekcemail = dao.getEmail(email);
+        if (checkusername != null || chekcemail != null) {
+            String alertMessage = "Sign up failed, Email and password exist!";
+            request.setAttribute("alertMessage", alertMessage);
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        } else if (!newpass.equals(rewpass)) {
+            String alertMessage = "Re-password failed!";
+            request.setAttribute("alertMessage", alertMessage);
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        } else if (user == null || email == null || newpass == null || fullname == null || rewpass == null || gender == null || phone == null || address == null) {
+            String alertMessage = " Please fill all information!";
+            request.setAttribute("alertMessage", alertMessage);
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         } else {
-            response.sendRedirect("Login.jsp");
-        }
+            SendEmail sm = new SendEmail();
+            String code = sm.getRandom();
+            Account a = new Account(user, code, email, newpass, fullname, address, gender, phone);
+            boolean test = sm.sendEmail(a);
+
+            if (test) {
+                HttpSession session = request.getSession();
+                session.setAttribute("otpTimestamp", otpTimestamp);
+                session.setAttribute("authcode", a);
+                response.sendRedirect("verify.jsp");
+            } else {
+                response.sendRedirect("Login.jsp");
+            }
         }
 //       String gender=request.getParameter("gender");
 //       String dob=request.getParameter("dob");

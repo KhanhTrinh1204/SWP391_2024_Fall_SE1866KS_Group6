@@ -5,6 +5,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,32 +42,30 @@ public class ConfirmPassWord extends HttpServlet {
             String repassword = request.getParameter("reconfirm");
             Account user = (Account) session.getAttribute("authcode");
             String code = request.getParameter("authcode");
-             long otpTimestamp = (long) session.getAttribute("otpTimestamp");
+            long otpTimestamp = (long) session.getAttribute("otpTimestamp");
 
-        // Time limit for OTP validity (30 seconds)
-              long timeLimitMillis = 30000;
-            if(!code.equals(user.code)|| (System.currentTimeMillis() - otpTimestamp) > timeLimitMillis){
-              session.setAttribute("authcode", user);
-             String errorMessage = "Invalid or expired OTP.";
-             request.setAttribute("errorMessage", errorMessage);
-             request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
-            }
-            else if(!password.equals(repassword)){
-                   session.setAttribute("authcode", user);
+            // Time limit for OTP validity (30 seconds)
+            long timeLimitMillis = 30000;
+            if (!code.equals(user.code) || (System.currentTimeMillis() - otpTimestamp) > timeLimitMillis) {
+                session.setAttribute("authcode", user);
+                String errorMessage = "Invalid or expired OTP.";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            } else if (!password.equals(repassword)) {
+                session.setAttribute("authcode", user);
                 String errorMessage = "Passwords do not match. Please try again.";
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
-            }
-            else if (code.equals(user.getCode()) && password.equals(repassword) && (System.currentTimeMillis() - otpTimestamp) <= timeLimitMillis) {
-                LoginDBContext dao = new LoginDBContext();
-                dao.updatePassword(user.getEmail(),password);
-                 response.sendRedirect("Login.jsp");
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            } else if (code.equals(user.getCode()) && password.equals(repassword) && (System.currentTimeMillis() - otpTimestamp) <= timeLimitMillis) {
+                ILoginDAO dao = new LoginDAO();
+                dao.updatePassword(user.getEmail(), password);
+                response.sendRedirect("Login.jsp");
 
             } else {
-             session.setAttribute("authcode", user);
-             String errorMessage = "Error all information.";
-             request.setAttribute("errorMessage", errorMessage);
-                 request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+                session.setAttribute("authcode", user);
+                String errorMessage = "Error all information.";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
             }
         }
     }

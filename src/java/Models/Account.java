@@ -12,17 +12,17 @@ import java.util.Date;
  */
 public class Account {
 
-    public String accountId;
-    public String userName;
-    public String password;
-    public String fullName;
-    public String address;
-    public String email;
-    public String gender;
-    public String DOB;
-    public String roleID;
-    public String phone;
-    public String avatar;
+    private String accountId;
+    private String userName;
+    private String password;
+    private String fullName;
+    private String address;
+    private String email;
+    private String gender;
+    private String DOB;
+    private String roleID;
+    private String phone;
+    private String avatar;
     public String code;
 
     public Account(String userName, String code, String email, String password) {

@@ -5,6 +5,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,25 +37,24 @@ public class VerifyCode extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-              long otpTimestamp = (long) session.getAttribute("otpTimestamp");
+            long otpTimestamp = (long) session.getAttribute("otpTimestamp");
 
-        // Time limit for OTP validity (30 seconds)
-              long timeLimitMillis = 30000;
+            // Time limit for OTP validity (30 seconds)
+            long timeLimitMillis = 30000;
             Account user = (Account) session.getAttribute("authcode");
             String code = request.getParameter("authcode");
             if (code.equals(user.getCode()) && (System.currentTimeMillis() - otpTimestamp) <= timeLimitMillis) {
-                LoginDBContext dao = new LoginDBContext();
-                    dao.signup(user.getUserName(), user.getPassword(), user.getEmail(), user.getFullName(),user.getAddress(),user.getGender(),user.getPhone());
-                     String alertMessage = " Register Succesfully!";
-              request.setAttribute("alertMessage", alertMessage);
-                   request.getRequestDispatcher("Login.jsp").forward(request, response);
+                ILoginDAO dao = new LoginDAO();
+                dao.signup(user.getUserName(), user.getPassword(), user.getEmail(), user.getFullName(), user.getAddress(), user.getGender(), user.getPhone());
+                String alertMessage = " Register Succesfully!";
+                request.setAttribute("alertMessage", alertMessage);
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            } else {
+                session.setAttribute("authcode", user);
+                String errorMessage = "Invalid or expired OTP.";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("verify.jsp").forward(request, response);
             }
-             else {
-                     session.setAttribute("authcode", user);
-                    String errorMessage = "Invalid or expired OTP.";
-             request.setAttribute("errorMessage", errorMessage);
-             request.getRequestDispatcher("verify.jsp").forward(request, response);
-                }
         }
     }
 

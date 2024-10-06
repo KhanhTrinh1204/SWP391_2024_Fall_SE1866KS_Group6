@@ -5,6 +5,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import dal.SendEmail;
 import java.io.IOException;
@@ -64,30 +66,28 @@ public class ForgotPasswordControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
-         LoginDBContext dao = new LoginDBContext();
+        ILoginDAO dao = new LoginDAO();
         Account acc = dao.getEmail(email);
-        if(acc==null){
-             String errorMessage = "Email not exist.";
+        if (acc == null) {
+            String errorMessage = "Email not exist.";
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("EnterEmail.jsp").forward(request, response);
         }
         SendEmail sm = new SendEmail();
         String code = sm.getRandom();
         long otpTimestamp = System.currentTimeMillis();
-       
-       
-            Account acb = new Account(acc.getUserName(), code, email, acc.getPassword());
-           boolean test = sm.sendEmail(acb);
+
+        Account acb = new Account(acc.getUserName(), code, email, acc.getPassword());
+        boolean test = sm.sendEmail(acb);
         if (test) {
             HttpSession session = request.getSession();
             session.setAttribute("authcode", acb);
-               session.setAttribute("otpTimestamp", otpTimestamp);
+            session.setAttribute("otpTimestamp", otpTimestamp);
             response.sendRedirect("ForgotPassword.jsp");
         } else {
             response.sendRedirect("EnterEmail.jsp");
         }
 
-  
     }
 
     /**

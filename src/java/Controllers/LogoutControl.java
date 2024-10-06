@@ -4,23 +4,22 @@
  */
 package Controllers;
 
-import dal.ILoginDAO;
-import dal.LoginDAO;
-import dal.LoginDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UpdateProfileControl", urlPatterns = {"/updateProfile"})
-public class UpdateProfileControl extends HttpServlet {
+@WebServlet(name = "LogoutControl", urlPatterns = {"/LogoutControl"})
+public class LogoutControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,19 +32,26 @@ public class UpdateProfileControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateProfileControl</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateProfileControl at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+       // 1. Invalidate the session (if it exists)
+        HttpSession session = request.getSession(false);  // Avoid creating a new session
+        if (session != null) {
+            session.invalidate();  // This will remove all session attributes
         }
+
+        // 2. Delete all cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue("");       // Clear the cookie value
+                cookie.setMaxAge(0);       // Invalidate the cookie
+                cookie.setPath("/");       // Ensure the cookie applies to the entire app
+                response.addCookie(cookie);  // Add the cookie back to response
+            }
+        }
+
+        // 3. Redirect the user to the login or home page after logout
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,30 +80,7 @@ public class UpdateProfileControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Set request encoding to handle form data correctly (e.g., for non-ASCII characters)
-        request.setCharacterEncoding("UTF-8");
-
-        // Get the form parameters
-        String username = request.getParameter("username").trim();
-        String fullName = request.getParameter("fullname").trim();
-        String address = request.getParameter("address").trim();
-        String email = request.getParameter("email").trim();
-        String gender = request.getParameter("gender").trim();
-        String dob = request.getParameter("dob").trim();
-        String phone = request.getParameter("phone").trim();
-        String avatarUrl = request.getParameter("avatarUrl").trim();
-
-        // Basic validation logic (you can expand this)
-        if (username == null || fullName == null || email == null || phone == null || dob == null || avatarUrl == null) {
-            // If validation fails, redirect back to the form with an error message
-            request.setAttribute("error", "All fields are required.");
-
-            return;
-        }
-
-        ILoginDAO dao = new LoginDAO();
-        dao.updateProfile(username, fullName, address, gender, dob, phone, avatarUrl, email);
-        request.getRequestDispatcher("product.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

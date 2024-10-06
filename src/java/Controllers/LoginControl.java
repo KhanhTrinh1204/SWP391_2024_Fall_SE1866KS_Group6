@@ -6,6 +6,8 @@
 package Controllers;
 
 import Models.Account;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.LoginDBContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -82,10 +84,10 @@ public class LoginControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String email = request.getParameter("user");
         String pass = request.getParameter("pass");
-        LoginDBContext dao = new LoginDBContext();
+        ILoginDAO dao = new LoginDAO();
         Account a = dao.loginwithEmail(email, pass);
         if (a == null) {
-             String errorMessage = "Invalid username or password. Please try again.";
+            String errorMessage = "Invalid username or password. Please try again.";
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } else {

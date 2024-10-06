@@ -22,9 +22,9 @@
             <div class="form-container sign-in-container">
                 <form action="ChangePasswordControl" method="post">
                     <h1>Change password</h1>
-                    <input type="text" name="oldpass" placeholder="Old-Password"></input>
-                    <input type="text" name="confirm" placeholder="New-Password"></input>
-                    <input type="text" name="reconfirm" placeholder="ReNew-Password"></input>
+                    <input type="password"  name="oldpass" placeholder="Old-Password"></input>
+                    <input type="password" id="confirm"  name="confirm" placeholder="New-Password"></input>
+                    <input type="password"  id="reconfirm" name="reconfirm" placeholder="ReNew-Password"></input>
                     <% String errorMessage = (String)request.getAttribute("errorMessage");
       if (errorMessage != null && !errorMessage.isEmpty()) {
                     %>
@@ -34,5 +34,43 @@
                 </form>
             </div>
         </div>
+                       <script>
+            function validateFormPasswordReset() {
+// Verification code validation (not empty)
+                const authcode = document.getElementById("authcode").value.trim();
+                if (authcode === "") {
+                    alert("Verification code cannot be empty.");
+                    return false;
+                }
+
+// New password validation: at least 8 characters, 1 uppercase letter, 1 number, 1 special character
+                const newPassword = document.getElementById("confirm").value.trim();
+                if (newPassword === "") {
+                    alert("New password cannot be empty.");
+                    return false;
+                }
+                const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+                if (!passwordPattern.test(newPassword)) {
+                    alert("New password must be at least 8 characters long, include 1 uppercase letter, 1 number, and 1 special character.");
+                    return false;
+                }
+
+// Confirm password validation
+                const rePassword = document.getElementById("reconfirm").value.trim();
+                if (rePassword === "") {
+                    alert("Please confirm your new password.");
+                    return false;
+                }
+                if (newPassword !== rePassword) {
+                    alert("Passwords do not match.");
+                    return false;
+                }
+
+// If all validations pass, the form can be submitted
+                return true;
+            }
+
+
+        </script>
     </body>
 </html>
