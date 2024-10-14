@@ -24,7 +24,8 @@ public class Account {
     private String phone;
     private String avatar;
     public String code;
-
+    public String status;
+    
     public Account(String userName, String code, String email, String password) {
         this.userName = userName;
         this.code = code;
@@ -48,8 +49,30 @@ public class Account {
         this.code = code;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
-    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar, String status) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.gender = gender;
+        
+        this.roleID = roleID;
+        this.DOB = DOB;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.status = status;
+    }
+ 
     public String getCode() {
         return code;
     }

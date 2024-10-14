@@ -3,17 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/dal/SendEmail.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/web/ViewProfile.jsp</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/Controllers/VerifyCode.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/dal/LoginDBContext.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/Models/Account.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/Controllers/SignupControl.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/dal/DBContext.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/web/ChangePassword.jsp</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/Controllers/ChangePasswordControl.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/src/java/Controllers/LoginControl.java</file>
-            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/web/Login.jsp</file>
+            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/web/ListFeedback.jsp</file>
+            <file>file:/C:/Users/hoang/OneDrive/Desktop/projectnetbean/SWP391_2024_Fall_SE1866KS_Group6/web/SendRequest.jsp</file>
         </group>
     </open-files>
 </project-private>

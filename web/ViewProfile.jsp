@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Update Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,20 +37,28 @@
             display: block;
             border-radius: 50%;
         }
+        .success {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
     </style>
-      <script>
-          // JavaScript function to update image preview when the URL changes
+    <script>
+        // Update image preview when URL changes
         function updateImagePreview() {
             const imageUrl = document.getElementById('avatarUrl').value;
             document.getElementById('profileImage').src = imageUrl;
         }
 
-        // Validate function for form submission
+        // Validate form submission
         function validateForm() {
             let isValid = true;
-            let errorMessage = '';
 
-            // Clear any previous error messages
+            // Clear previous error messages
             document.querySelectorAll('.error').forEach(function(el) {
                 el.textContent = '';
             });
@@ -70,37 +78,43 @@
             }
 
             // Validate Full Name (not empty)
-            const fullName = document.getElementById('password').value;
+            const fullName = document.getElementById('fullname').value;
             if (fullName.trim() === '') {
                 document.getElementById('fullNameError').textContent = 'Full name is required.';
                 isValid = false;
             }
 
-            // Validate Address (not empty)
-            const address = document.getElementById('fullname').value;
+            // Validate Address (not empty and max length of 250 characters)
+            const address = document.getElementById('address').value;
             if (address.trim() === '') {
                 document.getElementById('addressError').textContent = 'Address is required.';
                 isValid = false;
+            } else if (address.length > 250) {
+                document.getElementById('addressError').textContent = 'Address cannot exceed 250 characters.';
+                isValid = false;
             }
 
-            // Validate Email
-            const email = document.getElementById('address').value;
+            // Validate Email (valid format)
+            const email = document.getElementById('email').value;
             if (!isValidEmail(email)) {
                 document.getElementById('emailError').textContent = 'Please enter a valid email address.';
                 isValid = false;
             }
 
-            // Validate Phone Number
+            // Validate Phone Number (must be exactly 10 digits)
             const phone = document.getElementById('phone').value;
             if (!isValidPhone(phone)) {
-                document.getElementById('phoneError').textContent = 'Please enter a valid phone number.';
+                document.getElementById('phoneError').textContent = 'Phone number must be exactly 10 digits.';
                 isValid = false;
             }
 
-            // Validate Date of Birth
+            // Validate Date of Birth (not empty and must be less than current date)
             const dob = document.getElementById('dob').value;
             if (!dob) {
                 document.getElementById('dobError').textContent = 'Date of birth is required.';
+                isValid = false;
+            } else if (new Date(dob) >= new Date()) {
+                document.getElementById('dobError').textContent = 'Date of birth must be before the current date.';
                 isValid = false;
             }
 
@@ -125,45 +139,60 @@
 
         // Helper function to validate phone number
         function isValidPhone(phone) {
-            const phoneRegex = /^[0-9]{10,15}$/;
+            const phoneRegex = /^[0-9]{10}$/;
             return phoneRegex.test(phone);
         }
     </script>
 </head>
 <body>
 
-    <h1>User Profile</h1>
-    <!-- Image Section -->
+    <h1>Update Profile</h1>
     
     <form action="updateProfile" method="post" onsubmit="return validateForm()">
-       <img id="profileImage" src="${user.avatar}" alt="Profile Picture" class="profile-img">
-        <label for="avatarUrl">Image URL:</label>
-       <input type="text" id="avatarUrl" name="avatarUrl" value="${user.avatar}" oninput="updateImagePreview()">
-        <label for="username">Username:</label>
+        <img id="profileImage" src="${user.avatar}" alt="Profile Picture" class="profile-img">
+        
+        <label for="avatarUrl">Image URL(*):</label>
+        <input type="text" id="avatarUrl" name="avatarUrl" value="${user.avatar}" oninput="updateImagePreview()">
+        <span id="avatarUrlError" class="error"></span>
+
+        <label for="username">Username(*):</label>
         <input type="text" id="username" name="username" value="${user.userName}">
-        
-        <label for="password">Full Name:</label>
+        <span id="usernameError" class="error"></span>
+
+        <label for="fullname">Full Name(*):</label>
         <input type="text" id="fullname" name="fullname" value="${user.fullName}">
-        
-        <label for="fullname">Address:</label>
+        <span id="fullNameError" class="error"></span>
+
+        <label for="address">Address(*):</label>
         <input type="text" id="address" name="address" value="${user.address}">
-        
-        <label for="address">Email:</label>
-        <input type="text" id="email" name="email" value="${user.email}" readonly>
-        
+        <span id="addressError" class="error"></span>
+
+        <label for="email">Email(*):</label>
+        <input type="email" id="email" name="email" value="${user.email}" readonly>
+        <span id="emailError" class="error"></span>
+
         <label for="gender">Gender:</label>
         <select id="gender" name="gender">
             <option value="true" ${user.gender == 'Male' ? 'selected' : ''}>Male</option>
             <option value="false" ${user.gender == 'Female' ? 'selected' : ''}>Female</option>
         </select>
-        
-        <label for="dob">Date of Birth:</label>
+
+        <label for="dob">Date of Birth(*):</label>
         <input type="date" id="dob" name="dob" value="${user.DOB}">
-        
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" value="${user.phone}">
-        
+        <span id="dobError" class="error"></span>
+
+        <label for="phone">Phone Number(*):</label>
+        <input type="text" id="phone" name="phone" value="${user.phone}">
+        <span id="phoneError" class="error"></span>
+
         <button type="submit">Update Profile</button>
+
+        <% String successMessage = (String) request.getAttribute("successMessage");
+           if (successMessage != null) { %>
+            <div class="success">
+                <%= successMessage %>
+            </div>
+        <% } %>
     </form>
 
 </body>

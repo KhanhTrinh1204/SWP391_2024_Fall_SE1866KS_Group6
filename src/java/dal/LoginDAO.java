@@ -182,7 +182,7 @@ public class LoginDAO extends BaseDAO implements ILoginDAO {
     }
 
     @Override
-    public void updateProfile(String userName, String fullName, String Address, String gender, String dob, String phone, String avatar, String email) {
+    public boolean updateProfile(String userName, String fullName, String Address, String gender, String dob, String phone, String avatar, String email) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -206,6 +206,7 @@ public class LoginDAO extends BaseDAO implements ILoginDAO {
         } finally {
             close(conn, ps, rs);
         }
+        return true;
     }
 
     @Override

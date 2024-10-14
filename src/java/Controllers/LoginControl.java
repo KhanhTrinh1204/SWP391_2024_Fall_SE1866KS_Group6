@@ -97,9 +97,9 @@ public class LoginControl extends HttpServlet {
             session.setAttribute("authcode", a);
             Cookie u = new Cookie("userC", a.getUserName());
             Cookie p = new Cookie("passC", pass);
-            u.setMaxAge(60);
+            u.setMaxAge(36000);
             if (remember != null) {
-                p.setMaxAge(60);
+                p.setMaxAge(36000);
             } else {
                 p.setMaxAge(0);
             }

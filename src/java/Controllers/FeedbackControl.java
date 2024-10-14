@@ -4,9 +4,9 @@
  */
 package Controllers;
 
-import dal.ILoginDAO;
-import dal.LoginDAO;
-import dal.LoginDBContext;
+import Models.Feedback;
+import dal.FeedbackDAO;
+import dal.IFeedbackDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UpdateProfileControl", urlPatterns = {"/updateProfile"})
-public class UpdateProfileControl extends HttpServlet {
+@WebServlet(name = "ListFeedback", urlPatterns = {"/ListFeedback"})
+public class FeedbackControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class UpdateProfileControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateProfileControl</title>");
+            out.println("<title>Servlet AccountControl</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateProfileControl at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AccountControl at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,11 +58,37 @@ public class UpdateProfileControl extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+   @Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      String email = request.getParameter("email");
+    String statusParam = request.getParameter("status");
+    String pageStr = request.getParameter("page");
+    int RECORDS_PER_PAGE = 5;
+
+    // Default to page 1 if not specified or invalid
+    int page = 1;
+    if (pageStr != null && !pageStr.isEmpty()) {
+        try {
+            page = Integer.parseInt(pageStr);
+        } catch (NumberFormatException e) {
+            page = 1;  // Default value
+        }
     }
+
+    IFeedbackDAO feedbackDAO = new FeedbackDAO();
+    List<Feedback> feedbacks = feedbackDAO.searchFeedbacks(email, statusParam, page, RECORDS_PER_PAGE);
+    int totalRecords = feedbackDAO.getTotalRecords(email, statusParam);
+    int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+
+    // Set attributes to pass to JSP
+    request.setAttribute("feedbacks", feedbacks);
+    request.setAttribute("totalPages", totalPages);
+    request.setAttribute("currentPage", page);
+
+    // Forward to the JSP page
+    request.getRequestDispatcher("ListFeedback.jsp").forward(request, response);
+}
+
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -74,39 +101,7 @@ public class UpdateProfileControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Set request encoding to handle form data correctly (e.g., for non-ASCII characters)
-        request.setCharacterEncoding("UTF-8");
-
-        // Get the form parameters
-        String username = request.getParameter("username").trim();
-        String fullName = request.getParameter("fullname").trim();
-        String address = request.getParameter("address").trim();
-        String email = request.getParameter("email").trim();
-        String gender = request.getParameter("gender").trim();
-        String dob = request.getParameter("dob").trim();
-        String phone = request.getParameter("phone").trim();
-        String avatarUrl = request.getParameter("avatarUrl").trim();
-
-        // Basic validation logic (you can expand this)
-        if (username == null || fullName == null || email == null || phone == null || dob == null || avatarUrl == null) {
-            // If validation fails, redirect back to the form with an error message
-            request.setAttribute("error", "All fields are required.");
-
-            return;
-        }
-
-        ILoginDAO dao = new LoginDAO();
-       boolean isUpdated = dao.updateProfile(username, fullName, address, gender, dob, phone, avatarUrl, email);
-        if (isUpdated) {
-    // Set success message in request attribute
-    request.setAttribute("successMessage", "Profile updated successfully!");
-    // Redirect to the profile page (or the update form)
-        request.getRequestDispatcher("product.jsp").forward(request, response);
-} else {
-    // If update fails, pass an error message
-    request.setAttribute("error", "Profile update failed. Please try again.");
-          request.getRequestDispatcher("ViewProfile.jsp").forward(request, response);
-}
+        processRequest(request, response);
     }
 
     /**
