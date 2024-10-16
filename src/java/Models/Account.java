@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Models;
+
+package model;
 
 import java.util.Date;
 
 /**
  *
- * @author Admin
+ * @author ASUS
  */
 public class Account {
-
     private String accountId;
     private String userName;
     private String password;
@@ -25,83 +21,29 @@ public class Account {
     private String avatar;
     public String code;
     public String status;
-    
-    public Account(String userName, String code, String email, String password) {
-        this.userName = userName;
-        this.code = code;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Account(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public Account(String userName,String code, String email ,String password, String fullName, String address, String gender, String phone) {
-        this.userName = userName;
-        this.password = password;
-        this.fullName = fullName;
-        this.address = address;
-        this.email = email;
-        this.gender = gender;
-        this.phone = phone;
-        this.code = code;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar, String status) {
-        this.accountId = accountId;
-        this.userName = userName;
-        this.password = password;
-        this.fullName = fullName;
-        this.address = address;
-        this.email = email;
-        this.gender = gender;
-        
-        this.roleID = roleID;
-        this.DOB = DOB;
-        this.phone = phone;
-        this.avatar = avatar;
-        this.status = status;
-    }
- 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar) {
-        this.accountId = accountId;
-        this.userName = userName;
-        this.password = password;
-        this.fullName = fullName;
-        this.address = address;
-        this.email = email;
-        this.gender = gender;
-        this.DOB = DOB;
-        this.roleID = roleID;
-        this.phone = phone;
-        this.avatar = avatar;
-    }
+    private Tourist tourist;
+    private TravelAgent agent;
+    private Admin admin;
 
     public Account() {
     }
 
-    public Account(String userName, String password,String email) {
+    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar, String code, Tourist tourist, TravelAgent agent, Admin admin) {
+        this.accountId = accountId;
         this.userName = userName;
         this.password = password;
+        this.fullName = fullName;
+        this.address = address;
         this.email = email;
+        this.gender = gender;
+        this.DOB = DOB;
+        this.roleID = roleID;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.code = code;
+        this.tourist = tourist;
+        this.agent = agent;
+        this.admin = admin;
     }
 
     public String getAccountId() {
@@ -114,6 +56,14 @@ public class Account {
 
     public String getUserName() {
         return userName;
+    }
+
+        public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setUserName(String userName) {
@@ -192,4 +142,86 @@ public class Account {
         this.avatar = avatar;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Tourist getTourist() {
+        return tourist;
+    }
+
+    public void setTourist(Tourist tourist) {
+        this.tourist = tourist;
+    }
+
+    public TravelAgent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(TravelAgent agent) {
+        this.agent = agent;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    public Account(String userName, String code, String email, String password) {
+        this.userName = userName;
+        this.code = code;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Account(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+  public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar, String status) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.gender = gender;
+        
+        this.roleID = roleID;
+        this.DOB = DOB;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.status = status;
+    }
+   public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.gender = gender;
+        this.DOB = DOB;
+        this.roleID = roleID;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
+    public Account(String userName,String code, String email ,String password, String fullName, String address, String gender, String phone) {
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.gender = gender;
+        this.phone = phone;
+        this.code = code;
+    }
+    
 }
+

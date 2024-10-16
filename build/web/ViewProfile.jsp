@@ -173,8 +173,8 @@
 
         <label for="gender">Gender:</label>
         <select id="gender" name="gender">
-            <option value="true" ${user.gender == 'Male' ? 'selected' : ''}>Male</option>
-            <option value="false" ${user.gender == 'Female' ? 'selected' : ''}>Female</option>
+            <option value="1" ${user.gender == true ? 'selected' : ''}>Male</option>
+            <option value="0" ${user.gender == false ? 'selected' : ''}>Female</option>
         </select>
 
         <label for="dob">Date of Birth(*):</label>

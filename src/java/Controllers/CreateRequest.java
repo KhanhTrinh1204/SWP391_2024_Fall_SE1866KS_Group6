@@ -4,9 +4,9 @@
  */
 package Controllers;
 
-import Models.Account;
-import dal.FeedbackDAO;
-import dal.IFeedbackDAO;
+
+import dal.IFeedbackDao;
+import dal.FeedbackDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -38,7 +39,7 @@ public class CreateRequest extends HttpServlet {
         String description = request.getParameter("description");
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("authcode");
-         IFeedbackDAO dao = new FeedbackDAO();
+         IFeedbackDao dao = new FeedbackDao();
          boolean a =  dao.createFeedback(user.getEmail(), title, description);
         if(a == true){
         request.setAttribute("successMessage", "Request sent successfully!");

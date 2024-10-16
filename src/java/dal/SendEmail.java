@@ -5,7 +5,6 @@
 package dal;
 
 import java.util.Random;
-import Models.Account;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -16,6 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import static java.lang.Math.abs;
+import model.Account;
 /**
  *
  * @author hoang

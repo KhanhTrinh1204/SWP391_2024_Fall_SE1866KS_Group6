@@ -4,17 +4,17 @@
  */
 package dal;
 
-import Models.Account;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.Account;
 
 /**
  *
  * @author hoang
  */
-public class LoginDBContext extends DBContext<Account> {
+public class LoginDBContext extends DbContext<Account> {
 
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -130,10 +130,7 @@ public class LoginDBContext extends DBContext<Account> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public Account get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     @Override
     public void insert(Account model) {

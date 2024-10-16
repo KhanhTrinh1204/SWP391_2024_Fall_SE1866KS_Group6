@@ -4,8 +4,8 @@
  */
 package Controllers;
 
-import dal.FeedbackDAO;
-import dal.IFeedbackDAO;
+import dal.FeedbackDao;
+import dal.IFeedbackDao;
 import dal.SendEmail;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,14 +36,14 @@ public class ResponseControl extends HttpServlet {
        String feedbackID = request.getParameter("feedbackID");
           String email = request.getParameter("email").trim();
        String responseAnswer = request.getParameter("response").trim();
-        IFeedbackDAO dao = new FeedbackDAO();    
+        IFeedbackDao dao = new FeedbackDao();    
         SendEmail sm = new SendEmail();
          boolean test = sm.sendEmailResponse(email,responseAnswer);
          boolean checkUpdate =  dao.updateFeedback(feedbackID, responseAnswer);
           if (checkUpdate && test) {
-        response.sendRedirect("/SupportProject/ListFeedback?emailSuccess=true");
+        response.sendRedirect("/SupportProject/feedback/list?emailSuccess=true");
     } else {
-        response.sendRedirect("/SupportProject/ListFeedback?emailSuccess=false");
+        response.sendRedirect("/SupportProject/feedback/list?emailSuccess=false");
     }
     }
 

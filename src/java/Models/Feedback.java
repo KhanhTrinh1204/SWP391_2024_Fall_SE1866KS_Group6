@@ -1,96 +1,90 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Models;
+package model;
 
 /**
  *
- * @author hoang
+ * @author ASUS
  */
 public class Feedback {
+    private int feedbackId;
+    private String email;
+    private String title;
+    private String date;
+    private String description;
+    private String response;
+    private boolean status;
 
-    private String FeedbackID;
-    private String Email;
-    private String Title;
-    private String Date;
-    private String Description;
-    private String Response;
-    private String Status;
-
-    public Feedback(String FeedbackID, String Email, String Title, String Date, String Description, String Response, String Status) {
-        this.FeedbackID = FeedbackID;
-        this.Email = Email;
-        this.Title = Title;
-        this.Date = Date;
-        this.Description = Description;
-        this.Response = Response;
-        this.Status = Status;
+    public Feedback() {
     }
 
-    public Feedback(String Email, String Title, String Date, String Description, String Response, String Status) {
-        this.Email = Email;
-        this.Title = Title;
-        this.Date = Date;
-        this.Description = Description;
-        this.Response = Response;
-        this.Status = Status;
+    public Feedback(int feedbackId, String email, String title, String date, String description, String response, boolean status) {
+        this.feedbackId = feedbackId;
+        this.email = email;
+        this.title = title;
+        this.date = date;
+        this.description = description;
+        this.response = response;
+        this.status = status;
     }
 
-    public String getFeedbackID() {
-        return FeedbackID;
+    public int getFeedbackId() {
+        return feedbackId;
     }
 
-    public void setFeedbackID(String FeedbackID) {
-        this.FeedbackID = FeedbackID;
+    public void setFeedbackId(int feedbackId) {
+        this.feedbackId = feedbackId;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
-    public void setTitle(String Title) {
-        this.Title = Title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDate() {
-        return Date;
+        return date;
     }
 
-    public void setDate(String Date) {
-        this.Date = Date;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getResponse() {
-        return Response;
+        return response;
     }
 
-    public void setResponse(String Response) {
-        this.Response = Response;
+    public void setResponse(String response) {
+        this.response = response;
     }
 
-    public String getStatus() {
-        return Status;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStatus(String Status) {
-        this.Status = Status;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-
+    
 }

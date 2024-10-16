@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Models.Account;
+
 import dal.ILoginDAO;
 import dal.LoginDAO;
 import dal.LoginDBContext;
@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import model.Account;
 
 /**
  *
@@ -67,7 +68,7 @@ public class LoginControl extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("Login.jsp").forward(request, response);
+            response.sendRedirect("/SupportProject/view/home");
     }
 
     /**
@@ -106,7 +107,7 @@ public class LoginControl extends HttpServlet {
             response.addCookie(u);
             response.addCookie(p);
         }
-        request.getRequestDispatcher("product.jsp").forward(request, response);
+          response.sendRedirect("/SupportProject/view/home");
     }
 
     /**

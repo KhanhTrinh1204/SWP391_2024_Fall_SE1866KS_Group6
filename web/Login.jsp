@@ -37,8 +37,8 @@
                     <input id="repassword" type="password" placeholder="Re-Password" name="repass"/>
                     <input id="fullname" type="text" placeholder="Fullname" name="fullname"/>
                     <div class="radio-container">
-                        <input type="radio" name="gender" value="true"/> Male
-                        <input type="radio" name="gender" value="false" > Female
+                        <input type="radio" name="gender" value="1"/> Male
+                        <input type="radio" name="gender" value="0" > Female
                     </div>
                     <input id="phone" type="text" value="${phone}" placeholder="Phone" name="phone" />
                     <input id="address" type="text" value="${address}" placeholder="Address" name="address" />

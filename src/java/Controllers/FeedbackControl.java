@@ -4,9 +4,9 @@
  */
 package Controllers;
 
-import Models.Feedback;
-import dal.FeedbackDAO;
-import dal.IFeedbackDAO;
+
+import dal.IFeedbackDao;
+import dal.FeedbackDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Feedback;
 
 /**
  *
@@ -75,7 +76,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         }
     }
 
-    IFeedbackDAO feedbackDAO = new FeedbackDAO();
+    IFeedbackDao feedbackDAO = new FeedbackDao();
     List<Feedback> feedbacks = feedbackDAO.searchFeedbacks(email, statusParam, page, RECORDS_PER_PAGE);
     int totalRecords = feedbackDAO.getTotalRecords(email, statusParam);
     int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);

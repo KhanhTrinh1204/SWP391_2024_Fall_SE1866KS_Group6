@@ -4,9 +4,9 @@
  */
 package Controllers;
 
-import Models.Feedback;
-import dal.FeedbackDAO;
-import dal.IFeedbackDAO;
+
+import dal.IFeedbackDao;
+import dal.FeedbackDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,7 +34,7 @@ public class DeleteFeedbackControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String feedbackID = request.getParameter("feedbackID");
-        IFeedbackDAO dao = new FeedbackDAO();
+        IFeedbackDao dao = new FeedbackDao();
        boolean checkDelete = dao.deleteFeedback(feedbackID);
          // request.setAttribute("user2", user);
        if (checkDelete) {
