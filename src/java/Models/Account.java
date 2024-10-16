@@ -2,63 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Models;
+package model;
 
 import java.util.Date;
 
 /**
  *
- * @author Admin
+ * @author ASUS
  */
 public class Account {
+    private String accountId;
+    private String userName;
+    private String password;
+    private String fullName;
+    private String address;
+    private String email;
+    private String gender;
+    private String DOB;
+    private String roleID;
+    private String phone;
+    private String avatar;
+    private String code;
+    private Tourist tourist;
+    private TravelAgent agent;
+    private Admin admin;
 
-    public String accountId;
-    public String userName;
-    public String password;
-    public String fullName;
-    public String address;
-    public String email;
-    public String gender;
-    public String DOB;
-    public String roleID;
-    public String phone;
-    public String avatar;
-    public String code;
-
-    public Account(String userName, String code, String email, String password) {
-        this.userName = userName;
-        this.code = code;
-        this.email = email;
-        this.password = password;
+    public Account() {
     }
 
-    public Account(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public Account(String userName,String code, String email ,String password, String fullName, String address, String gender, String phone) {
-        this.userName = userName;
-        this.password = password;
-        this.fullName = fullName;
-        this.address = address;
-        this.email = email;
-        this.gender = gender;
-        this.phone = phone;
-        this.code = code;
-    }
-
-
-    
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar) {
+    public Account(String accountId, String userName, String password, String fullName, String address, String email, String gender, String DOB, String roleID, String phone, String avatar, String code, Tourist tourist, TravelAgent agent, Admin admin) {
         this.accountId = accountId;
         this.userName = userName;
         this.password = password;
@@ -70,15 +42,10 @@ public class Account {
         this.roleID = roleID;
         this.phone = phone;
         this.avatar = avatar;
-    }
-
-    public Account() {
-    }
-
-    public Account(String userName, String password,String email) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
+        this.code = code;
+        this.tourist = tourist;
+        this.agent = agent;
+        this.admin = admin;
     }
 
     public String getAccountId() {
@@ -169,4 +136,37 @@ public class Account {
         this.avatar = avatar;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Tourist getTourist() {
+        return tourist;
+    }
+
+    public void setTourist(Tourist tourist) {
+        this.tourist = tourist;
+    }
+
+    public TravelAgent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(TravelAgent agent) {
+        this.agent = agent;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    
+    
 }
