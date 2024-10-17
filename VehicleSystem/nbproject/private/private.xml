@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/web/list.jsp</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/controller/ListHotelServlet.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/filter/RouterFilter.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/web/list-vehicle.jsp</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/dal/DbContext.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/controller/DeleteServlet.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/web/updateHotel.jsp</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/web/hotelDetail.jsp</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/web/index.html</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/vehical/ListVehicleController.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/controller/AddHotelServlet.java</file>
+            <file>file:/C:/Users/ACER/Desktop/VehicleSystem/src/java/controller/UpdateHotelServlet.java</file>
+        </group>
+    </open-files>
+</project-private>
