@@ -186,4 +186,9 @@ public class RestaurantDao extends DBContext<Restaurant> {
         }
     }
 
+    @Override
+    public Restaurant get(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
