@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <!-- <filter>
-        <filter-name>RounterFilter</filter-name>
-        <filter-class>Filter.RounterFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RounterFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+    <!-- Servlet definitions -->
     <servlet>
         <servlet-name>ListTourServerlet</servlet-name>
         <servlet-class>controller.admin.ListTourServerlet</servlet-class>
@@ -27,22 +20,6 @@
     <servlet>
         <servlet-name>UpdateTourServerlet</servlet-name>
         <servlet-class>controller.admin.UpdateTourServerlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AddStaff</servlet-name>
-        <servlet-class>controller.staff.AddStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ListStaff</servlet-name>
-        <servlet-class>controller.staff.ListStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>EditStaff</servlet-name>
-        <servlet-class>controller.staff.EditStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteStaff</servlet-name>
-        <servlet-class>controller.staff.DeleteStaff</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListVehicle</servlet-name>
@@ -79,34 +56,6 @@
     <servlet>
         <servlet-name>LoginControl</servlet-name>
         <servlet-class>controller.auth.LoginControl</servlet-class>
-
-        <servlet-name>listVehicle</servlet-name>
-        <servlet-class>controller.vehicle.listVehicle</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>addVehicle</servlet-name>
-        <servlet-class>controller.vehicle.adminAddVehicle</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>adminListVehicle</servlet-name>
-        <servlet-class>controller.vehicle.adminListVehicle</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>adminEditVehicle</servlet-name>
-        <servlet-class>controller.vehicle.adminEditVehicle</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>adminDeleteVehicle</servlet-name>
-        <servlet-class>controller.vehicle.adminDeleteVehicle</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>userVehicleDetails</servlet-name>
-        <servlet-class>controller.vehicle.userVehicleDetails</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>adminAddVehicleDetails</servlet-name>
-        <servlet-class>controller.vehicle.adminAddVehicleDetails</servlet-class>
-
     </servlet>
     <servlet>
         <servlet-name>HomePage</servlet-name>
@@ -128,6 +77,23 @@
         <servlet-name>CreateRequest</servlet-name>
         <servlet-class>controller.feedback.CreateRequest</servlet-class>
     </servlet>
+    <!-- Servlet mappings -->
+    <servlet>
+        <servlet-name>AddStaff</servlet-name>
+        <servlet-class>Controllers.staff.AddStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListStaff</servlet-name>
+        <servlet-class>Controllers.staff.ListStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EdtiStaff</servlet-name>
+        <servlet-class>Controllers.staff.EdtiStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaff</servlet-name>
+        <servlet-class>Controllers.staff.DeleteStaff</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTourServerlet</servlet-name>
         <url-pattern>/list</url-pattern>
@@ -147,22 +113,6 @@
     <servlet-mapping>
         <servlet-name>UpdateTourServerlet</servlet-name>
         <url-pattern>/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AddStaff</servlet-name>
-        <url-pattern>/staff/add</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListStaff</servlet-name>
-        <url-pattern>/staff/list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>EditStaff</servlet-name>
-        <url-pattern>/staff/edit</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteStaff</servlet-name>
-        <url-pattern>/staff/delete</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListVehicle</servlet-name>
@@ -197,10 +147,6 @@
         <url-pattern>/restaurant/detail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listVehicle</servlet-name>
-        <url-pattern>/listVehicle</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>HomePage</servlet-name>
         <url-pattern>/view/home</url-pattern>
     </servlet-mapping>
@@ -220,30 +166,20 @@
         <servlet-name>CreateRequest</servlet-name>
         <url-pattern>/CreateRequest</url-pattern>
     </servlet-mapping>
-        <servlet-name>addVehicle</servlet-name>
-        <url-pattern>/addVehicle</url-pattern>
+    <servlet-mapping>
+        <servlet-name>AddStaff</servlet-name>
+        <url-pattern>/staff/add</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>adminListVehicle</servlet-name>
-        <url-pattern>/adminListVehicle</url-pattern>
+        <servlet-name>ListStaff</servlet-name>
+        <url-pattern>/staff/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>adminEditVehicle</servlet-name>
-        <url-pattern>/adminEditVehicle</url-pattern>
+        <servlet-name>EdtiStaff</servlet-name>
+        <url-pattern>/staff/edit</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>adminDeleteVehicle</servlet-name>
-        <url-pattern>/adminDeleteVehicle</url-pattern>
+        <servlet-name>DeleteStaff</servlet-name>
+        <url-pattern>/staff/delete</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>userVehicleDetails</servlet-name>
-        <url-pattern>/userVehicleDetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>adminAddVehicleDetails</servlet-name>
-        <url-pattern>/adminAddVehicleDetails</url-pattern>
-    </servlet-mapping>
-    <welcome-file-list>
-        <welcome-file>listVehicle.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>
