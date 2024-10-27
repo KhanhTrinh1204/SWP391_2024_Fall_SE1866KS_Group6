@@ -5,7 +5,7 @@
 package dal;
 
 import java.util.ArrayList;
-import model.Staff;
+import Models.Staff;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -343,5 +343,10 @@ public class StaffDao extends DBContext<Staff> {
             Logger.getLogger(StaffDao.class.getName()).log(Level.SEVERE, "Error while updating staff with ID: " + staff.getStaffId(), ex);
         }
         return false;
+    }
+
+    @Override
+    public Staff get(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

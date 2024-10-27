@@ -207,4 +207,9 @@ public class FeedbackDao extends DBContext<Feedback> implements IFeedbackDao {
         }
         return true;
     }
+
+    @Override
+    public Feedback get(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

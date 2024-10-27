@@ -9,7 +9,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>-->
     <servlet>
-<<<<<<< HEAD
         <servlet-name>ListTourServerlet</servlet-name>
         <servlet-class>controller.admin.ListTourServerlet</servlet-class>
     </servlet>
@@ -80,7 +79,7 @@
     <servlet>
         <servlet-name>LoginControl</servlet-name>
         <servlet-class>controller.auth.LoginControl</servlet-class>
-=======
+
         <servlet-name>listVehicle</servlet-name>
         <servlet-class>controller.vehicle.listVehicle</servlet-class>
     </servlet>
@@ -107,7 +106,7 @@
     <servlet>
         <servlet-name>adminAddVehicleDetails</servlet-name>
         <servlet-class>controller.vehicle.adminAddVehicleDetails</servlet-class>
->>>>>>> 6112f14703c07bc3abc4daeee1bce3a7b4e0ab7c
+
     </servlet>
     <servlet>
         <servlet-name>HomePage</servlet-name>
@@ -202,7 +201,6 @@
         <url-pattern>/listVehicle</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>HomePage</servlet-name>
         <url-pattern>/view/home</url-pattern>
     </servlet-mapping>
@@ -222,7 +220,6 @@
         <servlet-name>CreateRequest</servlet-name>
         <url-pattern>/CreateRequest</url-pattern>
     </servlet-mapping>
-=======
         <servlet-name>addVehicle</servlet-name>
         <url-pattern>/addVehicle</url-pattern>
     </servlet-mapping>
@@ -249,5 +246,4 @@
     <welcome-file-list>
         <welcome-file>listVehicle.jsp</welcome-file>
     </welcome-file-list>
->>>>>>> 6112f14703c07bc3abc4daeee1bce3a7b4e0ab7c
 </web-app>
