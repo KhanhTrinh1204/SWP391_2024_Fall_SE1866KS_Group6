@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <Context path="/SupportService"/>
+=======
+<Context path="/SWP"/>
+>>>>>>> 6112f14703c07bc3abc4daeee1bce3a7b4e0ab7c
