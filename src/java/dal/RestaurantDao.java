@@ -16,7 +16,7 @@ import model.Restaurant;
  *
  * @author ASUS
  */
-public class RestaurantDao extends DbContext<Restaurant> {
+public class RestaurantDao extends DBContext<Restaurant> {
 
     @Override
     public void insert(Restaurant model) {

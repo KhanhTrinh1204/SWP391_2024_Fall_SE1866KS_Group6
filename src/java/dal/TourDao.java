@@ -13,7 +13,7 @@ import model.Tour;
  *
  * @author ASUS
  */
-public class TourDao extends DbContext<Tour> {
+public class TourDao extends DBContext<Tour> {
 
     @Override
     public void insert(Tour model) {

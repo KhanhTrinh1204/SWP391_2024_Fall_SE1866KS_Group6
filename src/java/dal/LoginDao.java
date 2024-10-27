@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class LoginDao extends DbContext<Account> {
+public class LoginDao extends DBContext<Account> {
 
     @Override
     public void insert(Account model) {

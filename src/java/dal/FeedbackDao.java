@@ -13,7 +13,7 @@ import java.sql.*;
  *
  * @author ASUS
  */
-public class FeedbackDao extends DbContext<Feedback> implements IFeedbackDao {
+public class FeedbackDao extends DBContext<Feedback> implements IFeedbackDao {
 
     @Override
     public void insert(Feedback model) {

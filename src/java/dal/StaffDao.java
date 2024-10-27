@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class StaffDao extends DbContext<Staff> {
+public class StaffDao extends DBContext<Staff> {
 
     @Override
     public void insert(Staff model) {

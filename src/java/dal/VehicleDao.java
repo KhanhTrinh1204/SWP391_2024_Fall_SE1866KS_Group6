@@ -15,7 +15,7 @@ import model.TravelAgent;
  *
  * @author ASUS
  */
-public class VehicleDao extends DbContext<Vehicle> {
+public class VehicleDao extends DBContext<Vehicle> {
 
     @Override
     public void insert(Vehicle model) {
