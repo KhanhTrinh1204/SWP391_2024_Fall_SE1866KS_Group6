@@ -3,23 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controllers.staff;
+package Controllers.tour;
 
-import dal.StaffDao;
+import dal.TourDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Staff;
-import model.TravelAgent;
 
 /**
  *
  * @author ASUS
  */
-public class EditStaff extends HttpServlet {
+public class DeleteTour extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +34,10 @@ public class EditStaff extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditStaff</title>");  
+            out.println("<title>Servlet DeleteTour</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditStaff at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteTour at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,25 +54,16 @@ public class EditStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String staffIdParam = request.getParameter("id");
-
-        try {
-            if (staffIdParam != null) {
-                int staffId = Integer.parseInt(staffIdParam);
-                StaffDao staffDao = new StaffDao();
-                Staff staff = staffDao.GetStaffById(staffId); 
-
-                if (staff != null) {
-                    request.setAttribute("staff", staff); 
-                    request.getRequestDispatcher("editStaff.jsp").forward(request, response);
-                } else {
-                    response.getWriter().write("Staff not found.");
-                }
-            } else {
-                response.getWriter().write("Invalid staff ID.");
-            }
-        } catch (NumberFormatException e) {
-            response.getWriter().write("Invalid staff ID format.");
+         String id_raw = request.getParameter("id");
+        int id;
+        try{
+            id = Integer.parseInt(id_raw);
+            TourDao tourDb = new TourDao();
+            tourDb.deleteTour(id);
+            response.sendRedirect(request.getContextPath()+"/tour/list"
+                    + "");
+        } catch(NumberFormatException e){
+            
         }
     } 
 
@@ -88,34 +77,6 @@ public class EditStaff extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         try {
-            Staff staff = new Staff();
-            StaffDao staffDb = new StaffDao();
-
-            staff.setStaffId(Integer.parseInt(request.getParameter("staffId")));
-            staff.setFullName(request.getParameter("fullName"));
-            staff.setEmail(request.getParameter("email"));
-            staff.setPhoneNumber(request.getParameter("phoneNumber"));
-            staff.setAddress(request.getParameter("address"));
-            staff.setStatus(Boolean.parseBoolean(request.getParameter("status")));
-            
-            TravelAgent agent = new TravelAgent();
-            agent.setAgentId(1);
-            staff.setAgent(agent);
-    
-
-            boolean success = staffDb.UpdateStaff(staff);
-            if (success) {               
-                response.sendRedirect(request.getContextPath() + "/staff/list");
-            } else {
-                request.setAttribute("errorMessage", "Update failed. Please try again.");
-                request.setAttribute("staff", staff); 
-                request.getRequestDispatcher("editStaff.jsp").forward(request, response);
-            }
-        } catch (NumberFormatException e) {         
-            request.setAttribute("errorMessage", "Invalid input. Please check your data.");
-            request.getRequestDispatcher("editStaff.jsp").forward(request, response);
-        }
     }
 
     /** 

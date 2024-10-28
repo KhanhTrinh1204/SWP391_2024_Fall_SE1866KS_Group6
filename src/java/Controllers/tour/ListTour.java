@@ -3,20 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controllers.staff;
+package Controllers.tour;
 
+import dal.TourDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Tour;
 
 /**
  *
  * @author ASUS
  */
-public class DeleteStaff extends HttpServlet {
+public class ListTour extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -25,23 +28,7 @@ public class DeleteStaff extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteStaff</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteStaff at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
-
+   
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -53,7 +40,26 @@ public class DeleteStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         TourDao tourDb = new TourDao();
+        
+        // Lấy tham số tên tour từ request
+        String tourName = request.getParameter("tourName");
+        
+        ArrayList<Tour> tour;
+        
+        if (tourName != null && !tourName.trim().isEmpty()) {
+            // Nếu có tham số tourName, tìm kiếm tour theo tên
+            tour = tourDb.searchToursByName(tourName);
+        } else {
+            // Nếu không có tham số tourName, lấy danh sách tất cả tour
+            tour = tourDb.GetListTour();
+        }
+        
+        // Đặt danh sách tour vào request để truyền sang JSP
+        request.setAttribute("tour", tour);
+        
+        // Chuyển tiếp request và response tới trang listTour.jsp
+        request.getRequestDispatcher("listTour.jsp").forward(request, response);
     } 
 
     /** 
@@ -66,7 +72,7 @@ public class DeleteStaff extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /** 

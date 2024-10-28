@@ -29,22 +29,6 @@
         <servlet-class>controller.admin.UpdateTourServerlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddStaff</servlet-name>
-        <servlet-class>controller.staff.AddStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ListStaff</servlet-name>
-        <servlet-class>controller.staff.ListStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>EditStaff</servlet-name>
-        <servlet-class>controller.staff.EditStaff</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteStaff</servlet-name>
-        <servlet-class>controller.staff.DeleteStaff</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ListVehicle</servlet-name>
         <servlet-class>controller.vehicle.ListVehicle</servlet-class>
     </servlet>
@@ -100,6 +84,42 @@
         <servlet-name>CreateRequest</servlet-name>
         <servlet-class>controller.feedback.CreateRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddStaff</servlet-name>
+        <servlet-class>Controllers.staff.AddStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListStaff</servlet-name>
+        <servlet-class>Controllers.staff.ListStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditStaff</servlet-name>
+        <servlet-class>Controllers.staff.EditStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaff</servlet-name>
+        <servlet-class>Controllers.staff.DeleteStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddTour</servlet-name>
+        <servlet-class>Controllers.tour.AddTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListTour</servlet-name>
+        <servlet-class>Controllers.tour.ListTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TourDetail</servlet-name>
+        <servlet-class>Controllers.tour.TourDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTour</servlet-name>
+        <servlet-class>Controllers.tour.UpdateTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteTour</servlet-name>
+        <servlet-class>Controllers.tour.DeleteTour</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTourServerlet</servlet-name>
         <url-pattern>/list</url-pattern>
@@ -119,22 +139,6 @@
     <servlet-mapping>
         <servlet-name>UpdateTourServerlet</servlet-name>
         <url-pattern>/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AddStaff</servlet-name>
-        <url-pattern>/staff/add</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListStaff</servlet-name>
-        <url-pattern>/staff/list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>EditStaff</servlet-name>
-        <url-pattern>/staff/edit</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteStaff</servlet-name>
-        <url-pattern>/staff/delete</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListVehicle</servlet-name>
@@ -191,5 +195,41 @@
     <servlet-mapping>
         <servlet-name>CreateRequest</servlet-name>
         <url-pattern>/CreateRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddStaff</servlet-name>
+        <url-pattern>/staff/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListStaff</servlet-name>
+        <url-pattern>/staff/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditStaff</servlet-name>
+        <url-pattern>/staff/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaff</servlet-name>
+        <url-pattern>/staff/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTour</servlet-name>
+        <url-pattern>/tour/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListTour</servlet-name>
+        <url-pattern>/tour/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TourDetail</servlet-name>
+        <url-pattern>/tour/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTour</servlet-name>
+        <url-pattern>/tour/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteTour</servlet-name>
+        <url-pattern>/tour/delete</url-pattern>
     </servlet-mapping>
 </web-app>
