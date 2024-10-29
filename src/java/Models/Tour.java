@@ -17,6 +17,7 @@ public class Tour {
     private double price;
     private Date startDate;
     private Date endDate;
+    private String description;
     private Account acount;
     private TravelAgent agent;
     private ArrayList<Vehicle> vechicle;
@@ -26,17 +27,26 @@ public class Tour {
     public Tour() {
     }
 
-    public Tour(int tourId, String tourName, double price, Date startDate, Date endDate, Account acount, TravelAgent agent, ArrayList<Vehicle> vechicle, ArrayList<Restaurant> restaurant, String image) {
+    public Tour(int tourId, String tourName, double price, Date startDate, Date endDate,String description, Account acount, TravelAgent agent, ArrayList<Vehicle> vechicle, ArrayList<Restaurant> restaurant, String image) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.description = description;
         this.acount = acount;
         this.agent = agent;
         this.vechicle = vechicle;
         this.restaurant = restaurant;
         this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getTourId() {

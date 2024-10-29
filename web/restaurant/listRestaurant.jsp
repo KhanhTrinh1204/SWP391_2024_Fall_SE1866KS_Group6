@@ -164,7 +164,6 @@
                                                 <td>
                                                     <a href="<%=request.getContextPath()%>/restaurant/detail?id=${r.restaurantId}" class="btn btn-info btn-sm">View Details</a>
                                                     <a href="#" onclick="deleteRestaurant('${r.restaurantId}')" class="btn btn-danger btn-sm">Delete</a>
-                                                    <a href="<%=request.getContextPath()%>/restaurant/edit?id=${r.restaurantId}" class="btn btn-warning btn-sm">Edit</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
