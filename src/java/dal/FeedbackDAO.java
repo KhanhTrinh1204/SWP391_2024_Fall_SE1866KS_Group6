@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 import model.Feedback;
-
+import java.util.logging.Logger;
 /**
  *
  * @author ASUS
@@ -81,7 +81,9 @@ public class FeedbackDao extends DBContext1<Feedback> implements IFeedbackDao {
                 feedbackList.add(account);
             }
         } catch (SQLException ex) {
-
+            Logger.getLogger(FeedbackDao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+         
         }
         return feedbackList;
     }
