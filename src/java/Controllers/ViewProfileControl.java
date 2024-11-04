@@ -41,7 +41,7 @@ public class ViewProfileControl extends HttpServlet {
         Account currentUser = dao.viewProfile(user.getEmail());
          // request.setAttribute("user2", user);
         request.setAttribute("user", currentUser);
-        request.getRequestDispatcher("ViewProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("DetailProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

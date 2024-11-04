@@ -35,17 +35,69 @@
     <nav class="navbar">
         <a href="${pageContext.request.contextPath}/view/home">home</a>
         <a href="#book">book</a>
-        <a href="#packages">packages</a>
-        <a href="#services">services</a>
-        <a href="#gallery">gallery</a>
+        <a href="#packages">Tourist</a>
+        <a href="#services">Restaurant</a>
+        <a href="#gallery">Hotel</a>
             <a href="${pageContext.request.contextPath}/SendRequest.jsp" >Send request</a>
     </nav>
-
+   
     <div class="icons">
         <c:choose>
        <c:when test="${authcode!= null}">
-                <a href="${pageContext.request.contextPath}/LogoutControl" class="btn">Log Out</a>
-                 <a href="${pageContext.request.contextPath}/viewProfile" class="btn">Profile</a>
+                 <script>
+         /* Dropdown Menu Styling */
+.dropdown-menu {
+    display: none; /* Initially hidden */
+    position: absolute; /* Position it relative to its nearest positioned ancestor */
+    right: 0; /* Align to the right of the profile link */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background-color: white; /* White background */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    min-width: 150px; /* Minimum width */
+    text-decoration: none; 
+}
+
+/* Display the dropdown when active */
+.dropdown-menu.show {
+    display: block; /* Show the dropdown */
+    text-decoration: none; 
+}
+
+/* Dropdown Item Styling */
+.dropdown-menu li {
+    padding: 10px; /* Padding for items */
+    text-decoration: none; 
+}
+
+.dropdown-menu li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    display: block; /* Make the link fill the container */
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f1f1f1; /* Background color on hover */
+}
+    </script>
+<div class="xp-profilebar" style="text-decoration: none;">
+    <nav  style="text-decoration: none;">
+        <ul  style="text-decoration: none;">
+            <li class="nav-item">
+                <a class="profile-button" onclick="toggleDropdown()" style="text-decoration: none;">
+                    <img src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
+                </a>
+                <div class="dropdown" id="dropdown" style="display: none; text-decoration: none;">
+                    <a href="${pageContext.request.contextPath}/viewProfile" style="color: white; display: block;">View Profile</a>
+                    <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white; display: block;">Logout</a>
+                    <a href="${pageContext.request.contextPath}/Booking" style="color: white; display: block;">My booking</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
             </c:when>
             <c:otherwise>
                   <a href="${pageContext.request.contextPath}/login" class="btn">Login</a>
@@ -121,110 +173,33 @@
         <span>s</span>
         <span>t</span>
     </h1>
-
+<%-- Retrieve and display the booking success message --%>
+<!-- Check if the bookingSuccess attribute is set in the session -->
+<c:if test="${not empty sessionScope.bookingSuccess}">
+    <script type="text/javascript">
+        // Show the success message as a pop-up alert
+        alert("${sessionScope.bookingSuccess}");
+    </script>
+    <%-- Remove the session attribute to prevent duplicate alerts on page refresh --%>
+    <c:remove var="bookingSuccess" scope="session" />
+</c:if>
     <div class="box-container">
 
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-1.jpg" alt="">
-            <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> Turkiye </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
-            </div>
-        </div>
+       
 
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-2.jpg" alt="">
+        <c:forEach var="tour" items="${tour}" >
+            
+             <div class="box">
+            <img src="${tour.image}" alt="">
             <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> hawaii </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
+                <h3> <i class="fas fa-map-marker-alt"></i>    ${tour.tourName} </h3>
+                <p>${tour.description}</p>
+               
+                <div class="price">${tour.price}</div>
+                <a class="btn" href="<%=request.getContextPath()%>/tour/book?id=${tour.tourId}">Book</a>
             </div>
         </div>
-
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-3.jpg" alt="">
-            <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> sydney </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
-            </div>
-        </div>
-
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-4.jpg" alt="">
-            <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> CoxBazar </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
-            </div>
-        </div>
-
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-5.jpg" alt="">
-            <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> tokyo </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
-            </div>
-        </div>
-
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/p-6.jpg" alt="">
-            <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i> eypt </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, nam!</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
-            </div>
-        </div>
+        </c:forEach>            
 
     </div>
 
@@ -249,37 +224,14 @@
 
     <div class="box-container">
 
+   
+         <c:forEach var="res" items="${res}" varStatus="status">
         <div class="box">
-            <i class="fas fa-hotel"></i>
-            <h3>affordable hotels</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
+            <i > <img src="${res.image}" alt="" style="width: "30%"></i>
+            <h3>${res.restaurantName}</h3>
+            <p>${res.description}</p>
         </div>
-        <div class="box">
-            <i class="fas fa-utensils"></i>
-            <h3>food and drinks</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-bullhorn"></i>
-            <h3>safty guide</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-globe-asia"></i>
-            <h3>around the world</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-plane"></i>
-            <h3>fastest travel</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-hiking"></i>
-            <h3>adventures</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore commodi earum, quis voluptate exercitationem ut minima itaque iusto ipsum corrupti!</p>
-        </div>
-
+       </c:forEach>    
     </div>
 
 </section>
@@ -299,84 +251,24 @@
         <span>r</span>
         <span>y</span>
     </h1>
+<div class="box-container">
 
+   
+<c:forEach var="data" items="${data}" >
     <div class="box-container">
-
+ 
         <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-1.jpg" alt="">
+            <img src="${data.imgUrl}" alt="">
             <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
+                <h3>${data.hotelName}</h3>
+                <p>${data.description}</p>
                 <a href="#" class="btn">see more</a>
             </div>
         </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-2.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="img/g-3.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-4.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-5.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-6.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-7.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-8.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
-        <div class="box">
-            <img src="${pageContext.request.contextPath}/img/g-9.jpg" alt="">
-            <div class="content">
-                <h3>amazing places</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, tenetur.</p>
-                <a href="#" class="btn">see more</a>
-            </div>
-        </div>
+          
 
     </div>
-
+ </c:forEach>    
 </section>
 
 <!-- gallery section ends -->
@@ -435,7 +327,23 @@
 
     </div>
 
+ <script>
+                   function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
 
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-button')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+};
+                </script>
+    
 </section>
 
 

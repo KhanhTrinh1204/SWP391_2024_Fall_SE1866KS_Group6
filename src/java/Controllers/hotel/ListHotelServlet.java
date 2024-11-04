@@ -57,8 +57,26 @@ public class ListHotelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
        HotelDAO h =new HotelDAO();//Use HotelDAO interface to call
-       List<Hotel> list =h.getHotel();
+                String search = request.getParameter("search");
+          String pageStr = request.getParameter("page");
+          int RECORDS_PER_PAGE = 5;
+
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
+        }
+         int totalRecords = h.getTotalRecords(search);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+       
+       List<Hotel> list =h.getHotel(search,page,RECORDS_PER_PAGE);
        request.setAttribute("data", list);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
        request.getRequestDispatcher("list.jsp").forward(request, response);
     } 
 

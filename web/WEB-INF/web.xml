@@ -50,15 +50,15 @@
     </servlet>
     <servlet>
         <servlet-name>AddRestaurant</servlet-name>
-        <servlet-class>controller.restaurant.AddRestaurant</servlet-class>
+        <servlet-class>Controllers.restaurant.AddRestaurant</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListRestaurant</servlet-name>
-        <servlet-class>controller.restaurant.ListRestaurant</servlet-class>
+        <servlet-class>Controllers.restaurant.ListRestaurant</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RestaurantDetail</servlet-name>
-        <servlet-class>controller.restaurant.RestaurantDetail</servlet-class>
+        <servlet-class>Controllers.restaurant.RestaurantDetail</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginControl</servlet-name>
@@ -119,6 +119,38 @@
     <servlet>
         <servlet-name>DeleteTour</servlet-name>
         <servlet-class>Controllers.tour.DeleteTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditRestaurant</servlet-name>
+        <servlet-class>Controllers.restaurant.EditRestaurant</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRestaurant</servlet-name>
+        <servlet-class>Controllers.restaurant.DeleteRestaurant</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListHotelServlet</servlet-name>
+        <servlet-class>Controllers.hotel.ListHotelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>Controllers.hotel.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelDetailServlet</servlet-name>
+        <servlet-class>Controllers.hotel.HotelDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddHotelServlet</servlet-name>
+        <servlet-class>Controllers.hotel.AddHotelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelServlet</servlet-name>
+        <servlet-class>Controllers.hotel.UpdateHotelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingTour</servlet-name>
+        <servlet-class>Controllers.tour.BookingTour</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListTourServerlet</servlet-name>
@@ -231,5 +263,37 @@
     <servlet-mapping>
         <servlet-name>DeleteTour</servlet-name>
         <url-pattern>/tour/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditRestaurant</servlet-name>
+        <url-pattern>/restaurant/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRestaurant</servlet-name>
+        <url-pattern>/restaurant/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListHotelServlet</servlet-name>
+        <url-pattern>/hotel/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddHotelServlet</servlet-name>
+        <url-pattern>/hotel/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelDetailServlet</servlet-name>
+        <url-pattern>/hotel/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/hotel/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelServlet</servlet-name>
+        <url-pattern>/hotel/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingTour</servlet-name>
+        <url-pattern>/tour/book</url-pattern>
     </servlet-mapping>
 </web-app>

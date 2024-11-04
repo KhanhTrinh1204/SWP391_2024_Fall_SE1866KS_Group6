@@ -17,9 +17,8 @@ public class Hotel {
     private Date startDate;
     private Date endDate;
     private String description;
-    private TravelAgent travelAgent;
-
-  
+    private String price;
+    private String active;
 
     public int getHotelId() {
         return hotelId;
@@ -69,12 +68,22 @@ public class Hotel {
         this.description = description;
     }
 
-    public TravelAgent getTravelAgent() {
-        return travelAgent;
+    public String getActive() {
+        return active;
     }
 
-    public void setTravelAgent(TravelAgent travelAgent) {
-        this.travelAgent = travelAgent;
+    public void setActive(String active) {
+        this.active = active;
+    }
+
+   
+ 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
     
 }

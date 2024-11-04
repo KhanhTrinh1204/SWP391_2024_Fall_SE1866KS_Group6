@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Restaurant;
@@ -38,13 +39,30 @@ public class RestaurantDao extends DbContext<Restaurant> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public ArrayList<Restaurant> ListRestaurant() {
-        ArrayList<Restaurant> restaurants = new ArrayList<>();
-        String sql = "select RestaurantID, RestaurantName,Location, image "
-                + "from Restaurant";
+    public List<Restaurant> ListRestaurant(String search,int page, int recordsPerPage) {
+        List<Restaurant> restaurants = new ArrayList<>();
+          StringBuilder query = new StringBuilder("select RestaurantID, RestaurantName,Location, image  from Restaurant where 1=1");
+       int start = (page - 1) * recordsPerPage;
+
+        if (search != null && !search.trim().isEmpty()) {
+             query.append(" AND RestaurantName LIKE ?");
+          //  query += " and VehicleType like ?";
+        }
+               query.append(" ORDER BY RestaurantID desc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
+
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
+              PreparedStatement statement = connection.prepareStatement(query.toString());
+           
+             int paramIndex = 1;
+            // Set email parameter if provided
+            if (search != null && !search.trim().isEmpty()) {
+                statement.setString(paramIndex++, "%" + search + "%");
+            }
+            // Set pagination parameters
+            statement.setInt(paramIndex++, start);
+            statement.setInt(paramIndex, recordsPerPage);
+            
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Restaurant res = new Restaurant();
                 res.setRestaurantId(rs.getInt("RestaurantID"));
@@ -61,8 +79,7 @@ public class RestaurantDao extends DbContext<Restaurant> {
 
     public void InsertRestaurant(Restaurant restaurant) {
         String sql = "INSERT INTO [dbo].[Restaurant]\n"
-                + "           ([RestaurantID]\n"
-                + "           ,[RestaurantName]\n"
+                + "           ([RestaurantName]\n"
                 + "           ,[Location]\n"
                 + "           ,[Description]\n"
                 + "           ,[PhoneNumber]\n"
@@ -78,19 +95,17 @@ public class RestaurantDao extends DbContext<Restaurant> {
                 + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
-                + "           ,?\n"
                 + "           ,?)";
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, restaurant.getRestaurantId());          // Set RestaurantID
-            stm.setString(2, restaurant.getRestaurantName());      // Set RestaurantName
-            stm.setString(3, restaurant.getLocation());            // Set Location
-            stm.setString(4, restaurant.getDescription());         // Set Description
-            stm.setString(5, restaurant.getPhoneNumber());         // Set PhoneNumber
-            stm.setString(6, restaurant.getEmail());               // Set Email
-            stm.setString(7, restaurant.getCategory());            // Set Category
-            stm.setBoolean(8, restaurant.isStatus());
-            stm.setString(9, restaurant.getImage());
+            PreparedStatement stm = connection.prepareStatement(sql);      // Set RestaurantID
+            stm.setString(1, restaurant.getRestaurantName());      // Set RestaurantName
+            stm.setString(2, restaurant.getLocation());            // Set Location
+            stm.setString(3, restaurant.getDescription());         // Set Description
+            stm.setString(4, restaurant.getPhoneNumber());         // Set PhoneNumber
+            stm.setString(5, restaurant.getEmail());               // Set Email
+            stm.setString(6, restaurant.getCategory());            // Set Category
+            stm.setBoolean(7, restaurant.isStatus());
+            stm.setString(8, restaurant.getImage());
             ResultSet rs = stm.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(RestaurantDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,6 +138,32 @@ public class RestaurantDao extends DbContext<Restaurant> {
         return null;
     }
 
+     public int getTotalRecords(String search) {
+        int totalRecords = 0;
+
+        // Base query
+            StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM Restaurant");
+        //String query = "SELECT COUNT(*) FROM Vehicle where VehicleType LIKE ?";
+                    if (search != null && !search.trim().isEmpty()) {
+             query.append(" Where RestaurantName LIKE ?");
+          //  query += " and VehicleType like ?";
+           }
+        try {
+          PreparedStatement stm = connection.prepareStatement(query.toString());
+             if (search != null && !search.isEmpty()) {
+                 
+                stm.setString(1, "%" + search + "%");
+            }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                totalRecords = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return totalRecords;
+    }
+     
     public int getMaxId() {
         int maxId = 0;
         try {
@@ -138,8 +179,9 @@ public class RestaurantDao extends DbContext<Restaurant> {
         return maxId;
     }
 
-  public boolean updateRestaurant(Restaurant restaurant) {
+  public void updateRestaurant(Restaurant restaurant) {
         String sql = "UPDATE Restaurant SET " +
+                      "RestaurantName= ? ,"+
                      "Location = ?, " +
                      "Description = ?, " +
                      "PhoneNumber = ?, " +
@@ -161,14 +203,13 @@ public class RestaurantDao extends DbContext<Restaurant> {
             ps.setString(8, restaurant.getImage());
             ps.setInt(9, restaurant.getRestaurantId());
             
-            // Thực thi câu lệnh UPDATE
-             int update = ps.executeUpdate();
-           return update > 0;
+           ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
             
         }
-    return false;
 }
 
 

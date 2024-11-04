@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.restaurant;
+package Controllers.restaurant;
 
 import dal.RestaurantDao;
 import java.io.IOException;
@@ -67,35 +67,17 @@ public class AddRestaurant extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
         String category = request.getParameter("category");
+        String image = request.getParameter("image");
         boolean status = Boolean.parseBoolean(request.getParameter("status"));
         try {
 
-            Part filePart = request.getPart("image");
 
-            // Get the filename
-            String fileName = getSubmittedFileName(filePart);
 
-            // Define the directory where the file will be saved
-            String uploadPath = getServletContext().getRealPath("") + File.separator + "img";
-            File uploadDir = new File(uploadPath);
-
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-
-            // Save the file to the server
-            try (InputStream input = filePart.getInputStream(); OutputStream output = new FileOutputStream(uploadPath + File.separator + fileName)) {
-                int read;
-                byte[] buffer = new byte[1024];
-                while ((read = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, read);
-                }
-            }
-
+     
             RestaurantDao resDb = new RestaurantDao();
             int maxId = resDb.getMaxId() + 1;
 
-            Restaurant res = new Restaurant(maxId, restaurantName, location, description, phoneNumber, email, category, status, fileName);
+            Restaurant res = new Restaurant(maxId, restaurantName, location, description, phoneNumber, email, category, status, image);
             res.setRestaurantId(maxId);
             res.setRestaurantName(restaurantName);
             res.setLocation(location);
@@ -103,7 +85,7 @@ public class AddRestaurant extends HttpServlet {
             res.setPhoneNumber(phoneNumber);
             res.setEmail(email);
             res.setStatus(status);
-            res.setImage(fileName);
+            res.setImage(image);
             
             resDb.InsertRestaurant(res);
 
@@ -114,16 +96,7 @@ public class AddRestaurant extends HttpServlet {
         }
     }
 
-    private String getSubmittedFileName(Part part) {
-        String header = part.getHeader("content-disposition");
-        String[] elements = header.split(";");
-        for (String element : elements) {
-            if (element.trim().startsWith("filename")) {
-                return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return "";
-    }
+ 
 
     /**
      * Returns a short description of the servlet.

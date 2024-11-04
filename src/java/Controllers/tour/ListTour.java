@@ -43,21 +43,32 @@ public class ListTour extends HttpServlet {
          TourDao tourDb = new TourDao();
         
         // Lấy tham số tên tour từ request
-        String tourName = request.getParameter("tourName");
+        String tourName = request.getParameter("search");
         
         ArrayList<Tour> tour;
         
-        if (tourName != null && !tourName.trim().isEmpty()) {
-            // Nếu có tham số tourName, tìm kiếm tour theo tên
-            tour = tourDb.searchToursByName(tourName);
-        } else {
-            // Nếu không có tham số tourName, lấy danh sách tất cả tour
-            tour = tourDb.GetListTour();
+        String search = request.getParameter("search");
+          String pageStr = request.getParameter("page");
+        int RECORDS_PER_PAGE = 5;
+
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
         }
+        int totalRecords = tourDb.getTotalRecords(tourName);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+       
+         tour  = tourDb.searchToursByName(search,page,RECORDS_PER_PAGE);
         
         // Đặt danh sách tour vào request để truyền sang JSP
         request.setAttribute("tour", tour);
-        
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
         // Chuyển tiếp request và response tới trang listTour.jsp
         request.getRequestDispatcher("listTour.jsp").forward(request, response);
     } 

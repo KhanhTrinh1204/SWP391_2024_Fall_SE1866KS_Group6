@@ -86,9 +86,9 @@ public class UpdateHotelServlet extends HttpServlet {
         hotel.setStartDate(java.sql.Date.valueOf(request.getParameter("startDate")));
         hotel.setEndDate(java.sql.Date.valueOf(request.getParameter("endDate")));
         hotel.setDescription(request.getParameter("description"));
-//        hotel.setPrice(Double.parseDouble(request.getParameter("price")));
+         hotel.setPrice(request.getParameter("price"));
         hotelDb.updateHotel(hotel);
-        response.sendRedirect("update?id=" + hotel.getHotelId());
+        response.sendRedirect(request.getContextPath() + "/hotel/list");
     }
 
     /** 

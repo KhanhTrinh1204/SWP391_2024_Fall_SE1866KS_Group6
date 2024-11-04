@@ -5,12 +5,22 @@
 
 package controller.auth;
 
+import dal.HotelDAO;
+import dal.RestaurantDao;
+import dal.TourDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import model.Account;
+import model.Hotel;
+import model.Restaurant;
+import model.Tour;
 
 /**
  *
@@ -27,19 +37,9 @@ public class HomePage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet HomePage</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet HomePage at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       
+        
+
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,6 +53,42 @@ public class HomePage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+             TourDao tourDb = new TourDao();
+          String tourName = request.getParameter("search");
+            HttpSession session = request.getSession();
+        String a = (String) session.getAttribute("bookingSuccess");
+        ArrayList<Tour> tour;
+        
+        String search = request.getParameter("search");
+          String pageStr = request.getParameter("page");
+        int RECORDS_PER_PAGE = 6;
+
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
+        }
+             
+         tour  = tourDb.searchToursByName(search,page,RECORDS_PER_PAGE);
+         
+         
+         RestaurantDao resDb = new RestaurantDao();
+      
+         List<Restaurant>  res  = resDb.ListRestaurant(search,page,RECORDS_PER_PAGE);
+         
+            HotelDAO h =new HotelDAO();//Use HotelDAO interface to call
+            List<Hotel> list =h.getHotel(search,page,RECORDS_PER_PAGE);
+        request.setAttribute("data", list);
+        request.setAttribute("res", res);
+        if(a!=null){
+        session.setAttribute("bookingSuccess", "Booking completed successfully!");
+        }
+        // Đặt danh sách tour vào request để truyền sang JSP
+        request.setAttribute("tour", tour);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 

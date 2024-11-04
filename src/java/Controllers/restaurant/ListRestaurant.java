@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.restaurant;
+package Controllers.restaurant;
 
 import dal.RestaurantDao;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Restaurant;
 
 /**
@@ -40,8 +41,27 @@ public class ListRestaurant extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         RestaurantDao resDb = new RestaurantDao();
-        ArrayList<Restaurant> res = resDb.ListRestaurant();
+         String search = request.getParameter("search");
+          String pageStr = request.getParameter("page");
+        int RECORDS_PER_PAGE = 5;
+
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
+        }
+         int totalRecords = resDb.getTotalRecords(search);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+       
+         List<Restaurant>  res  = resDb.ListRestaurant(search,page,RECORDS_PER_PAGE);
+        
         request.setAttribute("res", res);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
         request.getRequestDispatcher("listRestaurant.jsp").forward(request, response);
     } 
 

@@ -43,11 +43,28 @@ public class ListVehicle extends HttpServlet {
         VehicleDao vehicleDb = new VehicleDao();
         String search = request.getParameter("search");
         ArrayList<Vehicle> vehicle = new ArrayList<>();
-        if (search != null && !search.isEmpty())
-                vehicle = vehicleDb.SearchVehicle(search);
-        else
-                vehicle = vehicleDb.GetVehicleList();
+        
+        String pageStr = request.getParameter("page");
+        int RECORDS_PER_PAGE = 5;
+
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
+        }
+        
+         int totalRecords = vehicleDb.getTotalRecords(search);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+       
+                vehicle = vehicleDb.SearchVehicle(search,page,RECORDS_PER_PAGE);
+       
         request.setAttribute("vehicle", vehicle);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
         request.getRequestDispatcher("listVehicle.jsp").forward(request, response);
     } 
 

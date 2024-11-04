@@ -12,70 +12,97 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Management</title>
+        <title>Management feedback</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
     </head>
     <body onload="showAlerts()">
-        <div class="container-fluid">
-            <header class="d-flex justify-content-between align-items-center py-3">
-                <img src="img/logo.png" class="img-fluid" alt="Logo"/>
-                <h1>Travel System</h1>
-                <nav class="navbar navbar-expand">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="material-icons">notifications</span>
-                                <span class="notification">4</span>
+        <div class="wrapper">
+     
+          <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
+                        <i class="material-icons">dashboard</i>
+                        <span>Manage Staff</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/vehicle/list">
+                        <i class="material-icons">date_range</i>
+                        <span>Manage Vehicle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/restaurant/list">
+                        <i class="material-icons">library_books</i>
+                        <span>Manage Restaurant</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/feedback/list">
+                        <i class="material-icons">feedback</i>
+                        <span>Manage feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="<%=request.getContextPath()%>/tour/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage tour</span>
+                    </a>
+                </li>
+                  <li>
+                    <a href="<%=request.getContextPath()%>/hotel/list">
+                        <i class="material-icons">hotel</i>
+                        <span>Manage hotel</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+            <main id="content" class="p-4">
+                  <!-- Top Navbar -->
+                  <div class="top-navbar" style="height: 150px;" >
+                <div class="xp-topbar" style="float: right;">
+    <div class="row">
+        <div>
+            <div class="xp-profilebar">
+                <nav class="navbar p-0">
+                    <ul class="nav navbar-nav" >
+                        <li class="nav-item" >
+                            <a class="profile-button" onclick="toggleDropdown()">
+                                <img  src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
                             </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">You have 5 new messages</a>
-                                <a class="dropdown-item" href="#">You're now friends with Mike</a>
-                                <a class="dropdown-item" href="#">Wish Mary on her birthday!</a>
-                                <a class="dropdown-item" href="#">5 warnings in Server Console</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#"><span class="material-icons">person_outline</span>Profile</a>
-                                <a class="dropdown-item" href="#"><span class="material-icons">settings</span>Settings</a>
-                                <a class="dropdown-item" href="#"><span class="material-icons">logout</span>Logout</a>
-                            </div>
+                            <div class="dropdown" id="dropdown" style ="display: none;">
+                              <a href="${pageContext.request.contextPath}/viewProfile" style="color: white;">View Profile</a>
+                               <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white;"> Logout</a>
+                              </div>
                         </li>
                     </ul>
                 </nav>
-            </header>
-
-            <nav id="sidebar" class="bg-light">
-                <ul class="list-unstyled components">
-                    <li class="active">
-                        <a href="<%=request.getContextPath()%>/feedback/list" class="dashboard">
-                            <i class="material-icons">dashboard</i> Manage Feedback
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<%=request.getContextPath()%>/tour/list">
-                            <i class="material-icons">date_range</i> Manage Tour
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <main id="content" class="p-4">
-                <div class="breadcrumb mb-4">
+            </div>
+        </div>
+    </div>
+</div>
+                                              
+                <div class="xp-breadcrumbbar text-center">
                     <h4 class="page-title">Manage Feedback</h4>
                     <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Feedback List</a></li>
                     </ol>
                 </div>
+            </div>
+                                                
+                                                
+            <br>
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2>Manage Employees</h2>
-                </div>
 
                 <form action="${pageContext.request.contextPath}/feedback/list" method="get" class="mb-4">
                     <div class="form-row align-items-end">
@@ -112,6 +139,7 @@
                     <tbody>
                         <c:forEach var="feedback" items="${feedbacks}">
                             <tr>
+                
                                 <td>${feedback.email}</td> 
                                 <td>${feedback.title}</td> 
                                 <td>${feedback.date}</td>   
@@ -123,9 +151,9 @@
                                         <c:otherwise>No response</c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/feedback/delete?feedbackID=${feedback.feedbackId}" class="text-danger">Delete</a>
-                                    <a href="#" class="text-primary" onclick="openModal('${feedback.feedbackId}', '${feedback.email}')">Response</a>
+                                <td style="display: flex; gap: 10px; font-size: 15px;">
+                                    <a href="${pageContext.request.contextPath}/feedback/delete?feedbackID=${feedback.feedbackId}">   <i class="material-icons">deletes </i></a> 
+                                    <a href="#" onclick="openModal('${feedback.feedbackId}', '${feedback.email}')"><i class="material-icons">inbox</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -133,15 +161,53 @@
                 </table>
 
                 <div class="pagination">
+                    
                     <c:if test="${currentPage > 1}">
                         <a href="${pageContext.request.contextPath}/feedback/list?page=${currentPage - 1}&email=${param.email}&status=${param.status}" class="btn btn-light">Previous</a>
                     </c:if>
                     <c:if test="${currentPage < totalPages}">
                         <a href="${pageContext.request.contextPath}/feedback/list?page=${currentPage + 1}&email=${param.email}&status=${param.status}" class="btn btn-light">Next</a>
-                    </c:if>
+                         </c:if>
                 </div>
+                   
+                         <c:if test="${totalPages > 0}">
+        Showing page ${currentPage} of ${totalPages}
+    </c:if>
 <!-- Add styles for modal pop-up -->
 <style>
+    /* Dropdown Menu Styling */
+.dropdown-menu {
+    display: none; /* Initially hidden */
+    position: absolute; /* Position it relative to its nearest positioned ancestor */
+    right: 0; /* Align to the right of the profile link */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background-color: white; /* White background */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    min-width: 150px; /* Minimum width */
+}
+
+/* Display the dropdown when active */
+.dropdown-menu.show {
+    display: block; /* Show the dropdown */
+}
+
+/* Dropdown Item Styling */
+.dropdown-menu li {
+    padding: 10px; /* Padding for items */
+}
+
+.dropdown-menu li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    display: block; /* Make the link fill the container */
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f1f1f1; /* Background color on hover */
+}
+
     .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
@@ -172,6 +238,7 @@
         text-decoration: none;
         cursor: pointer;
     }
+    
 </style>
 
                 <!-- Modal for response -->
@@ -194,6 +261,22 @@
                 </div>
 
                 <script>
+                   function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-button')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+};
+
+
                     function openModal(feedbackID, email) {
                         document.getElementById('feedbackID').value = feedbackID;
                         document.getElementById('modalEmail').value = email;
@@ -226,5 +309,6 @@
                 </script>
             </main>
         </div>
+                            </div>
     </body>
 </html>

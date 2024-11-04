@@ -36,13 +36,52 @@ public class VehicleDao extends DbContext<Vehicle> {
     public ArrayList<Vehicle> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+ 
+    public int getTotalRecords(String search) {
+        int totalRecords = 0;
 
-    public ArrayList<Vehicle> GetVehicleList() {
-        ArrayList<Vehicle> vehicle = new ArrayList<>();
-        String sql = "select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle";
+        // Base query
+            StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM Vehicle");
+        //String query = "SELECT COUNT(*) FROM Vehicle where VehicleType LIKE ?";
+                    if (search != null && !search.trim().isEmpty()) {
+             query.append(" Where VehicleType LIKE ?");
+          //  query += " and VehicleType like ?";
+           }
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+          PreparedStatement stm = connection.prepareStatement(query.toString());
+             if (search != null && !search.isEmpty()) {
+                 
+                stm.setString(1, "%" + search + "%");
+            }
             ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                totalRecords = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return totalRecords;
+    }
+    
+    
+    public ArrayList<Vehicle> GetVehicleList(int page, int recordsPerPage) {
+        ArrayList<Vehicle> vehicle = new ArrayList<>();
+        
+         int start = (page - 1) * recordsPerPage;
+         
+     //   String sql = "select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle";
+        
+         StringBuilder query = new StringBuilder("select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle WHERE 1=1");
+         
+         query.append(" ORDER BY VehicleID desc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
+        
+        try {
+             int paramIndex = 1;
+             PreparedStatement statement = connection.prepareStatement(query.toString());
+             statement.setInt(paramIndex++, start);
+            statement.setInt(paramIndex, recordsPerPage);
+            //PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Vehicle v = new Vehicle();
                 v.setVehicleId(rs.getInt("VehicleID"));
@@ -246,19 +285,32 @@ public class VehicleDao extends DbContext<Vehicle> {
         }
     }
 
-    public ArrayList<Vehicle> SearchVehicle(String search) {
+    public ArrayList<Vehicle> SearchVehicle(String search,int page, int recordsPerPage) {
         ArrayList<Vehicle> vehicleList = new ArrayList<>();
-        String sql = "select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle\n"
-                + "where 1=1";
+        
+           int start = (page - 1) * recordsPerPage;
+        // Base query
+        StringBuilder query = new StringBuilder("select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle WHERE 1=1");
+      
+
         if (search != null && !search.trim().isEmpty()) {
-            sql += " and VehicleType like ?";
+             query.append(" AND VehicleType LIKE ?");
+          //  query += " and VehicleType like ?";
         }
+               query.append(" ORDER BY VehicleID desc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+           
+             int paramIndex = 1;
+            // Set email parameter if provided
             if (search != null && !search.trim().isEmpty()) {
-                stm.setString(1, "%" + search + "%");
+                statement.setString(paramIndex++, "%" + search + "%");
             }
-            ResultSet rs = stm.executeQuery();
+            // Set pagination parameters
+            statement.setInt(paramIndex++, start);
+            statement.setInt(paramIndex, recordsPerPage);
+            
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Vehicle vehicle = new Vehicle();
                 vehicle.setVehicleId(rs.getInt("VehicleID"));

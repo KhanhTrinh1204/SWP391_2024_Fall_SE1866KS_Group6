@@ -1,28 +1,22 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Manage Restaurants</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <nav id="sidebar">
+ <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Management feedback</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body onload="showAlerts()">
+        <div class="wrapper">
+     
+          <nav id="sidebar">
             <div class="sidebar-header">
                 <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
             </div>
@@ -45,84 +39,69 @@
                         <span>Manage Restaurant</span>
                     </a>
                 </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/feedback/list">
+                        <i class="material-icons">feedback</i>
+                        <span>Manage feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="<%=request.getContextPath()%>/tour/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage tour</span>
+                    </a>
+                </li>
+                  <li>
+                    <a href="<%=request.getContextPath()%>/hotel/list">
+                        <i class="material-icons">hotel</i>
+                        <span>Manage hotel</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
-        <!-- Main Content -->
-        <div id="content">
-            <!-- Top Navbar -->
-            <div class="top-navbar">
-                <div class="xp-topbar">
-                    <div class="row">
-                        <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
-                            <div class="xp-menubar">
-                                <span class="material-icons text-white">signal_cellular_alt</span>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-lg-3 order-3 order-md-2"></div>
-                        <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-                            <div class="xp-profilebar text-right">
-                                <nav class="navbar p-0">
-                                    <ul class="nav navbar-nav flex-row ml-auto">
-                                        <li class="dropdown nav-item active">
-                                            <a href="#" class="nav-link" data-toggle="dropdown">
-                                                <span class="material-icons">notifications</span>
-                                                <span class="notification">4</span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">You have 5 new messages</a></li>
-                                                <li><a href="#">You're now friends with Mike</a></li>
-                                                <li><a href="#">Wish Mary on her birthday!</a></li>
-                                                <li><a href="#">5 warnings in Server Console</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
-                                                <span class="xp-user-live"></span>
-                                            </a>
-                                            <ul class="dropdown-menu small-menu">
-                                                <li><a href="#"><span class="material-icons">person_outline</span>Profile</a></li>
-                                                <li><a href="#"><span class="material-icons">settings</span>Settings</a></li>
-                                                <li><a href="#"><span class="material-icons">logout</span>Logout</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+            <main id="content" class="p-4">
+                  <!-- Top Navbar -->
+                  <div class="top-navbar" style="height: 150px;" >
+                <div class="xp-topbar" style="float: right;">
+    <div class="row">
+        <div>
+            <div class="xp-profilebar">
+                <nav class="navbar p-0">
+                    <ul class="nav navbar-nav" >
+                        <li class="nav-item" >
+                            <a class="profile-button" onclick="toggleDropdown()">
+                                <img  src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
+                            </a>
+                            <div class="dropdown" id="dropdown" style ="display: none;">
+                              <a href="${pageContext.request.contextPath}/viewProfile" style="color: white;">View Profile</a>
+                               <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white;"> Logout</a>
+                              </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+                                              
                 <div class="xp-breadcrumbbar text-center">
-                    <h4 class="page-title">Manage Restaurants</h4>
+                    <h4 class="page-title">Manage restaurant</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Restaurant List</a></li>
                     </ol>
                 </div>
             </div>
-            <br>
-
-            <!-- Search Form -->
-            <form method="GET" action="<%=request.getContextPath()%>/restaurant/list" class="search-form d-flex align-items-center gap-2 mb-4">
-                <div class="input-group">
-                    <label for="search" class="visually-hidden">Search by name:</label>
-                    <input type="text" id="search" class="form-control" name="search" placeholder="Search by name" aria-label="Search by name">
-                </div>
-                <div class="input-group">
-                    <label for="statusFilter" class="visually-hidden">Status Filter:</label>
-                    <select id="statusFilter" class="form-select" name="statusFilter">
-                        <option value="">All Statuses</option>
-                        <option value="true">Active</option>
-                        <option value="false">De-Active</option>
-                    </select>
-                </div>
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
-            </form>
+                        <br/>
+            <form method="GET" action="<%=request.getContextPath()%>/restaurant/list" class="search-form d-flex align-items-center gap-2">
+                    <div class="input-group" style="width: 60%;">
+                        <label for="search" style="margin-left: 30px; margin-right: 20px;" class="visually-hidden">Search by name:</label>
+                        <input type="text" id="search" class="form-control" name="search" placeholder="Search by name" aria-label="Search by name" value="${param.search}">
+                    </div>
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>
 
             <!-- Main Table -->
             <div class="main-content">
@@ -132,11 +111,11 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                        <h2 class="ml-lg-2">Manage Restaurants</h2>
+                                        <h2 class="ml-lg-2">Manage hotel</h2>
                                     </div>
                                     <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
                                         <a href="<%=request.getContextPath()%>/restaurant/add" class="btn btn-success" data-toggle="modal">
-                                            <i class="material-icons">&#xE147;</i> <span>Add New Restaurant</span>
+                                            <i class="material-icons">&#xE147;</i> <span>Add New Hotel</span>
                                         </a>
                                     </div>
                                 </div>
@@ -149,7 +128,7 @@
                                             <th>Restaurant Name</th>
                                             <th>Location</th>
                                             <th>Image</th>
-                                            <th>Action</th>
+                                            <th style="width: 12%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -158,13 +137,13 @@
                                                 <td>${status.index + 1}</td>
                                                 <td>${r.restaurantName}</td>
                                                 <td>${r.location}</td>
+                                               <td><img src="${r.image}" alt="Restaurant Image" style="width: 100px; height: auto;"></td>
                                                 <td>
-                                                    <img src="${pageContext.request.contextPath}/img/${r.image}" alt="Restaurant Image" style="width: 100px; height: auto;">
+                                                     <a href="<%=request.getContextPath()%>/restaurant/edit?id=${r.restaurantId}" ><i class="material-icons">inbox</i></a>
+                                                    <a href="<%=request.getContextPath()%>/restaurant/detail?id=${r.restaurantId}" ><i class="material-icons">details</i></a>
+                                                    <a href="#" onclick="deleteRestaurant('${r.restaurantId}')" ><i class="material-icons">deletes</i></a>
                                                 </td>
-                                                <td>
-                                                    <a href="<%=request.getContextPath()%>/restaurant/detail?id=${r.restaurantId}" class="btn btn-info btn-sm">View Details</a>
-                                                    <a href="#" onclick="deleteRestaurant('${r.restaurantId}')" class="btn btn-danger btn-sm">Delete</a>
-                                                </td>
+                                                 
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -174,6 +153,20 @@
                             <c:if test="${empty res}">
                                 <p>No restaurants found.</p>
                             </c:if>
+                                  </div>
+                                      <div class="pagination">
+                    
+                    <c:if test="${currentPage > 1}">
+                        <a href="${pageContext.request.contextPath}/restaurant/list?page=${currentPage - 1}&search=${param.search}" class="btn btn-light">Previous</a>
+                    </c:if>
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="${pageContext.request.contextPath}/restaurant/list?page=${currentPage + 1}&search=${param.search}" class="btn btn-light">Next</a>
+                         </c:if>
+                </div>
+                   
+                         <c:if test="${totalPages > 0}">
+        Showing page ${currentPage} of ${totalPages}
+    </c:if>     
                         </div>
                     </div>
                 </div>
@@ -186,8 +179,7 @@
                     }
                 }
             </script>
-        </div>
-    </div>
+       
 
     <!-- Bootstrap JS and dependencies -->
     <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>

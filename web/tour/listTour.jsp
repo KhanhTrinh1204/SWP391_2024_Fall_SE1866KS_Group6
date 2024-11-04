@@ -3,82 +3,122 @@
     Created on : Oct 20, 2024, 7:05:39 PM
     Author     : ASUS
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!doctype html>
 <html lang="en">
-    <head>
+      <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Management</title>
+        <title>Management tour</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
     </head>
     <body onload="showAlerts()">
-        <div class="container-fluid">
-            <header class="d-flex justify-content-between align-items-center py-3">
-                <img src="img/logo.png" class="img-fluid" alt="Logo"/>
-                <h1>Travel System</h1>
-                <nav class="navbar navbar-expand">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="material-icons">notifications</span>
-                                <span class="notification">4</span>
+        <div class="wrapper">
+     
+          <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
+                        <i class="material-icons">dashboard</i>
+                        <span>Manage Staff</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/vehicle/list">
+                        <i class="material-icons">date_range</i>
+                        <span>Manage Vehicle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/restaurant/list">
+                        <i class="material-icons">library_books</i>
+                        <span>Manage Restaurant</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/feedback/list">
+                        <i class="material-icons">feedback</i>
+                        <span>Manage feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="<%=request.getContextPath()%>/tour/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage tour</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+            <main id="content" class="p-4">
+                  <!-- Top Navbar -->
+                  <div class="top-navbar" style="height: 150px;" >
+                <div class="xp-topbar" style="float: right;">
+    <div class="row">
+        <div>
+            <div class="xp-profilebar">
+                <nav class="navbar p-0">
+                    <ul class="nav navbar-nav" >
+                        <li class="nav-item" >
+                            <a class="profile-button" onclick="toggleDropdown()">
+                                <img  src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
                             </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#"><span class="material-icons">person_outline</span>Profile</a>
-                                <a class="dropdown-item" href="#"><span class="material-icons">settings</span>Settings</a>
-                                <a class="dropdown-item" href="#"><span class="material-icons">logout</span>Logout</a>
-                            </div>
+                            <div class="dropdown" id="dropdown" style ="display: none;">
+                              <a href="${pageContext.request.contextPath}/viewProfile" style="color: white;">View Profile</a>
+                               <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white;"> Logout</a>
+                              </div>
                         </li>
                     </ul>
                 </nav>
-            </header>
-
-            <nav id="sidebar" class="bg-light">
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="<%=request.getContextPath()%>/feedback/list" class="dashboard">
-                            <i class="material-icons">dashboard</i> Manage Feedback
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="<%=request.getContextPath()%>/tour/list">
-                            <i class="material-icons">date_range</i> Manage Tour
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <main id="content" class="p-4">
-                <div class="breadcrumb mb-4">
-                    <h4 class="page-title">Manage Tour</h4>
+            </div>
+        </div>
+    </div>
+</div>
+                                              
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Manage tour</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Tour List</a></li>
+                    </ol>
                 </div>
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2>Manage Tours</h2>
-                    <a href="${pageContext.request.contextPath}/tour/add" class="btn btn-success">Add Tour</a>
-                </div>
-                
-                <!-- Form tìm kiếm -->
-                <form  action="${pageContext.request.contextPath}/tour/list" method="GET"class="mb-4 d-flex align-items-center gap-2">
-                    <input type="text" name="tourName" class="form-control" placeholder="Search by tour name" 
-                           value="${param.tourName}" aria-label="Search by tour name">
-                    <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+                                                
+                                                
+            <br>
+                <form method="GET" action="<%=request.getContextPath()%>/vehicle/list" class="search-form d-flex align-items-center gap-2">
+                    <div class="input-group" style="width: 60%;">
+                        <label for="search" style="margin-left: 30px; margin-right: 20px;" class="visually-hidden">Search by name:</label>
+                        <input type="text" id="search" class="form-control" name="search" placeholder="Search by name" aria-label="Search by name" value="${param.search}">
+                    </div>
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
-                
+                <div class="main-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-wrapper">
+                                <div class="table-title">
+                                    <div class="row">
+                                        <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
+                                            <h2 class="ml-lg-2">Manage Vehicle</h2>
+                                        </div>
+                                        <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
+                                            <a href="<%=request.getContextPath()%>/tour/add" class="btn btn-success" data-toggle="modal">
+                                                <i class="material-icons">&#xE147;</i> <span>Add New tour</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                           <c:if test="${not empty tour}"> 
                 <!-- Bảng hiển thị danh sách tour -->
-                <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -99,23 +139,46 @@
                                 </td> 
                                 <td><fmt:formatNumber value="${tour.price}" type="currency" currencySymbol="$"/></td> 
                                 <td>
-                                    <c:if test="${not empty tour.image}">
-                                        <img src="${pageContext.request.contextPath}/img/${tour.image}" alt="Tour Image" style="width: 100px; height: auto;">
-                                    </c:if>
-                                    <c:if test="${empty tour.image}">
-                                        No Image
-                                    </c:if>
+                                   <img src="${tour.image}" alt="Vehicle Image" style="width: 100px; height: auto;">
                                 </td>
                                 <td>
-                                    <a href="#" onclick="deleteTour('${tour.tourId}')" class="text-danger">Delete</a>
-                                    <a href="${pageContext.request.contextPath}/tour/update?id=${tour.tourId}" class="text-danger">Update</a>
-
+                      
+                                                <a href="#" onclick="deleteStaff('${tour.tourId}')">   <i class="material-icons">deletes </i></a> 
+                                                            <a href="<%=request.getContextPath()%>/tour/update?id=${tour.tourId}"><i class="material-icons">inbox</i></a>
+                                                 
+                                                       
                                 </td>
                             </tr>
                         </c:forEach>
+                            </c:if>
                     </tbody>
                 </table>
-            </main>
-        </div>
+                <c:if test="${empty tour}">
+                                <p>No restaurants found.</p>
+                            </c:if>
+                                  </div>
+                                      <div class="pagination">
+                    
+                    <c:if test="${currentPage > 1}">
+                        <a href="${pageContext.request.contextPath}/tour/list?page=${currentPage - 1}&search=${param.search}" class="btn btn-light">Previous</a>
+                    </c:if>
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="${pageContext.request.contextPath}/tour/list?page=${currentPage + 1}&search=${param.search}" class="btn btn-light">Next</a>
+                         </c:if>
+                </div>
+                   
+                         <c:if test="${totalPages > 0}">
+        Showing page ${currentPage} of ${totalPages}
+    </c:if>     
+                                    </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    function deleteStaff(id) {
+                        if (confirm("ARE YOU SURE TO DELETE THIS STAFF"))
+                            window.location.href = '<%=request.getContextPath()%>/tour/delete?id=' + id;
+                    }
+                </script>
+            </div>
     </body>
 </html>

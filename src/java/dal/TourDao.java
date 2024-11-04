@@ -42,7 +42,7 @@ public class TourDao extends DbContext<Tour> {
 
     public ArrayList<Tour> GetListTour() {
         ArrayList<Tour> tours = new ArrayList<>();
-        String sql = "SELECT TourID, TourName, Price, Image FROM Tour";
+        String sql = "SELECT TourID,Description ,TourName, Price, Image FROM Tour";
 
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -51,6 +51,7 @@ public class TourDao extends DbContext<Tour> {
             while (rs.next()) {
                 Tour tour = new Tour();
                 tour.setTourId(rs.getInt("TourID"));
+                 tour.setDescription(rs.getString("Description"));
                 tour.setTourName(rs.getString("TourName"));
                 tour.setPrice(rs.getFloat("Price"));  // Assuming Price is of type float
                 tour.setImage(rs.getString("Image"));
@@ -136,7 +137,32 @@ public class TourDao extends DbContext<Tour> {
             Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+        public void insertBookingTour(int TourID, int AccountID) {
+        String sql = "insert into [dbo].[UserBooking](TourID, AccountID, Status) VALUES(?,?,1)";
 
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, TourID);
+            stm.setInt(2, AccountID);
+
+            // Thực thi câu lệnh INSERT
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
+        public void updateDeleteBookingTour(int id) {
+        String sql = "Update [dbo].[UserBooking] set Status =3 where id =?";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
     // Phương thức để lấy danh sách Agent
     public List<TravelAgent> getAllAgents() {
         List<TravelAgent> agents = new ArrayList<>();
@@ -329,29 +355,87 @@ public class TourDao extends DbContext<Tour> {
         return maxId;
     }
 
-    public ArrayList<Tour> searchToursByName(String tourName) {
+    public ArrayList<Tour> searchToursByName(String search,int page, int recordsPerPage) {
         ArrayList<Tour> tours = new ArrayList<>();
-        String sql = "SELECT TourID, TourName, Price, Image FROM Tour WHERE name LIKE ?";
+      //  String sql = "SELECT TourID, TourName, Price, Image FROM Tour WHERE 1 = 1";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, "%" + tourName + "%"); // Sử dụng ký tự đại diện % để tìm kiếm gần đúng
+        StringBuilder query = new StringBuilder("SELECT TourID, TourName, Price, Image FROM Tour WHERE 1 = 1");
+       int start = (page - 1) * recordsPerPage;
 
-            try (ResultSet rs = statement.executeQuery()) {
+        if (search != null && !search.trim().isEmpty()) {
+             query.append(" AND TourName LIKE ?");
+          //  query += " and VehicleType like ?";
+        }
+               query.append(" ORDER BY TourID desc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
+        try {
+             PreparedStatement statement = connection.prepareStatement(query.toString());
+           
+             int paramIndex = 1;
+            // Set email parameter if provided
+            if (search != null && !search.trim().isEmpty()) {
+                statement.setString(paramIndex++, "%" + search + "%");
+            }
+            // Set pagination parameters
+            statement.setInt(paramIndex++, start);
+            statement.setInt(paramIndex, recordsPerPage);
+            
+            ResultSet rs = statement.executeQuery();
+
+            
                 while (rs.next()) {
                     Tour tour = new Tour();
-                    tour.setTourId(rs.getInt("TourId"));
+                    tour.setTourId(rs.getInt("TourID"));
                     tour.setTourName(rs.getString("TourName"));
                     tour.setPrice(rs.getDouble("Price"));
                     tour.setImage(rs.getString("Image"));
                     // Thiết lập các thuộc tính khác của tour nếu có
                     tours.add(tour);
                 }
-            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return tours;
     }
+     public int getTotalRecords(String search) {
+        int totalRecords = 0;
+
+        // Base query
+            StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM Tour");
+        //String query = "SELECT COUNT(*) FROM Vehicle where VehicleType LIKE ?";
+                    if (search != null && !search.trim().isEmpty()) {
+             query.append(" Where TourName LIKE ?");
+          //  query += " and VehicleType like ?";
+           }
+        try {
+          PreparedStatement stm = connection.prepareStatement(query.toString());
+             if (search != null && !search.isEmpty()) {
+                 
+                stm.setString(1, "%" + search + "%");
+            }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                totalRecords = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return totalRecords;
+    }
+  
+    public static void main(String[] args) {
+        TourDao dao = new TourDao();
+        // Retrieve a tour with a specific ID, e.g., 2
+        Tour tour = dao.ViewTourDetail(2);
+
+        // Check if the tour is not null before trying to print its details
+        if (tour != null) {
+            System.out.println(tour.getVechicle().get(0).getVehicleName()); // This will call the toString() method of the Tour class
+        } else {
+            System.out.println("Tour not found.");
+        }
+    
+}
 
 }

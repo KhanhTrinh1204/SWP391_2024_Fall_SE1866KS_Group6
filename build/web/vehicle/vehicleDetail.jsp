@@ -7,108 +7,205 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<head>
-    <title>Vehicle Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        a {
-            text-decoration: none;
-            color: #3498db;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <h1>Vehicle Details</h1>
-    
-    <!-- Hiển thị thông tin phương tiện nếu vehicle không rỗng -->
-    <c:if test="${not empty vehicle}">
-        <table>           
-            <tr>
-                <th>Vehicle Type</th>
-                <td>${vehicle.vehicleType}</td>
-            </tr>
-            <tr>
-                <th>Vehicle Name</th>
-                <td>${vehicle.vehicleName}</td>
-            </tr>
-            <tr>
-                <th>License Plate</th>
-                <td>${vehicle.licensePlate}</td>
-            </tr>
-            <tr>
-                <th>Manufacture</th>
-                <td>${vehicle.manufacture}</td>
-            </tr>
-            <tr>
-                <th>Model Year</th>
-                <td>${vehicle.modelYear}</td>
-            </tr>
-            <tr>
-                <th>Color</th>
-                <td>${vehicle.color}</td>
-            </tr>
-            <tr>
-                <th>Engine Type</th>
-                <td>${vehicle.engineType}</td>
-            </tr>
-            <tr>
-                <th>Mileage</th>
-                <td>${vehicle.mileAge}</td>
-            </tr>
-            <tr>
-                <th>Seating Capacity</th>
-                <td>${vehicle.seatingCapacity}</td>
-            </tr>
-            <tr>
-                <th>Registration Date</th>
-                <td>${vehicle.registrationDate}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>${vehicle.description}</td>
-            </tr>
-            <tr>
-                <th>Travel Agent</th>
-                <td>${vehicle.agent.agentName}</td>
-            </tr>
-        </table>
-        <br>
-        <a href="<%=request.getContextPath()%>/vehicle/list">Back to Vehicles List</a>
-    </c:if>
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Management feedback</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body onload="showAlerts()">
+        <div class="wrapper">
+     
+          <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
+                        <i class="material-icons">dashboard</i>
+                        <span>Manage Staff</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/vehicle/list">
+                        <i class="material-icons">date_range</i>
+                        <span>Manage Vehicle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/restaurant/list">
+                        <i class="material-icons">library_books</i>
+                        <span>Manage Restaurant</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/feedback/list">
+                        <i class="material-icons">feedback</i>
+                        <span>Manage feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="<%=request.getContextPath()%>/tour/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage tour</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <!-- Hiển thị thông báo lỗi nếu không tìm thấy phương tiện hoặc lỗi khác -->
-    <c:if test="${not empty error}">
-        <p class="error">${error}</p>
-        <br>
-        <a href="vehicleslist.jsp">Back to Vehicles List</a>
-    </c:if>
+
+            <main id="content" class="p-4">
+                  <!-- Top Navbar -->
+                  <div class="top-navbar" style="height: 150px;" >
+                <div class="xp-topbar" style="float: right;">
+    <div class="row">
+        <div>
+            <div class="xp-profilebar">
+                <nav class="navbar p-0">
+                    <ul class="nav navbar-nav" >
+                        <li class="nav-item" >
+                            <a class="profile-button" onclick="toggleDropdown()">
+                                <img  src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
+                            </a>
+                            <div class="dropdown" id="dropdown" style ="display: none;">
+                              <a href="${pageContext.request.contextPath}/viewProfile" style="color: white;">View Profile</a>
+                               <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white;"> Logout</a>
+                              </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+                                              
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Manage vehicle</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Vehicle List</a></li>
+                    </ol>
+                </div>
+            </div>
+                                                
+                                                
+            <br>
+
+        <!-- Nội dung chính -->
+        <div class="container">
+            <h2>Detail vehicle Information</h2>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message">
+                    <p>${errorMessage}</p>
+                </div>
+            </c:if>
+
+   <!-- Display vehicle information if vehicle is not empty -->
+<c:if test="${not empty vehicle}">
+    <form class="container mt-4">
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Vehicle Type</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.vehicleType}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Vehicle Name</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.vehicleName}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">License Plate</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.licensePlate}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Manufacture</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.manufacture}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Model Year</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.modelYear}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Color</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.color}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Engine Type</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.engineType}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Mileage</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.mileAge}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Seating Capacity</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.seatingCapacity}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Registration Date</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.registrationDate}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Description</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.description}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fw-bold">Travel Agent</label>
+            <div class="col-sm-8">
+                <p class="form-control-plaintext">${vehicle.agent.agentName}</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="<%=request.getContextPath()%>/vehicle/list" class="btn btn-secondary">Back to Vehicles List</a>
+        </div>
+    </form>
+</c:if>
+
+<!-- Display error message if vehicle is not found or other error occurs -->
+<c:if test="${not empty error}">
+    <p class="text-danger">${error}</p>
+    <div class="text-center mt-4">
+        <a href="vehicleslist.jsp" class="btn btn-secondary">Back to Vehicles List</a>
+    </div>
+</c:if>
+
 </body>
 </html>
 

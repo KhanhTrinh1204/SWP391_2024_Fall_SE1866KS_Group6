@@ -79,8 +79,6 @@ public class AddHotelServlet extends HttpServlet {
         String description = request.getParameter("description");
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
-        String travelAgentIdStr = request.getParameter("travelAgentId");
-        String categoryIdStr = request.getParameter("categoryId");
         String activeStr = request.getParameter("active");
         String priceStr = request.getParameter("price");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -93,14 +91,6 @@ public class AddHotelServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        TravelAgent travelAgent = new TravelAgent();
-//        travelAgent.setTravelAgentId(Integer.parseInt(travelAgentIdStr)); // Giả sử TravelAgent có trường agentId
-
-        CategoryTour categoryTour = new CategoryTour();
-        categoryTour.setCategoryId(Integer.parseInt(categoryIdStr)); // Giả sử CategoryTour có trường categoryId
-
-        boolean active = Boolean.parseBoolean(activeStr);
-        double price = Double.parseDouble(priceStr);
         
         Hotel hotel =new Hotel();
         hotel.setHotelName(hotelName);
@@ -108,12 +98,11 @@ public class AddHotelServlet extends HttpServlet {
         hotel.setDescription(description);
         hotel.setStartDate(startDate);
         hotel.setEndDate(endDate);
-        hotel.setTravelAgent(travelAgent);
-//        hotel.setActive(active);
-//        hotel.setPrice(price);
+        hotel.setActive(activeStr);
+        hotel.setPrice(priceStr);
         HotelDAO hotelDAO = new HotelDAO();
         hotelDAO.addHotel(hotel);
-         response.sendRedirect(request.getContextPath() + "/list");
+         response.sendRedirect(request.getContextPath() + "/hotel/list");
     }
 
     /** 
