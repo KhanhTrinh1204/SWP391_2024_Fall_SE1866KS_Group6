@@ -296,7 +296,7 @@ public class LoginDAO extends BaseDAO implements ILoginDAO {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String query = "insert into Account(Username, Email, Password , Fullname,Address,Gender, Phone,DOB,RoleID,Status) values(?, ?, ?,?,?, ?, ?,'',1,true)";
+        String query = "insert into Account(Username, Password,Email  , Fullname,Address,Gender, Phone,DOB,RoleID,Status) values(?, ?, ?,?,?, ?, ?,'',1, 'true')";
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
