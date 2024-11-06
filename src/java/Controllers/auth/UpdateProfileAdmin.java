@@ -2,23 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controllers.tour;
+package Controllers.auth;
 
-import dal.SendEmail;
-import dal.TourDao;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Tour;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
  * @author hoang
  */
-public class UpdateConfirmTour extends HttpServlet {
+public class UpdateProfileAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +32,14 @@ public class UpdateConfirmTour extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
-         String id = request.getParameter("id");
-        TourDao dao = new TourDao();
-        
-        Tour tour= dao.ViewBookingTourDetailValue(Integer.parseInt(id));
-        SendEmail sm = new SendEmail();
-         sm.sendTourEmail(dao.GetEmailAccount(Integer.parseInt(id)), tour);
-         
-         
-        dao.updateConfirmTour(id);
- 
-         
-        response.sendRedirect("/SupportProject/booking/list");
+        response.setContentType("text/html;charset=UTF-8");
+         HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("authcode");
+        ILoginDAO dao = new LoginDAO();
+        Account currentUser = dao.viewProfile(user.getEmail());
+         // request.setAttribute("user2", user);
+        request.setAttribute("user", currentUser);
+        request.getRequestDispatcher("UpdateProfileAdmin.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

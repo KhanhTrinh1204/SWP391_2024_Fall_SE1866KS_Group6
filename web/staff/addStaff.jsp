@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <form action="${pageContext.request.contextPath}/staff/add" method="POST" validate>
+        <form action="${pageContext.request.contextPath}/staff/add" method="POST" validate onsubmit="return validateForm()">
             <div class="mb-3">
                   <label for="user" class="form-label">User Name(*)</label>
                 <div class="input-group">
@@ -145,6 +145,30 @@
             }
         }
     };
+      function validateForm() {
+        // Define required fields with their error messages
+        const fields = [
+            { id: "fullName", message: "Please enter the full name." },
+            { id: "username", message: "Please enter the username." },
+            { id: "email", message: "Please enter a valid email address." },
+            { id: "phoneNumber", message: "Please enter the phone number." },
+            { id: "address", message: "Please enter the address." },
+            { id: "status", message: "Please select the status." },
+            { id: "role", message: "Please select the role." }
+        ];
+
+        // Loop through each field to check if it's empty or contains only whitespace
+        for (let field of fields) {
+            const element = document.getElementById(field.id);
+            if (element && element.value.trim() === "") {
+                alert(field.message);
+                element.focus();
+                return false; // Prevent form submission
+            }
+        }
+
+        return true; // Allow form submission if all fields are valid
+    }
 </script>
 </body>
 </html>

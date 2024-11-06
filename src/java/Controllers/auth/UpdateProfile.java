@@ -2,23 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controllers.tour;
+package Controllers.auth;
 
-import dal.SendEmail;
-import dal.TourDao;
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Tour;
 
 /**
  *
  * @author hoang
  */
-public class UpdateConfirmTour extends HttpServlet {
+@WebServlet(name = "UpdateProfile", urlPatterns = {"/UpdateProfileCheckAdmin"})
+public class UpdateProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +32,37 @@ public class UpdateConfirmTour extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
-         String id = request.getParameter("id");
-        TourDao dao = new TourDao();
-        
-        Tour tour= dao.ViewBookingTourDetailValue(Integer.parseInt(id));
-        SendEmail sm = new SendEmail();
-         sm.sendTourEmail(dao.GetEmailAccount(Integer.parseInt(id)), tour);
-         
-         
-        dao.updateConfirmTour(id);
- 
-         
-        response.sendRedirect("/SupportProject/booking/list");
+        response.setContentType("text/html;charset=UTF-8");
+           // Get the form parameters
+        String username = request.getParameter("username").trim();
+        String fullName = request.getParameter("fullname").trim();
+        String address = request.getParameter("address").trim();
+        String email = request.getParameter("email").trim();
+        String gender = request.getParameter("gender").trim();
+        String dob = request.getParameter("dob").trim();
+        String phone = request.getParameter("phone").trim();
+        String avatarUrl = request.getParameter("avatarUrl").trim();
+
+        // Basic validation logic (you can expand this)
+        if (username == null || fullName == null || email == null || phone == null || dob == null || avatarUrl == null) {
+            // If validation fails, redirect back to the form with an error message
+            request.setAttribute("error", "All fields are required.");
+
+            return;
+        }
+
+        ILoginDAO dao = new LoginDAO();
+       boolean isUpdated = dao.updateProfile(username, fullName, address, gender, dob, phone, avatarUrl, email);
+        if (isUpdated) {
+    // Set success message in request attribute
+    request.setAttribute("successMessage", "Profile updated successfully!");
+    // Redirect to the profile page (or the update form)
+        response.sendRedirect("/viewProfile");
+} else {
+    // If update fails, pass an error message
+    request.setAttribute("error", "Profile update failed. Please try again.");
+          request.getRequestDispatcher("ViewProfile.jsp").forward(request, response);
+}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

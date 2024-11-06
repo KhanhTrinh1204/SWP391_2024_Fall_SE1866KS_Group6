@@ -148,75 +148,106 @@
             </div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/restaurant/edit" method="POST" enctype="multipart/form-data" >
-            <div class="mb-3">
-                <label for="restaurantName" class="form-label">Restaurant Name</label>
-                <input type="text" class="form-control" id="restaurantName" name="restaurantName" placeholder="Enter restaurant name" required>
-                <div class="invalid-feedback">
-                    Please enter the restaurant name.
-                </div>
-            </div>
+        <form action="${pageContext.request.contextPath}/restaurant/edit" method="POST"  onsubmit="return validateForm()">
+    <div class="mb-3">
+        <label for="restaurantName" class="form-label">Restaurant Name(*)</label>
+        <input type="text" class="form-control" id="restaurantName" name="restaurantName" placeholder="Enter restaurant name" required>
+        <div class="invalid-feedback">
+            Please enter the restaurant name.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
-                <div class="invalid-feedback">
-                    Please enter the location.
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Location(*)</label>
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
+        <div class="invalid-feedback">
+            Please enter the location.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description" required></textarea>
-                <div class="invalid-feedback">
-                    Please enter the description.
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description(*)</label>
+        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description" required></textarea>
+        <div class="invalid-feedback">
+            Please enter the description.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required>
-                <div class="invalid-feedback">
-                    Please enter the phone number.
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="phoneNumber" class="form-label">Phone Number(*)</label>
+        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required>
+        <div class="invalid-feedback">
+            Please enter the phone number.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
-                <div class="invalid-feedback">
-                    Please enter a valid email address.
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email(*)</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+        <div class="invalid-feedback">
+            Please enter a valid email address.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="category" class="form-label">Category</label>
-                <input type="text" class="form-control" id="category" name="category" placeholder="Enter category" required>
-                <div class="invalid-feedback">
-                    Please enter the category.
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category(*)</label>
+        <input type="text" class="form-control" id="category" name="category" placeholder="Enter category" required>
+        <div class="invalid-feedback">
+            Please enter the category.
+        </div>
+    </div>
 
-            <div class="mb-4">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option value="" disabled selected>Select status</option>
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
-                </select>
-                <div class="invalid-feedback">
-                    Please select the status.
-                </div>
-            </div>
+    <div class="mb-4">
+        <label for="status" class="form-label">Status(*)</label>
+        <select class="form-select" id="status" name="status" required>
+            <option value="" disabled selected>Select status</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+        <div class="invalid-feedback">
+            Please select the status.
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                  <input type="text" class="form-control" id="image" name="image" required>
+    <div class="mb-3">
+        <label for="image" class="form-label">Image(*)</label>
+        <input type="text" class="form-control" id="image" name="image" required>
+        <div class="invalid-feedback">
+            Please enter the image URL.
+        </div>
+    </div>
 
-            </div>
+    <button type="submit" class="btn btn-submit w-100">Add Restaurant</button>
+</form>
 
-            <button type="submit" class="btn btn-submit w-100">Add Restaurant</button>
-        </form>
+<script>
+    function validateForm() {
+        // Get all required fields
+        const fields = [
+            { id: "restaurantName", message: "Please enter the restaurant name." },
+            { id: "location", message: "Please enter the location." },
+            { id: "description", message: "Please enter the description." },
+            { id: "phoneNumber", message: "Please enter the phone number." },
+            { id: "email", message: "Please enter a valid email address." },
+            { id: "category", message: "Please enter the category." },
+            { id: "status", message: "Please select the status." },
+            { id: "image", message: "Please enter the image URL." }
+        ];
+
+        // Loop through each field to check if it's empty or contains only whitespace
+        for (let field of fields) {
+            const element = document.getElementById(field.id);
+            if (element && element.value.trim() === "") {
+                alert(field.message);
+                element.focus();
+                return false; // Prevent form submission
+            }
+        }
+
+        return true; // Allow form submission if all fields are valid
+    }
+</script>
+
         
         <!-- Thông báo thành công -->
     </div>

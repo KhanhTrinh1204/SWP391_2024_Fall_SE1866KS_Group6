@@ -92,209 +92,154 @@
 </div>
                                               
                 <div class="xp-breadcrumbbar text-center">
-                    <h4 class="page-title">View Profile</h4>
+                    <h4 class="page-title">Update Profile</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">View Profile</a></li>
+                        <li class="breadcrumb-item"><a href="#">Update Profile</a></li>
                     </ol>
                 </div>
             </div>
-                                                
-                                                
-            <br>
-<form action="updateProfile" method="post">
-    <!-- Profile image on the left -->
-    <div class="left-section">
-        <img id="profileImage" src="${user.avatar}" alt="Profile Picture" class="profile-img">
-    </div>
+                                   
     
-    <!-- Profile information on the right -->
-    <div class="right-section">
-        <div class="form-row">
-            <div class="form-field">
-                <label>Username(*):</label>
-                <span>${user.userName}</span>
-            </div>
-        </div>
+    <form action="UpdateProfileCheckAdmin" method="post" onsubmit="return validateForm()">
+        <img id="profileImage" src="${user.avatar}" alt="Profile Picture" class="profile-img">
         
-        <div class="form-row">
-            <div class="form-field">
-                <label>Full Name(*):</label>
-                <span>${user.fullName}</span>
+        <label for="avatarUrl">Image URL(*):</label>
+        <input type="text" id="avatarUrl" name="avatarUrl" value="${user.avatar}" oninput="updateImagePreview()">
+        <span id="avatarUrlError" class="error"></span>
+
+        <label for="username">Username(*):</label>
+        <input type="text" id="username" name="username" value="${user.userName}">
+        <span id="usernameError" class="error"></span>
+
+        <label for="fullname">Full Name(*):</label>
+        <input type="text" id="fullname" name="fullname" value="${user.fullName}">
+        <span id="fullNameError" class="error"></span>
+
+        <label for="address">Address(*):</label>
+        <input type="text" id="address" name="address" value="${user.address}">
+        <span id="addressError" class="error"></span>
+
+        <label for="email">Email(*):</label>
+        <input type="email" id="email" name="email" value="${user.email}" readonly>
+        <span id="emailError" class="error"></span>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="1" ${user.gender == true ? 'selected' : ''}>Male</option>
+            <option value="0" ${user.gender == false ? 'selected' : ''}>Female</option>
+        </select>
+
+        <label for="dob">Date of Birth(*):</label>
+        <input type="date" id="dob" name="dob" value="${user.DOB}">
+        <span id="dobError" class="error"></span>
+
+        <label for="phone">Phone Number(*):</label>
+        <input type="text" id="phone" name="phone" value="${user.phone}">
+        <span id="phoneError" class="error"></span>
+
+        <button type="submit">Update Profile</button>
+
+        <% String successMessage = (String) request.getAttribute("successMessage");
+           if (successMessage != null) { %>
+            <div class="success">
+                <%= successMessage %>
             </div>
-            <div class="form-field">
-                <label>Address(*):</label>
-                <span>${user.address}</span>
-            </div>
+        <% } %>
+    </form>
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>about us</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quas magni pariatur est accusantium voluptas enim nemo facilis sit debitis.</p>
         </div>
-        
-        <div class="form-row">
-            <div class="form-field">
-                <label>Email(*):</label>
-                <span>${user.email}</span>
-            </div>
-            <div class="form-field">
-                <label>Gender:</label>
-                <span>${user.gender ? 'Male' : 'Female'}</span>
-            </div>
+        <div class="box">
+            <h3>branch locations</h3>
+            <a href="#">bangladesh</a>
+            <a href="#">USA</a>
+            <a href="#">japan</a>
+            <a href="#">Turkey</a>
         </div>
-        
-        <div class="form-row">
-            <div class="form-field">
-                <label>Date of Birth(*):</label>
-                <span>${user.DOB}</span>
-            </div>
-            <div class="form-field">
-                <label>Phone Number(*):</label>
-                <span>${user.phone}</span>
-            </div>
+        <div class="box">
+            <h3>quick links</h3>
+            <a href="#">home</a>
+            <a href="#">book</a>
+            <a href="#">packages</a>
+            <a href="#">services</a>
+            <a href="#">gallery</a>
+            <a href="#">review</a>
+            <a href="#">contact</a>
         </div>
-        
-           <button type="submit">Update Profile</button>
+        <div class="box">
+            <h3>follow us</h3>
+            <a href="https://www.facebook.com/FreeWebsiteCode/">facebook</a>
+            <a href="https://twitter.com/freewebsitecode">twitter</a>
+            <a href="https://www.linkedin.com/in/freewebsitecode/">linkedin</a>
+            <a href="https://www.youtube.com/FreeWebsiteCode/videos">youtube</a>
+        </div>
 
     </div>
-</form>
 
-
-<!-- Add styles for modal pop-up -->
-<style>
-    /* Dropdown Menu Styling */
-.dropdown-menu {
-    display: none; /* Initially hidden */
-    position: absolute; /* Position it relative to its nearest positioned ancestor */
-    right: 0; /* Align to the right of the profile link */
-    z-index: 1000; /* Ensure it appears above other elements */
-    background-color: white; /* White background */
-    border: 1px solid #ccc; /* Border styling */
-    border-radius: 4px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    min-width: 150px; /* Minimum width */
-}
-
-/* Display the dropdown when active */
-.dropdown-menu.show {
-    display: block; /* Show the dropdown */
-}
-
-/* Dropdown Item Styling */
-.dropdown-menu li {
-    padding: 10px; /* Padding for items */
-}
-
-.dropdown-menu li a {
-    text-decoration: none; /* Remove underline from links */
-    color: #333; /* Text color */
-    display: block; /* Make the link fill the container */
-}
-
-.dropdown-menu li a:hover {
-    background-color: #f1f1f1; /* Background color on hover */
-}
-
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-        overflow: auto; /* Enable scroll if needed */
-    }
-    .modal-content {
-        background-color: #fff;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%; /* Could be more or less, depending on screen size */
-    }
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-   /* Main form container for side-by-side layout */
-form {
-    display: flex;
-    margin: 0 auto;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-/* Style for the profile image */
-.left-section {
-    flex: 0 0 150px;
-}
-
-.profile-img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* Right section with form fields */
-.right-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Each row contains two form fields */
-.form-row {
-    display: flex;
-    gap: 20px;
-}
-
-/* Individual field styling */
-.form-field {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.95em;
-}
-
-.form-field label {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.form-field span {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-}
-
-button[type="submit"] {
-    padding: 10px 20px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-.success {
-    color: green;
-    margin-top: 10px;
-}
-
-</style>
  <script>
+                   function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-button')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+};
+                </script>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 600px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, select {
+            padding: 8px;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .profile-img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+            border-radius: 50%;
+        }
+        .success {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+    <script>
         // Update image preview when URL changes
         function updateImagePreview() {
             const imageUrl = document.getElementById('avatarUrl').value;
@@ -390,57 +335,6 @@ button[type="submit"]:hover {
             return phoneRegex.test(phone);
         }
     </script>
-            
-
-                <script>
-                   function toggleDropdown() {
-    const dropdown = document.getElementById("dropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.profile-button')) {
-        const dropdown = document.getElementById("dropdown");
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";
-        }
-    }
-};
-
-
-                    function openModal(feedbackID, email) {
-                        document.getElementById('feedbackID').value = feedbackID;
-                        document.getElementById('modalEmail').value = email;
-                        document.getElementById('responseModal').style.display = 'block';
-                    }
-
-                    function closeModal() {
-                        document.getElementById('responseModal').style.display = 'none';
-                    }
-
-                    function showAlerts() {
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Check for delete success/failure
-            const deleteSuccess = urlParams.get('deleteSuccess');
-            if (deleteSuccess === 'true') {
-                alert('Feedback deleted successfully.');
-            } else if (deleteSuccess === 'false') {
-                alert('Failed to delete feedback.');
-            }
-
-            // Check for email success/failure
-            const emailSuccess = urlParams.get('emailSuccess');
-            if (emailSuccess === 'true') {
-                alert('Email sent successfully.');
-            } else if (emailSuccess === 'false') {
-                alert('Failed to send email.');
-            }
-        }
-                </script>
-            </main>
-        </div>
-                            </div>
-    </body>
+</section>
+</body>
 </html>

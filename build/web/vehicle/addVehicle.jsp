@@ -90,26 +90,26 @@
                                                 
             <br>
 
-    <form action="${pageContext.request.contextPath}/vehicle/add" method="post" class="p-4 bg-light rounded shadow-sm">
+    <form action="${pageContext.request.contextPath}/vehicle/add" method="post" class="p-4 bg-light rounded shadow-sm" validate onsubmit="return validateVehicleForm()">
         <h3 class="text-primary">Thông Tin Xe</h3>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="vehicleType">Loại Xe:</label>
+                <label for="vehicleType">Loại Xe(*):</label>
                 <input type="text" class="form-control" id="vehicleType" name="vehicleType" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="vehicleName">Tên Xe:</label>
+                <label for="vehicleName">Tên Xe(*):</label>
                 <input type="text" class="form-control" id="vehicleName" name="vehicleName" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="licensePlate">Biển Số Xe:</label>
+                <label for="licensePlate">Biển Số Xe(*):</label>
                 <input type="text" class="form-control" id="licensePlate" name="licensePlate" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="image">Hình Ảnh:</label>
+                <label for="image">Hình Ảnh(*):</label>
                 <input type="text" class="form-control" id="image" name="image" required>
             </div>
         </div>
@@ -117,39 +117,39 @@
         <h3 class="text-primary">Thông Tin Chi Tiết Xe</h3>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="manufacture">Hãng Sản Xuất:</label>
+                <label for="manufacture">Hãng Sản Xuất(*):</label>
                 <input type="text" class="form-control" id="manufacture" name="manufacture" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="modelYear">Năm Sản Xuất:</label>
+                <label for="modelYear">Năm Sản Xuất(*):</label>
                 <input type="number" class="form-control" id="modelYear" name="modelYear" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="color">Màu Xe:</label>
+                <label for="color">Màu Xe(*):</label>
                 <input type="text" class="form-control" id="color" name="color" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="mileage">Số Km:</label>
+                <label for="mileage">Số Km(*):</label>
                 <input type="number" class="form-control" id="mileage" name="mileage" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="seatingCapacity">Sức Chứa:</label>
+                <label for="seatingCapacity">Sức Chứa(*):</label>
                 <input type="number" class="form-control" id="seatingCapacity" name="seatingCapacity" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="registrationDate">Ngày Đăng Ký:</label>
+                <label for="registrationDate">Ngày Đăng Ký(*):</label>
                 <input type="date" class="form-control" id="registrationDate" name="registrationDate" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="description">Mô Tả:</label>
+            <label for="description">Mô Tả(*):</label>
             <textarea id="description" name="description" rows="4" class="form-control" required></textarea>
         </div>
 
@@ -176,7 +176,40 @@ window.onclick = function(event) {
     }
 };
 
-        }
+        function validateVehicleForm() {
+    // Get form fields
+    const vehicleType = document.getElementById('vehicleType').value.trim();
+    const vehicleName = document.getElementById('vehicleName').value.trim();
+    const licensePlate = document.getElementById('licensePlate').value.trim();
+    const image = document.getElementById('image').value.trim();
+    const manufacture = document.getElementById('manufacture').value.trim();
+    const modelYear = document.getElementById('modelYear').value;
+    const color = document.getElementById('color').value.trim();
+    const mileage = document.getElementById('mileage').value;
+    const seatingCapacity = document.getElementById('seatingCapacity').value;
+    const description = document.getElementById('description').value.trim();
+
+    // Validate fields are not empty or just whitespace
+    if (!vehicleType || !vehicleName || !licensePlate || !image || !manufacture || !color || !description) {
+        alert("Vui lòng điền đầy đủ thông tin các trường bắt buộc.");
+        return false;
+    }
+
+    // Validate model year is in a realistic range
+    const currentYear = new Date().getFullYear();
+    if ( modelYear > currentYear) { // First car invented in 1886
+        alert("Năm sản xuất không hợp lệ.");
+        return false;
+    }
+
+    // Validate numerical fields
+    if (mileage < 0 || seatingCapacity <= 0) {
+        alert("Số km và sức chứa phải là các số hợp lệ.");
+        return false;
+    }
+
+    return true; // Form is valid
+}
                 </script>
                 <!-- Add styles for modal pop-up -->
 <style>

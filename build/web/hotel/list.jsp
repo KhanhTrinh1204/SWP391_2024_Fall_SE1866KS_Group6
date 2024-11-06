@@ -268,5 +268,12 @@ window.onclick = function(event) {
     }
     
 </style>
+ <script type="text/javascript">
+                function deleteRestaurant(id) {
+                    if (confirm("ARE YOU SURE TO DELETE THIS HOTEL?")) {
+                        window.location = '<%=request.getContextPath()%>/hotel/delete?id=' + id;
+                    }
+                }
+            </script>
     </body>
 </html>

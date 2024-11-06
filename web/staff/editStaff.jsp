@@ -70,35 +70,35 @@
             </div>
         </div>
 
-                <form action="${pageContext.request.contextPath}/staff/edit" method="POST">
+                <form action="${pageContext.request.contextPath}/staff/edit" method="POST" validate onsubmit="return validateForm()">
 
                     <div class="form-group">
-                        <label for="fullName">Full Name</label>
+                        <label for="fullName">Full Name(*):</label>
                         <input type="text" class="form-control" id="fullName" name="fullName" value="${staff.fullName}" required>
                     </div>
                      
                     <div class="form-group">
-                        <label for="fullName">User Name</label>
+                        <label for="fullName">User Name(*):</label>
                         <input type="text" class="form-control" id="username" name="username" value="${staff.userName}" required disabled="true">
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Email(*):</label>
                         <input type="email" class="form-control" id="email" name="email" value="${staff.email}" required hidden>
                     </div>
 
                     <div class="form-group">
-                        <label for="phoneNumber">Phone Number</label>
+                        <label for="phoneNumber">Phone Number(*):</label>
                         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${staff.phone}" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="address">Address</label>
+                        <label for="address">Address(*):</label>
                         <input type="text" class="form-control" id="address" name="address" value="${staff.address}" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="status">Status</label>
+                        <label for="status">Status(*):</label>
                         <select class="form-control" id="status" name="status">
                             <option value="true" <c:if test="${staff.status}">selected</c:if>>Active</option>
                             <option value="false" <c:if test="${not staff.status}">selected</c:if>>Inactive</option>
@@ -106,7 +106,7 @@
                     </div>
                         
            <div class="form-group">
-    <label for="role">Role</label>
+    <label for="role">Role(*):</label>
     <select class="form-control" id="role" name="role" required>
         <option value="1" <c:if test="${staff.roleID == 1}">selected</c:if>>Customer</option>
         <option value="2" <c:if test="${staff.roleID == 2}">selected</c:if>>Tourist</option>
@@ -138,7 +138,30 @@ window.onclick = function(event) {
     }
 };
 
+          function validateForm() {
+        // Define required fields with their error messages
+        const fields = [
+            { id: "fullName", message: "Please enter the full name." },
+            { id: "username", message: "Please enter the username." },
+            { id: "email", message: "Please enter a valid email address." },
+            { id: "phoneNumber", message: "Please enter the phone number." },
+            { id: "address", message: "Please enter the address." },
+            { id: "status", message: "Please select the status." },
+            { id: "role", message: "Please select the role." }
+        ];
+
+        // Loop through each field to check if it's empty or contains only whitespace
+        for (let field of fields) {
+            const element = document.getElementById(field.id);
+            if (element && element.value.trim() === "") {
+                alert(field.message);
+                element.focus();
+                return false; // Prevent form submission
+            }
         }
+
+        return true; // Allow form submission if all fields are valid
+    }
                 </script>
 </div>
 </body>

@@ -117,67 +117,67 @@
                 </div>
             </c:if>
 
-            <form action="${pageContext.request.contextPath}/vehicle/edit" method="POST" class="container mt-4">
+            <form action="${pageContext.request.contextPath}/vehicle/edit" method="POST" class="container mt-4"  onsubmit="return validateVehicleForm()">
     <input type="hidden" name="vehicleId" value="${vehicle.vehicleId}" />
 
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="vehicleType" class="form-label">Vehicle Type</label>
+            <label for="vehicleType" class="form-label">Vehicle Type(*):</label>
             <input type="text" class="form-control" name="vehicleType" id="vehicleType" value="${vehicle.vehicleType}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="vehicleName" class="form-label">Vehicle Name</label>
+            <label for="vehicleName" class="form-label">Vehicle Name(*):</label>
             <input type="text" class="form-control" name="vehicleName" id="vehicleName" value="${vehicle.vehicleName}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="licensePlate" class="form-label">License Plate</label>
+            <label for="licensePlate" class="form-label">License Plate(*):</label>
             <input type="text" class="form-control" name="licensePlate" id="licensePlate" value="${vehicle.licensePlate}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="image" class="form-label">Image URL</label>
+            <label for="image" class="form-label">Image URL(*):</label>
             <input type="text" class="form-control" name="image" id="image" value="${vehicle.image}" />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="manufacture" class="form-label">Manufacture</label>
+            <label for="manufacture" class="form-label">Manufacture(*):</label>
             <input type="text" class="form-control" name="manufacture" id="manufacture" value="${vehicle.manufacture}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="modelYear" class="form-label">Model Year</label>
+            <label for="modelYear" class="form-label">Model Year(*):</label>
             <input type="number" class="form-control" name="modelYear" id="modelYear" value="${vehicle.modelYear}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="color" class="form-label">Color</label>
+            <label for="color" class="form-label">Color(*):</label>
             <input type="text" class="form-control" name="color" id="color" value="${vehicle.color}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="engineType" class="form-label">Engine Type</label>
+            <label for="engineType" class="form-label">Engine Type(*):</label>
             <input type="text" class="form-control" name="engineType" id="engineType" value="${vehicle.engineType}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="mileage" class="form-label">Mileage</label>
+            <label for="mileage" class="form-label">Mileage(*):</label>
             <input type="number" class="form-control" name="mileage" id="mileage" value="${vehicle.mileAge}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="seatingCapacity" class="form-label">Seating Capacity</label>
+            <label for="seatingCapacity" class="form-label">Seating Capacity(*):</label>
             <input type="number" class="form-control" name="seatingCapacity" id="seatingCapacity" value="${vehicle.seatingCapacity}" required />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="registrationDate" class="form-label">Registration Date</label>
+            <label for="registrationDate" class="form-label">Registration Date(*):</label>
             <input type="date" class="form-control" name="registrationDate" id="registrationDate" value="${vehicle.registrationDate}" required />
         </div>
 
         <div class="col-12 mb-3">
-            <label for="description" class="form-label">Description</label>
+            <label for="description" class="form-label">Description(*):</label>
             <textarea class="form-control" name="description" id="description" rows="4">${vehicle.description}</textarea>
         </div>
 
@@ -205,7 +205,40 @@ window.onclick = function(event) {
     }
 };
 
-        }
+       function validateVehicleForm() {
+    // Get form fields
+    const vehicleType = document.getElementById('vehicleType').value.trim();
+    const vehicleName = document.getElementById('vehicleName').value.trim();
+    const licensePlate = document.getElementById('licensePlate').value.trim();
+    const image = document.getElementById('image').value.trim();
+    const manufacture = document.getElementById('manufacture').value.trim();
+    const modelYear = document.getElementById('modelYear').value;
+    const color = document.getElementById('color').value.trim();
+    const mileage = document.getElementById('mileage').value;
+    const seatingCapacity = document.getElementById('seatingCapacity').value;
+    const description = document.getElementById('description').value.trim();
+
+    // Validate fields are not empty or just whitespace
+    if (!vehicleType || !vehicleName || !licensePlate || !image || !manufacture || !color || !description) {
+        alert("Vui lòng điền đầy đủ thông tin các trường bắt buộc.");
+        return false;
+    }
+
+    // Validate model year is in a realistic range
+    const currentYear = new Date().getFullYear();
+    if ( modelYear > currentYear) { // First car invented in 1886
+        alert("Năm sản xuất không hợp lệ.");
+        return false;
+    }
+
+    // Validate numerical fields
+    if (mileage < 0 || seatingCapacity <= 0) {
+        alert("Số km và sức chứa phải là các số hợp lệ.");
+        return false;
+    }
+
+    return true; // Form is valid
+}
                 </script>
                 <!-- Add styles for modal pop-up -->
 <style>

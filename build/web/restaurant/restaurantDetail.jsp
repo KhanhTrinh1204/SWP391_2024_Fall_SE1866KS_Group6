@@ -126,7 +126,7 @@
                         <!-- Hiển thị hình ảnh nhà hàng -->
                         <c:if test="${not empty restaurant.image}">
                             <div class="restaurant-image">
-                                <img src="${pageContext.request.contextPath}/img/${restaurant.image}" alt="Restaurant Image" style="width: 100px; height: auto;">
+                                <img src="${restaurant.image}" alt="Restaurant Image" style="width: 100px; height: auto;">
                             </div>
                         </c:if>
                     </div>

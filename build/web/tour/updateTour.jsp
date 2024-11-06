@@ -143,7 +143,7 @@
                 ${errorMessage}
             </div>
         </c:if>
-   <form action="${pageContext.request.contextPath}/tour/update" method="post" class="p-4 border rounded">
+   <form action="${pageContext.request.contextPath}/tour/update" method="post" class="p-4 border rounded" validate onsubmit="return validateTourForm()">
 
     <!-- Error message if update fails -->
     <c:if test="${not empty error}">
@@ -279,7 +279,42 @@ window.onclick = function(event) {
     }
 };
 
+         function validateTourForm() {
+        // Check if the required fields are filled in
+        const fields = [
+            { id: "tourName", message: "Vui lòng nhập tên tour." },
+            { id: "price", message: "Vui lòng nhập giá." },
+            { id: "description", message: "Vui lòng nhập mô tả." },
+            { id: "startDate", message: "Vui lòng chọn ngày bắt đầu." },
+            { id: "endDate", message: "Vui lòng chọn ngày kết thúc." },
+            { id: "agentId", message: "Vui lòng chọn đại lý." },
+            { id: "vehicleId", message: "Vui lòng chọn phương tiện." },
+            { id: "restaurantId", message: "Vui lòng chọn nhà hàng." },
+            { id: "hotelId", message: "Vui lòng chọn khách sạn." },
+            { id: "image", message: "Vui lòng nhập URL hình ảnh." }
+        ];
+
+        for (let field of fields) {
+            const element = document.getElementById(field.id);
+            if (element && element.value.trim() === "") {
+                alert(field.message);
+                element.focus();
+                return false;
+            }
         }
+
+        // Validate that start date is before end date
+        const startDate = new Date(document.getElementById("startDate").value);
+        const endDate = new Date(document.getElementById("endDate").value);
+
+        if (startDate && endDate && startDate >= endDate) {
+            alert("Ngày bắt đầu phải trước ngày kết thúc.");
+            document.getElementById("startDate").focus();
+            return false;
+        }
+
+        return true; // Allow form submission if validation passes
+    }
                 </script>
                 <!-- Add styles for modal pop-up -->
 <style>

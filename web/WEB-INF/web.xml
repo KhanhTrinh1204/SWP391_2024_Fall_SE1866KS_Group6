@@ -184,6 +184,10 @@
         <servlet-name>UpdateProfileCustomer</servlet-name>
         <servlet-class>Controllers.auth.UpdateProfileCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileAdmin</servlet-name>
+        <servlet-class>Controllers.auth.UpdateProfileAdmin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListTourServerlet</servlet-name>
         <url-pattern>/list</url-pattern>
@@ -359,5 +363,9 @@
     <servlet-mapping>
         <servlet-name>UpdateProfileCustomer</servlet-name>
         <url-pattern>/UpdateProfileCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileAdmin</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
     </servlet-mapping>
 </web-app>

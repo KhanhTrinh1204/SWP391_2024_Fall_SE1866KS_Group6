@@ -90,9 +90,10 @@
                     <img src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
                 </a>
                 <div class="dropdown" id="dropdown" style="display: none; text-decoration: none;">
-                    <a href="${pageContext.request.contextPath}/viewProfile" style="color: white; display: block;">View Profile</a>
+                    <a href="${pageContext.request.contextPath}/ViewProfileCustomer" style="color: white; display: block;">View Profile</a>
                     <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white; display: block;">Logout</a>
-                    <a href="${pageContext.request.contextPath}/Booking" style="color: white; display: block;">My booking</a>
+                    <a href="${pageContext.request.contextPath}/ViewBookingList" style="color: white; display: block;">My booking</a>
+                     <a href="${pageContext.request.contextPath}/ChangePassword.jsp" style="color: white; display: block;">Change password</a>
                 </div>
             </li>
         </ul>

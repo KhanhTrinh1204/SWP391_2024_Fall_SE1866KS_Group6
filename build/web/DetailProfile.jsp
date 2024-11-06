@@ -1,121 +1,17 @@
-<%-- 
-    Document   : DetailProfile
-    Created on : Nov 1, 2024, 4:40:42 PM
-    Author     : hoang
---%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-       <head>
-        <meta charset="utf-8">
+<head>
+       <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Management</title>
+        <title>Add vehicle</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-    </head>
-     <script>
-        // Update image preview when URL changes
-        function updateImagePreview() {
-            const imageUrl = document.getElementById('avatarUrl').value;
-            document.getElementById('profileImage').src = imageUrl;
-        }
-
-        // Validate form submission
-        function validateForm() {
-            let isValid = true;
-
-            // Clear previous error messages
-            document.querySelectorAll('.error').forEach(function(el) {
-                el.textContent = '';
-            });
-
-            // Validate Image URL
-            const imageUrl = document.getElementById('avatarUrl').value;
-            if (!isValidUrl(imageUrl)) {
-                document.getElementById('avatarUrlError').textContent = 'Please enter a valid image URL.';
-                isValid = false;
-            }
-
-            // Validate Username (not empty)
-            const username = document.getElementById('username').value;
-            if (username.trim() === '') {
-                document.getElementById('usernameError').textContent = 'Username is required.';
-                isValid = false;
-            }
-
-            // Validate Full Name (not empty)
-            const fullName = document.getElementById('fullname').value;
-            if (fullName.trim() === '') {
-                document.getElementById('fullNameError').textContent = 'Full name is required.';
-                isValid = false;
-            }
-
-            // Validate Address (not empty and max length of 250 characters)
-            const address = document.getElementById('address').value;
-            if (address.trim() === '') {
-                document.getElementById('addressError').textContent = 'Address is required.';
-                isValid = false;
-            } else if (address.length > 250) {
-                document.getElementById('addressError').textContent = 'Address cannot exceed 250 characters.';
-                isValid = false;
-            }
-
-            // Validate Email (valid format)
-            const email = document.getElementById('email').value;
-            if (!isValidEmail(email)) {
-                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
-                isValid = false;
-            }
-
-            // Validate Phone Number (must be exactly 10 digits)
-            const phone = document.getElementById('phone').value;
-            if (!isValidPhone(phone)) {
-                document.getElementById('phoneError').textContent = 'Phone number must be exactly 10 digits.';
-                isValid = false;
-            }
-
-            // Validate Date of Birth (not empty and must be less than current date)
-            const dob = document.getElementById('dob').value;
-            if (!dob) {
-                document.getElementById('dobError').textContent = 'Date of birth is required.';
-                isValid = false;
-            } else if (new Date(dob) >= new Date()) {
-                document.getElementById('dobError').textContent = 'Date of birth must be before the current date.';
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
-        // Helper function to validate URL
-        function isValidUrl(url) {
-            try {
-                new URL(url);
-                return true;
-            } catch (_) {
-                return false;
-            }
-        }
-
-        // Helper function to validate email
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        // Helper function to validate phone number
-        function isValidPhone(phone) {
-            const phoneRegex = /^[0-9]{10}$/;
-            return phoneRegex.test(phone);
-        }
-    </script>
-    <body onload="showAlerts()">
+</head>
+<body onload="showAlerts()">
         <div class="wrapper">
      
           <nav id="sidebar">
@@ -126,7 +22,7 @@
                 <li class="active">
                     <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
                         <i class="material-icons">dashboard</i>
-                        <span>Manage Staff</span>
+                        <span>Manage User</span>
                     </a>
                 </li>
                 <li>
@@ -139,6 +35,31 @@
                     <a href="<%=request.getContextPath()%>/restaurant/list">
                         <i class="material-icons">library_books</i>
                         <span>Manage Restaurant</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/feedback/list">
+                        <i class="material-icons">feedback</i>
+                        <span>Manage feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="<%=request.getContextPath()%>/tour/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage tour</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="<%=request.getContextPath()%>/hotel/list">
+                        <i class="material-icons">hotel</i>
+                        <span>Manage hotel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/booking/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage booking tour</span>
                     </a>
                 </li>
             </ul>
@@ -173,7 +94,7 @@
                 <div class="xp-breadcrumbbar text-center">
                     <h4 class="page-title">View Profile</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                        <li class="breadcrumb-item"><a href="#">View Profile</a></li>
                     </ol>
                 </div>
             </div>
@@ -373,7 +294,102 @@ button[type="submit"]:hover {
 }
 
 </style>
+ <script>
+        // Update image preview when URL changes
+        function updateImagePreview() {
+            const imageUrl = document.getElementById('avatarUrl').value;
+            document.getElementById('profileImage').src = imageUrl;
+        }
 
+        // Validate form submission
+        function validateForm() {
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(function(el) {
+                el.textContent = '';
+            });
+
+            // Validate Image URL
+            const imageUrl = document.getElementById('avatarUrl').value;
+            if (!isValidUrl(imageUrl)) {
+                document.getElementById('avatarUrlError').textContent = 'Please enter a valid image URL.';
+                isValid = false;
+            }
+
+            // Validate Username (not empty)
+            const username = document.getElementById('username').value;
+            if (username.trim() === '') {
+                document.getElementById('usernameError').textContent = 'Username is required.';
+                isValid = false;
+            }
+
+            // Validate Full Name (not empty)
+            const fullName = document.getElementById('fullname').value;
+            if (fullName.trim() === '') {
+                document.getElementById('fullNameError').textContent = 'Full name is required.';
+                isValid = false;
+            }
+
+            // Validate Address (not empty and max length of 250 characters)
+            const address = document.getElementById('address').value;
+            if (address.trim() === '') {
+                document.getElementById('addressError').textContent = 'Address is required.';
+                isValid = false;
+            } else if (address.length > 250) {
+                document.getElementById('addressError').textContent = 'Address cannot exceed 250 characters.';
+                isValid = false;
+            }
+
+            // Validate Email (valid format)
+            const email = document.getElementById('email').value;
+            if (!isValidEmail(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                isValid = false;
+            }
+
+            // Validate Phone Number (must be exactly 10 digits)
+            const phone = document.getElementById('phone').value;
+            if (!isValidPhone(phone)) {
+                document.getElementById('phoneError').textContent = 'Phone number must be exactly 10 digits.';
+                isValid = false;
+            }
+
+            // Validate Date of Birth (not empty and must be less than current date)
+            const dob = document.getElementById('dob').value;
+            if (!dob) {
+                document.getElementById('dobError').textContent = 'Date of birth is required.';
+                isValid = false;
+            } else if (new Date(dob) >= new Date()) {
+                document.getElementById('dobError').textContent = 'Date of birth must be before the current date.';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Helper function to validate URL
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Helper function to validate email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Helper function to validate phone number
+        function isValidPhone(phone) {
+            const phoneRegex = /^[0-9]{10}$/;
+            return phoneRegex.test(phone);
+        }
+    </script>
             
 
                 <script>

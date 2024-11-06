@@ -141,11 +141,11 @@
                 </div>
             </div>
          <c:if test="${not empty hotel}">
-        <form action="<%=request.getContextPath()%>/hotel/edit" method="POST">
+        <form action="<%=request.getContextPath()%>/hotel/edit" method="POST" onsubmit="return validateForm()">
     <input type="hidden" name="hotelId" value="${hotel.hotelId}">
 
     <div class="mb-3">
-        <label for="hotelName" class="form-label">Hotel Name</label>
+        <label for="hotelName" class="form-label">Hotel Name(*)</label>
         <input type="text" class="form-control" id="hotelName" name="hotelName" value="${hotel.hotelName}" placeholder="Enter hotel name" required>
         <div class="invalid-feedback">
             Please enter the hotel name.
@@ -153,7 +153,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="imgUrl" class="form-label">Image URL</label>
+        <label for="imgUrl" class="form-label">Image URL(*)</label>
         <input type="text" class="form-control" id="imgUrl" name="imgUrl" value="${hotel.imgUrl}" placeholder="Enter image URL" required>
         <div class="invalid-feedback">
             Please enter the image URL.
@@ -161,7 +161,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">Description(*)</label>
         <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description" required>${hotel.description}</textarea>
         <div class="invalid-feedback">
             Please enter the description.
@@ -169,7 +169,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="startDate" class="form-label">Start Date</label>
+        <label for="startDate" class="form-label">Start Date(*)</label>
         <input type="date" class="form-control" id="startDate" name="startDate" value="${hotel.startDate}" required>
         <div class="invalid-feedback">
             Please select the start date.
@@ -177,7 +177,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="endDate" class="form-label">End Date</label>
+        <label for="endDate" class="form-label">End Date(*)</label>
         <input type="date" class="form-control" id="endDate" name="endDate" value="${hotel.endDate}" required>
         <div class="invalid-feedback">
             Please select the end date.
@@ -185,7 +185,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
+        <label for="price" class="form-label">Price(*)</label>
         <input type="text" class="form-control" id="price" name="price" value="${hotel.price}" placeholder="Enter price" required>
         <div class="invalid-feedback">
             Please enter the price.
@@ -215,7 +215,49 @@ window.onclick = function(event) {
     }
 };
 
-        }
+         function validateForm() {
+               const hotelName = document.getElementById("hotelName").value.trim();
+               const imgUrl = document.getElementById("imgUrl").value.trim();
+               const description = document.getElementById("description").value.trim();
+               const startDate = document.getElementById("startDate").value;
+               const endDate = document.getElementById("endDate").value;
+                const price = document.getElementById("price").value;
+               // Check for empty fields
+               if (hotelName.trim() === "") {
+                  alert("Hotel Name is required.");
+                  return false;
+               if (imgUrl.trim() === "") {
+                  alert("Image URL is required.");
+                  return false;
+               }
+               if (description.trim() === "") {
+                  alert("Description is required.");
+                  return false;
+               }
+
+               // Check start and end dates
+               if (startDate.trim() === "") {
+                  alert("Start Date is required.");
+                  return false;
+               }
+               if (endDate.trim() === "") {
+                  alert("End Date is required.");
+                  return false;
+               }
+
+               // Check if end date is later than start date
+               const start = new Date(startDate);
+               const end = new Date(endDate);
+               if (end <= start) {
+                  alert("End Date must be later than Start Date.");
+                  return false;
+               }
+                if (price.trim() === "") {
+                  alert("Price is required.");
+                  return false;
+               }
+               return true; // If all checks pass
+            }
                 </script>
                 <!-- Add styles for modal pop-up -->
 <style>
