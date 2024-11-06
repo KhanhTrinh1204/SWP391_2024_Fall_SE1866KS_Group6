@@ -62,10 +62,10 @@
                 <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
             </div>
             <ul class="list-unstyled components">
-                <li class="active">
+                 <li class="active">
                     <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
                         <i class="material-icons">dashboard</i>
-                        <span>Manage Staff</span>
+                        <span>Manage User</span>
                     </a>
                 </li>
                 <li>
@@ -93,10 +93,16 @@
                         <span>Manage tour</span>
                     </a>
                 </li>
-                  <li>
+                 <li>
                     <a href="<%=request.getContextPath()%>/hotel/list">
                         <i class="material-icons">hotel</i>
                         <span>Manage hotel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/booking/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage booking tour</span>
                     </a>
                 </li>
             </ul>
@@ -217,6 +223,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Add styles for modal pop-up -->
+
     <!-- Custom JS for form validation -->
 </body>
 </html>

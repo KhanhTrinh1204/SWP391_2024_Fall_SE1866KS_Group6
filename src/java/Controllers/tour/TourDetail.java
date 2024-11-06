@@ -45,7 +45,7 @@ public class TourDetail extends HttpServlet {
                 int tourId = Integer.parseInt(tourIdStr);
                 // Sử dụng VehicleDao để lấy chi tiết phương tiện
                 TourDao tourDb = new TourDao();
-                Tour tour = tourDb.ViewTourDetail(tourId);
+                Tour tour = tourDb.ViewTourDetailValue(tourId);
                 if (tour != null) {
                     // Gửi dữ liệu vehicle tới trang JSP để hiển thị
                     request.setAttribute("tour", tour);

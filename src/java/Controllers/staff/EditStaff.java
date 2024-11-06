@@ -5,6 +5,8 @@
 
 package Controllers.staff;
 
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.StaffDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 import model.Staff;
 import model.TravelAgent;
 
@@ -56,23 +59,18 @@ public class EditStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String staffIdParam = request.getParameter("id");
-
+        String email = request.getParameter("email");
+        
         try {
-            if (staffIdParam != null) {
-                int staffId = Integer.parseInt(staffIdParam);
-                StaffDao staffDao = new StaffDao();
-                Staff staff = staffDao.GetStaffById(staffId); 
-
-                if (staff != null) {
-                    request.setAttribute("staff", staff); 
+                ILoginDAO dao = new LoginDAO();
+                Account account = dao.viewProfile(email); 
+                if (account != null) {
+                    request.setAttribute("staff", account); 
                     request.getRequestDispatcher("editStaff.jsp").forward(request, response);
                 } else {
-                    response.getWriter().write("Staff not found.");
+                    response.getWriter().write("Account not found.");
                 }
-            } else {
-                response.getWriter().write("Invalid staff ID.");
-            }
+
         } catch (NumberFormatException e) {
             response.getWriter().write("Invalid staff ID format.");
         }
@@ -88,34 +86,17 @@ public class EditStaff extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         try {
-            Staff staff = new Staff();
-            StaffDao staffDb = new StaffDao();
-
-            staff.setStaffId(Integer.parseInt(request.getParameter("staffId")));
-            staff.setFullName(request.getParameter("fullName"));
-            staff.setEmail(request.getParameter("email"));
-            staff.setPhoneNumber(request.getParameter("phoneNumber"));
-            staff.setAddress(request.getParameter("address"));
-            staff.setStatus(Boolean.parseBoolean(request.getParameter("status")));
-            
-            TravelAgent agent = new TravelAgent();
-            agent.setAgentId(1);
-            staff.setAgent(agent);
-    
-
-            boolean success = staffDb.UpdateStaff(staff);
-            if (success) {               
-                response.sendRedirect(request.getContextPath() + "/staff/list");
-            } else {
-                request.setAttribute("errorMessage", "Update failed. Please try again.");
-                request.setAttribute("staff", staff); 
-                request.getRequestDispatcher("editStaff.jsp").forward(request, response);
-            }
-        } catch (NumberFormatException e) {         
-            request.setAttribute("errorMessage", "Invalid input. Please check your data.");
-            request.getRequestDispatcher("editStaff.jsp").forward(request, response);
-        }
+        String fullname = request.getParameter("fullName").trim();
+        String email = request.getParameter("email").trim();
+        String phoneNumber = request.getParameter("phoneNumber").trim();
+        String address = request.getParameter("address").trim();
+        String role = request.getParameter("role").trim();
+        String status = request.getParameter("status").trim();
+         ILoginDAO dao = new LoginDAO();
+         dao.updateUser(fullname, address, phoneNumber,role,status ,email);
+        
+         response.sendRedirect(request.getContextPath() + "/staff/list");
+        
     }
 
     /** 

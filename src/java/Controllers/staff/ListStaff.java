@@ -5,6 +5,8 @@
 
 package Controllers.staff;
 
+import dal.ILoginDAO;
+import dal.LoginDAO;
 import dal.StaffDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
+import model.Account;
 import model.Staff;
 
 /**
@@ -56,18 +60,35 @@ public class ListStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        StaffDao staffDb = new StaffDao();  
-        String search = request.getParameter("search");
-        String statusFilter = request.getParameter("statusFilter");
+          String search = request.getParameter("search");
+        String status = request.getParameter("status");
+        ILoginDAO loginDao = new LoginDAO();
+        
+        List<Account> accounts;
+        
+          String pageStr = request.getParameter("page");
+        int RECORDS_PER_PAGE = 5;
 
-        ArrayList<Staff> staff;
-        if ((search != null && !search.isEmpty()) || (statusFilter != null && !statusFilter.isEmpty())) {
-            staff = staffDb.searchStaff(search, statusFilter);
-        } else {
-            staff = staffDb.GetStaffList();
+        // Default to page 1 if not specified or invalid
+        int page = 1;
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                page = 1;  // Default value
+            }
         }
-        request.setAttribute("staff", staff);
-        request.getRequestDispatcher("listStaff.jsp").forward(request, response);
+        int totalRecords = loginDao.getTotalRecordsAccount(search,status);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+       
+         accounts  = loginDao.getTotalListAccount(search,status,page,RECORDS_PER_PAGE);
+        
+        // Đặt danh sách tour vào request để truyền sang JSP
+        request.setAttribute("accounts", accounts);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
+        // Chuyển tiếp request và response tới trang listTour.jsp
+        request.getRequestDispatcher("/staff/listStaff.jsp").forward(request, response);
     } 
 
     /** 

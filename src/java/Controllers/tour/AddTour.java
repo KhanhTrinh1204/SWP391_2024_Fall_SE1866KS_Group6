@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Hotel;
 import model.Restaurant;
 import model.Tour;
 import model.TravelAgent;
@@ -80,11 +81,13 @@ public class AddTour extends HttpServlet {
         List<Vehicle> vehicles = tourDb.getAllVehicles();
         List<Restaurant> restaurants = tourDb.getAllRestaurants();
         
+         List<Hotel> hotels = tourDb.getAllHotels();
         // Đóng kết nối
         // Đưa danh sách vào request
         request.setAttribute("agents", agents);
         request.setAttribute("vehicles", vehicles);
         request.setAttribute("restaurants", restaurants);
+        request.setAttribute("hotels", hotels);
         // Chuyển đến trang thêm tour
         request.getRequestDispatcher("addTour.jsp").forward(request, response);
     } 
@@ -99,7 +102,7 @@ public class AddTour extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-TourDao tourDb = new TourDao();
+            TourDao tourDb = new TourDao();
             // Lấy dữ liệu từ form
             String tourName = request.getParameter("tourName");
             String priceStr = request.getParameter("price");
@@ -109,29 +112,11 @@ TourDao tourDb = new TourDao();
             String agentIdStr = request.getParameter("agentId");
             String vehicleIdStr = request.getParameter("vehicleId");
             String restaurantIdStr = request.getParameter("restaurantId");
+              String hotelIdStr = request.getParameter("hotelId");
+               String fileName = request.getParameter("image");
              try {
 
-            Part filePart = request.getPart("image");
-
-            // Get the filename
-            String fileName = getSubmittedFileName(filePart);
-
-            // Define the directory where the file will be saved
-            String uploadPath = getServletContext().getRealPath("") + File.separator + "img";
-            File uploadDir = new File(uploadPath);
-
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-
-            // Save the file to the server
-            try (InputStream input = filePart.getInputStream(); OutputStream output = new FileOutputStream(uploadPath + File.separator + fileName)) {
-                int read;
-                byte[] buffer = new byte[1024];
-                while ((read = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, read);
-                }
-            }
+            
 
 
             // Chuyển đổi các giá trị từ String sang kiểu dữ liệu tương ứng
@@ -139,7 +124,7 @@ TourDao tourDb = new TourDao();
             int agentId = Integer.parseInt(agentIdStr);
             int vehicleId = Integer.parseInt(vehicleIdStr);
             int restaurantId = Integer.parseInt(restaurantIdStr);
-
+             int hotelId = Integer.parseInt(hotelIdStr);
             // Định dạng ngày
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = null;
@@ -164,9 +149,8 @@ TourDao tourDb = new TourDao();
             tour.setStartDate(startDate);
             tour.setEndDate(endDate);
             tour.setImage(fileName);
-            // Tạo đối tượng DbContext          
-            // Chèn tour vào cơ sở dữ liệu
-            tourDb.insertTour(tour, agentId, vehicleId, restaurantId);
+
+            tourDb.insertTour(tour, agentId, vehicleId, restaurantId,hotelId);
 
            
 

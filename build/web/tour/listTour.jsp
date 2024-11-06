@@ -24,10 +24,10 @@
                 <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
             </div>
             <ul class="list-unstyled components">
-                <li class="active">
+               <li class="active">
                     <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
                         <i class="material-icons">dashboard</i>
-                        <span>Manage Staff</span>
+                        <span>Manage User</span>
                     </a>
                 </li>
                 <li>
@@ -53,6 +53,18 @@
                     <a href="<%=request.getContextPath()%>/tour/list">
                         <i class="material-icons">tour</i>
                         <span>Manage tour</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="<%=request.getContextPath()%>/hotel/list">
+                        <i class="material-icons">hotel</i>
+                        <span>Manage hotel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/booking/list">
+                        <i class="material-icons">tour</i>
+                        <span>Manage booking tour</span>
                     </a>
                 </li>
             </ul>
@@ -94,7 +106,7 @@
                                                 
                                                 
             <br>
-                <form method="GET" action="<%=request.getContextPath()%>/vehicle/list" class="search-form d-flex align-items-center gap-2">
+                <form method="GET" action="<%=request.getContextPath()%>/tour/list" class="search-form d-flex align-items-center gap-2">
                     <div class="input-group" style="width: 60%;">
                         <label for="search" style="margin-left: 30px; margin-right: 20px;" class="visually-hidden">Search by name:</label>
                         <input type="text" id="search" class="form-control" name="search" placeholder="Search by name" aria-label="Search by name" value="${param.search}">
@@ -108,11 +120,11 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                            <h2 class="ml-lg-2">Manage Vehicle</h2>
+                                            <h2 class="ml-lg-2">Manage Tour</h2>
                                         </div>
-                                        <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
+                                          <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
                                             <a href="<%=request.getContextPath()%>/tour/add" class="btn btn-success" data-toggle="modal">
-                                                <i class="material-icons">&#xE147;</i> <span>Add New tour</span></a>
+                                                <i class="material-icons">&#xE147;</i> <span>Add New Tour</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +149,7 @@
                                         ${tour.tourName}
                                     </a>
                                 </td> 
-                                <td><fmt:formatNumber value="${tour.price}" type="currency" currencySymbol="$"/></td> 
+                                  <td>${tour.price}</td>  
                                 <td>
                                    <img src="${tour.image}" alt="Vehicle Image" style="width: 100px; height: auto;">
                                 </td>
@@ -154,7 +166,7 @@
                     </tbody>
                 </table>
                 <c:if test="${empty tour}">
-                                <p>No restaurants found.</p>
+                                <p>No tour found.</p>
                             </c:if>
                                   </div>
                                       <div class="pagination">
@@ -175,10 +187,95 @@
                 </div>
                 <script type="text/javascript">
                     function deleteStaff(id) {
-                        if (confirm("ARE YOU SURE TO DELETE THIS STAFF"))
+                        if (confirm("ARE YOU SURE TO DELETE THIS TOUR"))
                             window.location.href = '<%=request.getContextPath()%>/tour/delete?id=' + id;
                     }
                 </script>
+                  <script>
+                   function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-button')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+};
+
+        }
+                </script>
+                <!-- Add styles for modal pop-up -->
+<style>
+    /* Dropdown Menu Styling */
+.dropdown-menu {
+    display: none; /* Initially hidden */
+    position: absolute; /* Position it relative to its nearest positioned ancestor */
+    right: 0; /* Align to the right of the profile link */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background-color: white; /* White background */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    min-width: 150px; /* Minimum width */
+}
+
+/* Display the dropdown when active */
+.dropdown-menu.show {
+    display: block; /* Show the dropdown */
+}
+
+/* Dropdown Item Styling */
+.dropdown-menu li {
+    padding: 10px; /* Padding for items */
+}
+
+.dropdown-menu li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    display: block; /* Make the link fill the container */
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f1f1f1; /* Background color on hover */
+}
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+        overflow: auto; /* Enable scroll if needed */
+    }
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+</style>
             </div>
     </body>
 </html>

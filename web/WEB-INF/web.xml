@@ -70,19 +70,19 @@
     </servlet>
     <servlet>
         <servlet-name>ListFeedback</servlet-name>
-        <servlet-class>controller.feedback.ListFeedback</servlet-class>
+        <servlet-class>Controllers.feedback.ListFeedback</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteFeedback</servlet-name>
-        <servlet-class>controller.feedback.DeleteFeedback</servlet-class>
+        <servlet-class>Controllers.feedback.DeleteFeedback</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ResponeControl</servlet-name>
-        <servlet-class>controller.feedback.ResponeControl</servlet-class>
+        <servlet-class>Controllers.feedback.ResponeControl</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateRequest</servlet-name>
-        <servlet-class>controller.feedback.CreateRequest</servlet-class>
+        <servlet-class>Controllers.feedback.CreateRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddStaff</servlet-name>
@@ -151,6 +151,38 @@
     <servlet>
         <servlet-name>BookingTour</servlet-name>
         <servlet-class>Controllers.tour.BookingTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewBookingList</servlet-name>
+        <servlet-class>Controllers.tour.ViewBookingList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateBooking</servlet-name>
+        <servlet-class>Controllers.tour.UpdateBooking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminBookingList</servlet-name>
+        <servlet-class>Controllers.tour.AdminBookingList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateConfirmTour</servlet-name>
+        <servlet-class>Controllers.tour.UpdateConfirmTour</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerViewTourDetail</servlet-name>
+        <servlet-class>Controllers.tour.CustomerViewTourDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewListTourPage</servlet-name>
+        <servlet-class>Controllers.tour.ViewListTourPage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewProfileCustomer</servlet-name>
+        <servlet-class>Controllers.auth.ViewProfileCustomer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileCustomer</servlet-name>
+        <servlet-class>Controllers.auth.UpdateProfileCustomer</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListTourServerlet</servlet-name>
@@ -295,5 +327,37 @@
     <servlet-mapping>
         <servlet-name>BookingTour</servlet-name>
         <url-pattern>/tour/book</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewBookingList</servlet-name>
+        <url-pattern>/ViewBookingList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateBooking</servlet-name>
+        <url-pattern>/updateBooking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminBookingList</servlet-name>
+        <url-pattern>/booking/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateConfirmTour</servlet-name>
+        <url-pattern>/UpdateConfirmTour</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerViewTourDetail</servlet-name>
+        <url-pattern>/CustomerViewTourDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewListTourPage</servlet-name>
+        <url-pattern>/ViewListTourPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewProfileCustomer</servlet-name>
+        <url-pattern>/ViewProfileCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileCustomer</servlet-name>
+        <url-pattern>/UpdateProfileCustomer</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -105,8 +105,15 @@ public class LoginControl extends HttpServlet {
             }
             response.addCookie(u);
             response.addCookie(p);
+            if(a.getRoleID().equals("1")){
+             response.sendRedirect("/SupportProject/view/home");
+               
+            }
+            else{
+           response.sendRedirect("/SupportProject/feedback/list");
         }
-          response.sendRedirect("/SupportProject/view/home");
+        }
+        
     }
 
     /**

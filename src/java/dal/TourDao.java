@@ -4,11 +4,15 @@
  */
 package dal;
 
+import Models.UserBooking;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
+import model.Hotel;
 import model.Restaurant;
 import model.Tour;
 import model.TravelAgent;
@@ -65,13 +69,31 @@ public class TourDao extends DbContext<Tour> {
 
         return tours;
     }
+    
+       public String GetEmailAccount(int id) {
+        String sql = "select c.Email from UserBooking t, Account c where c.AccountID = t.AccountID and t.id= ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                String a = rs.getString("Email");
+                 return a;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
 
     public Tour ViewTourDetail(int id) {
-        String sql = "select t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName, v.VehicleName, r.RestaurantName, t.Image from Tour t\n"
-                + "join TravelAgent ta on ta.AgentID = t.AgentID\n"
-                + "join Vehicle v on v.VehicleID = t.VehicleID\n"
-                + "join Restaurant r on r.RestaurantID = t.RestaurantID\n"
-                + "where t.TourID = ?";
+        String sql = "select t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName, v.VehicleName, r.RestaurantName, t.Image ,h.hotel_id, h.hotel_name from Tour t\n" +
+"                join TravelAgent ta on ta.AgentID = t.AgentID\n" +
+"               join Vehicle v on v.VehicleID = t.VehicleID\n" +
+"               join Restaurant r on r.RestaurantID = t.RestaurantID\n" +
+"			   join hotel h on h.hotel_id = t.hotelID\n" +
+"                where t.TourID = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
@@ -99,11 +121,20 @@ public class TourDao extends DbContext<Tour> {
                 tour.setVechicle(vehicles);
 
                 // Gán thông tin của Restaurant
+                ArrayList<Hotel> hotels = new ArrayList<>();
+                Hotel hotel = new Hotel();
+                hotel.setHotelName(rs.getString("hotel_name"));
+                hotels.add(hotel);
+                tour.setHotel(hotels);
+                
+                
+                // Gán thông tin của 
                 ArrayList<Restaurant> restaurants = new ArrayList<>();
                 Restaurant restaurant = new Restaurant();
                 restaurant.setRestaurantName(rs.getString("RestaurantName"));
                 restaurants.add(restaurant);
                 tour.setRestaurant(restaurants);
+                
                 return tour;
             }
         } catch (SQLException ex) {
@@ -111,13 +142,317 @@ public class TourDao extends DbContext<Tour> {
         }
         return null;
     }
-    // Phương thức để chèn tour vào cơ sở dữ liệu
+    
+    
+     public Tour ViewTourDetailValue(int id) {
+        String sql = "select t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName,\n" +
+"v.VehicleName, v.Color,v.Description as[VehicleDescription], v.EngineType, v.Image as [VehicleImage], v.Manufacture, v.Mileage,v.ModelYear,v.SeatingCapacity,v.VehicleType,\n" +
+"r.RestaurantName, r.Category,r.Description as [RestaurantDescription],r.Email,r.image as[RestaurantImage],r.Location,r.PhoneNumber,\n" +
+"t.Image \n" +
+",h.hotel_id, h.hotel_name ,h.img_URL as [HotelImage],h.description as[HotelDescription], h.price\n" +
+"from Tour t\n" +
+"                join TravelAgent ta on ta.AgentID = t.AgentID\n" +
+"               join Vehicle v on v.VehicleID = t.VehicleID\n" +
+"               join Restaurant r on r.RestaurantID = t.RestaurantID\n" +
+"			   join hotel h on h.hotel_id = t.hotelID\n" +
+"                where t.TourID = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                Tour tour = new Tour();
+                tour.setTourId(rs.getInt("TourID"));
+                tour.setTourName(rs.getString("TourName"));
+                tour.setPrice(rs.getDouble("Price"));
+                tour.setDescription(rs.getString("Description"));
+                tour.setStartDate(rs.getDate("StartDate"));
+                tour.setEndDate(rs.getDate("EndDate"));
+                tour.setImage(rs.getString("Image"));
 
-    public void insertTour(Tour tour, int agentId, int vehicleId, int restaurantId) {
+                // Gán thông tin của TravelAgent
+                TravelAgent agent = new TravelAgent();
+                agent.setAgentName(rs.getString("AgentName"));
+                tour.setAgent(agent);
+
+                // Gán thông tin của Vehicle
+                ArrayList<Vehicle> vehicles = new ArrayList<>();
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicle.setColor(rs.getString("Color"));
+                vehicle.setDescription(rs.getString("VehicleDescription"));
+                
+                vehicle.setEngineType(rs.getString("EngineType"));
+                vehicle.setImage(rs.getString("VehicleImage"));
+                vehicle.setManufacture(rs.getString("Manufacture"));
+                
+                vehicle.setModelYear(Integer.parseInt(rs.getString("ModelYear")) );
+                vehicle.setSeatingCapacity(Integer.parseInt(rs.getString("SeatingCapacity")));
+                
+                 vehicle.setVehicleType(rs.getString("VehicleType"));
+
+                vehicle.setMileAge(Integer.parseInt(rs.getString("Mileage")));
+                
+                vehicles.add(vehicle);
+                tour.setVechicle(vehicles);
+
+                // Gán thông tin của Restaurant
+                ArrayList<Hotel> hotels = new ArrayList<>();
+                Hotel hotel = new Hotel();
+                hotel.setHotelName(rs.getString("hotel_name"));
+                hotel.setImgUrl(rs.getString("HotelImage"));
+                hotel.setDescription(rs.getString("HotelDescription"));
+                hotel.setPrice(rs.getString("price"));
+               
+                hotels.add(hotel);
+                tour.setHotel(hotels);
+                
+                
+                // Gán thông tin của 
+                ArrayList<Restaurant> restaurants = new ArrayList<>();
+                Restaurant restaurant = new Restaurant();
+                restaurant.setRestaurantName(rs.getString("RestaurantName"));
+                restaurant.setCategory(rs.getString("Category"));
+                restaurant.setDescription(rs.getString("RestaurantDescription"));
+                restaurant.setEmail(rs.getString("Email"));
+                restaurant.setImage(rs.getString("RestaurantImage"));
+                restaurant.setLocation(rs.getString("Location"));
+                restaurant.setPhoneNumber(rs.getString("PhoneNumber"));
+                restaurants.add(restaurant);
+                tour.setRestaurant(restaurants);
+                
+                return tour;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<Tour> ViewBookingTourDetail(int id) {
+         ArrayList<Tour> tours = new ArrayList<>();
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String sql = "select u.id,u.status,u.TimeBooking ,t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName, v.VehicleName, r.RestaurantName,r.image,r.Description , t.Image, h.[hotel_name], h.img_URL, h.price from Tour t \n" +
+"				\n" +
+"                 join TravelAgent ta on ta.AgentID = t.AgentID\n" +
+"                 join Vehicle v on v.VehicleID = t.VehicleID\n" +
+"                 join Restaurant r on r.RestaurantID = t.RestaurantID\n" +
+"				 join hotel h on h.hotel_id = t.hotelID\n" +
+"				 join UserBooking u on u.TourID = t.TourID\n" +
+"				 join Account a on a.AccountID = u.AccountID\n" +
+"                 where a.AccountID = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                
+                Tour tour = new Tour();
+                tour.setTourId(rs.getInt("TourID"));
+                tour.setTourName(rs.getString("TourName"));
+                tour.setPrice(rs.getDouble("Price"));
+                tour.setDescription(rs.getString("Description"));
+                tour.setStartDate(rs.getDate("StartDate"));
+                tour.setEndDate(rs.getDate("EndDate"));
+                tour.setImage(rs.getString("Image"));
+
+                // Gán thông tin của TravelAgent
+                TravelAgent agent = new TravelAgent();
+                agent.setAgentName(rs.getString("AgentName"));
+                tour.setAgent(agent);
+
+                // Gán thông tin của Vehicle
+                ArrayList<Vehicle> vehicles = new ArrayList<>();
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicles.add(vehicle);
+                tour.setVechicle(vehicles);
+
+                // Gán thông tin của Restaurant
+                ArrayList<Restaurant> restaurants = new ArrayList<>();
+                Restaurant restaurant = new Restaurant();
+                restaurant.setRestaurantName(rs.getString("RestaurantName"));
+                restaurants.add(restaurant);
+                tour.setRestaurant(restaurants);
+                
+                 ArrayList<UserBooking> userBookings = new ArrayList<>();
+                UserBooking userBooking = new UserBooking();
+                userBooking.setId(rs.getString("id"));
+                 userBooking.setStatus(rs.getString("status"));
+                 userBooking.setTimebooking(rs.getString("TimeBooking"));
+                userBookings.add(userBooking);
+                tour.setUserBooking(userBookings);
+                 tours.add(tour);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tours;
+    }
+    
+      public ArrayList<Tour> ViewListBookingTour(String search, String status, int page, int recordsPerPage) {
+         ArrayList<Tour> tours = new ArrayList<>();
+          int start = (page - 1) * recordsPerPage;
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      StringBuilder query = new StringBuilder("select u.id,u.status,u.TimeBooking, a.Fullname,a.AccountID,a.Email ,t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName, v.VehicleName, r.RestaurantName,r.image,r.Description , t.Image, h.[hotel_name], h.img_URL, h.price from Tour t \n" +
+"				\n" +
+"                 join TravelAgent ta on ta.AgentID = t.AgentID\n" +
+"                 join Vehicle v on v.VehicleID = t.VehicleID\n" +
+"                 join Restaurant r on r.RestaurantID = t.RestaurantID\n" +
+"				 join hotel h on h.hotel_id = t.hotelID\n" +
+"				 join UserBooking u on u.TourID = t.TourID\n" +
+"				 join Account a on a.AccountID = u.AccountID\n" +
+"                 where 1=1 ");
+      
+         if (search != null && !search.trim().isEmpty()) {
+             query.append(" AND a.Fullname LIKE ?");
+
+        }
+          if (status != null && !status.trim().isEmpty()) {
+             query.append(" AND u.status LIKE ?");
+        }
+               query.append(" ORDER BY u.id desc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
+        try {
+           PreparedStatement statement = connection.prepareStatement(query.toString());
+           
+             int paramIndex = 1;
+            // Set email parameter if provided
+            if (search != null && !search.trim().isEmpty()) {
+                statement.setString(paramIndex++, "%" + search + "%");
+            }
+              if (status != null && !status.trim().isEmpty()) {
+               statement.setString(paramIndex++, "%" + status + "%");
+        }
+            // Set pagination parameters
+            statement.setInt(paramIndex++, start);
+            statement.setInt(paramIndex, recordsPerPage);
+            
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                
+                Tour tour = new Tour();
+                tour.setTourId(rs.getInt("TourID"));
+                tour.setTourName(rs.getString("TourName"));
+                tour.setPrice(rs.getDouble("Price"));
+                tour.setDescription(rs.getString("Description"));
+                tour.setStartDate(rs.getDate("StartDate"));
+                tour.setEndDate(rs.getDate("EndDate"));
+                tour.setImage(rs.getString("Image"));
+
+                // Gán thông tin của TravelAgent
+                TravelAgent agent = new TravelAgent();
+                agent.setAgentName(rs.getString("AgentName"));
+                tour.setAgent(agent);
+
+                // Gán thông tin của Vehicle
+                ArrayList<Vehicle> vehicles = new ArrayList<>();
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicles.add(vehicle);
+                tour.setVechicle(vehicles);
+
+                // Gán thông tin của Restaurant
+                ArrayList<Restaurant> restaurants = new ArrayList<>();
+                Restaurant restaurant = new Restaurant();
+                restaurant.setRestaurantName(rs.getString("RestaurantName"));
+                restaurants.add(restaurant);
+                tour.setRestaurant(restaurants);
+                
+                 ArrayList<UserBooking> userBookings = new ArrayList<>();
+                UserBooking userBooking = new UserBooking();
+                userBooking.setId(rs.getString("id"));
+                 userBooking.setStatus(rs.getString("status"));
+                 userBooking.setTimebooking(rs.getString("TimeBooking"));
+                userBookings.add(userBooking);             
+                tour.setUserBooking(userBookings);
+                
+                   ArrayList<Account> accounts = new ArrayList<>();
+                Account account = new Account();
+                account.setAccountId(rs.getString("AccountID"));
+                account.setFullName(rs.getString("Fullname"));
+              account.setEmail(rs.getString("Email"));
+                accounts.add(account);
+                tour.setAccount(accounts);
+                 tours.add(tour);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tours;
+    }
+    
+      
+      public boolean updateConfirmTour(String id) {
+
+        String query = "update UserBooking set status = 2 where id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return true;
+    }
+      
+      
+      
+    // Phương thức để chèn tour vào cơ sở dữ liệu
+    
+    public boolean updateCancleTour(String id) {
+
+        String query = "update UserBooking set status = 3 where id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return true;
+    }
+ public int getTotalBookingRecords(String search, String status) {
+        int totalRecords = 0;
+
+        // Base query
+            StringBuilder query = new StringBuilder("SELECT COUNT(t.id) \n" +
+"FROM UserBooking t\n" +
+"JOIN Account a ON a.AccountID = t.AccountID\n where 1= 1" +
+"");
+
+                    if (search != null && !search.trim().isEmpty()) {
+             query.append(" AND a.Fullname LIKE ?");
+           }
+                    if (status != null && !status.trim().isEmpty()) {
+             query.append(" AND t.status LIKE ?");
+        }
+        try {
+           int paramIndex = 1;
+          PreparedStatement stm = connection.prepareStatement(query.toString());
+             if (search != null && !search.trim().isEmpty()) {
+                stm.setString(paramIndex++, "%" + search + "%");
+            }
+              if (status != null && !status.trim().isEmpty()) {
+               stm.setString(paramIndex++, "%" + status + "%");
+        }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                totalRecords = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+        } finally {
+        }
+        return totalRecords;
+    }
+    public void insertTour(Tour tour, int agentId, int vehicleId, int restaurantId, int hotelID) {
         String sql = "INSERT INTO [dbo].[Tour] "
                 + "([TourID], [TourName], [Price], [Description], [StartDate], [EndDate], "
-                + "[AgentID], [VehicleID], [RestaurantID], [Image]) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "[AgentID], [VehicleID], [RestaurantID], [Image], [hotelID]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, tour.getTourId());
@@ -130,7 +465,7 @@ public class TourDao extends DbContext<Tour> {
             stm.setInt(8, vehicleId);
             stm.setInt(9, restaurantId);
             stm.setString(10, tour.getImage());
-
+            stm.setInt(11, hotelID);
             // Thực thi câu lệnh INSERT
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -138,7 +473,7 @@ public class TourDao extends DbContext<Tour> {
         }
     }
         public void insertBookingTour(int TourID, int AccountID) {
-        String sql = "insert into [dbo].[UserBooking](TourID, AccountID, Status) VALUES(?,?,1)";
+        String sql = "insert into [dbo].[UserBooking](TourID, AccountID, Status,TimeBooking) VALUES(?,?,1,GETDATE())";
 
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, TourID);
@@ -214,9 +549,25 @@ public class TourDao extends DbContext<Tour> {
         return restaurants;
     }
 
-    public boolean editTour(Tour tour) {
+     public List<Hotel> getAllHotels() {
+        List<Hotel> hotels = new ArrayList<>();
+        String sql = "SELECT hotel_id, hotel_name FROM hotel";
+        try (PreparedStatement stm = connection.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
+            while (rs.next()) {
+                Hotel hotel = new Hotel();
+                hotel.setHotelId(rs.getInt("hotel_id"));
+                hotel.setHotelName(rs.getString("hotel_name"));
+                hotels.add(hotel);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return hotels;
+    }
+
+    public boolean editTour(Tour tour,int agentId,int vehicleId,int restaurantId,int hotelId) {
         String sql = "UPDATE Tour SET TourName = ?, Price = ?, Description = ?, StartDate = ?, EndDate = ?, "
-                + "Image = ? WHERE TourID = ?";
+                + "Image = ?, AgentID= ? , VehicleID =?, RestaurantID= ?, hotelID=?  WHERE TourID = ?";
 
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -228,7 +579,11 @@ public class TourDao extends DbContext<Tour> {
             stm.setDate(4, new java.sql.Date(tour.getStartDate().getTime())); // Chuyển đổi từ java.util.Date sang java.sql.Date
             stm.setDate(5, new java.sql.Date(tour.getEndDate().getTime()));
             stm.setString(6, tour.getImage());
-            stm.setInt(7, tour.getTourId()); // TourID để xác định bản ghi cần cập nhật
+            stm.setInt(7, agentId);
+            stm.setInt(8, vehicleId);
+            stm.setInt(9,restaurantId);
+            stm.setInt(10, hotelId);
+            stm.setInt(11, tour.getTourId()); // TourID để xác định bản ghi cần cập nhật
 
             // Thực thi câu lệnh UPDATE cho tour
             int rowsAffected = stm.executeUpdate();
@@ -424,17 +779,100 @@ public class TourDao extends DbContext<Tour> {
         return totalRecords;
     }
   
+     
+       public Tour ViewBookingTourDetailValue(int id) {
+        String sql = "select t.TourID, t.TourName, t.Price, t.Description, t.StartDate, t.EndDate, ta.AgentName,\n" +
+"v.VehicleName, v.Color,v.Description as[VehicleDescription], v.EngineType, v.Image as [VehicleImage], v.Manufacture, v.Mileage,v.ModelYear,v.SeatingCapacity,v.VehicleType, +\n" +
+"r.RestaurantName, r.Category,r.Description as [RestaurantDescription],r.Email,r.image as[RestaurantImage],r.Location,r.PhoneNumber,\n" +
+"t.Image\n" +
+",h.hotel_id, h.hotel_name ,h.img_URL as [HotelImage],h.description as[HotelDescription], h.price\n" +
+"from Tour t\n" +
+"                join TravelAgent ta on ta.AgentID = t.AgentID\n" +
+"               join Vehicle v on v.VehicleID = t.VehicleID\n" +
+"              join Restaurant r on r.RestaurantID = t.RestaurantID\n" +
+"			   join hotel h on h.hotel_id = t.hotelID\n" +
+"               join UserBooking u on u.TourID=t.TourID where u.id= ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                Tour tour = new Tour();
+                tour.setTourId(rs.getInt("TourID"));
+                tour.setTourName(rs.getString("TourName"));
+                tour.setPrice(rs.getDouble("Price"));
+                tour.setDescription(rs.getString("Description"));
+                tour.setStartDate(rs.getDate("StartDate"));
+                tour.setEndDate(rs.getDate("EndDate"));
+                tour.setImage(rs.getString("Image"));
+
+                // Gán thông tin của TravelAgent
+                TravelAgent agent = new TravelAgent();
+                agent.setAgentName(rs.getString("AgentName"));
+                tour.setAgent(agent);
+
+                // Gán thông tin của Vehicle
+                ArrayList<Vehicle> vehicles = new ArrayList<>();
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicle.setColor(rs.getString("Color"));
+                vehicle.setDescription(rs.getString("VehicleDescription"));
+                
+                vehicle.setEngineType(rs.getString("EngineType"));
+                vehicle.setImage(rs.getString("VehicleImage"));
+                vehicle.setManufacture(rs.getString("Manufacture"));
+                
+                vehicle.setModelYear(Integer.parseInt(rs.getString("ModelYear")) );
+                vehicle.setSeatingCapacity(Integer.parseInt(rs.getString("SeatingCapacity")));
+                
+                 vehicle.setVehicleType(rs.getString("VehicleType"));
+
+                vehicle.setMileAge(Integer.parseInt(rs.getString("Mileage")));
+                
+                vehicles.add(vehicle);
+                tour.setVechicle(vehicles);
+
+                // Gán thông tin của Restaurant
+                ArrayList<Hotel> hotels = new ArrayList<>();
+                Hotel hotel = new Hotel();
+                hotel.setHotelName(rs.getString("hotel_name"));
+                hotel.setImgUrl(rs.getString("HotelImage"));
+                hotel.setDescription(rs.getString("HotelDescription"));
+                hotel.setPrice(rs.getString("price"));
+               
+                hotels.add(hotel);
+                tour.setHotel(hotels);
+                
+                
+                // Gán thông tin của 
+                ArrayList<Restaurant> restaurants = new ArrayList<>();
+                Restaurant restaurant = new Restaurant();
+                restaurant.setRestaurantName(rs.getString("RestaurantName"));
+                restaurant.setCategory(rs.getString("Category"));
+                restaurant.setDescription(rs.getString("RestaurantDescription"));
+                restaurant.setEmail(rs.getString("Email"));
+                restaurant.setImage(rs.getString("RestaurantImage"));
+                restaurant.setLocation(rs.getString("Location"));
+                restaurant.setPhoneNumber(rs.getString("PhoneNumber"));
+                restaurants.add(restaurant);
+                tour.setRestaurant(restaurants);
+                
+                return tour;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         TourDao dao = new TourDao();
         // Retrieve a tour with a specific ID, e.g., 2
-        Tour tour = dao.ViewTourDetail(2);
+        String a = dao.GetEmailAccount(14);
 
         // Check if the tour is not null before trying to print its details
-        if (tour != null) {
-            System.out.println(tour.getVechicle().get(0).getVehicleName()); // This will call the toString() method of the Tour class
-        } else {
-            System.out.println("Tour not found.");
-        }
+        
+            System.out.println(a);
+        
     
 }
 

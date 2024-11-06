@@ -89,9 +89,10 @@
                     <img src="${pageContext.request.contextPath}/img/user.jpg" style="width:40px; border-radius:50%;" alt="User"/>
                 </a>
                 <div class="dropdown" id="dropdown" style="display: none; text-decoration: none;">
-                    <a href="${pageContext.request.contextPath}/viewProfile" style="color: white; display: block;">View Profile</a>
+                    <a href="${pageContext.request.contextPath}/ViewProfileCustomer" style="color: white; display: block;">View Profile</a>
                     <a href="${pageContext.request.contextPath}/LogoutControl" style="color: white; display: block;">Logout</a>
-                    <a href="${pageContext.request.contextPath}/Booking" style="color: white; display: block;">My booking</a>
+                    <a href="${pageContext.request.contextPath}/ViewBookingList" style="color: white; display: block;">My booking</a>
+                     <a href="${pageContext.request.contextPath}/ChangePassword.jsp" style="color: white; display: block;">Change password</a>
                 </div>
             </li>
         </ul>
@@ -192,7 +193,8 @@
              <div class="box">
             <img src="${tour.image}" alt="">
             <div class="content">
-                <h3> <i class="fas fa-map-marker-alt"></i>    ${tour.tourName} </h3>
+                <h3> 
+                    <a href="<%=request.getContextPath()%>/CustomerViewTourDetail?id=${tour.tourId}">    ${tour.tourName}</a> </h3>
                 <p>${tour.description}</p>
                
                 <div class="price">${tour.price}</div>
@@ -200,9 +202,9 @@
             </div>
         </div>
         </c:forEach>            
-
+             
     </div>
-
+               <a class="btn" href="${pageContext.request.contextPath}/ViewListTourPage"  style="background-color: blue; margin: 20px; padding: 10px; margin-left: 45%; width:200px; align-items: center; text-align: center">See more</a>
 </section>
 
 <!-- packages section ends -->
@@ -212,14 +214,16 @@
 <section class="services" id="services">
 
     <h1 class="heading">
-        <span>s</span>
+        <span>R</span>
         <span>e</span>
+        <span>s</span>
+        <span>t</span>
+        <span>a</span>
+        <span>u</span>
         <span>r</span>
-        <span>v</span>
-        <span>i</span>
-        <span>c</span>
-        <span>e</span>
-        <span>s</span>
+        <span>a</span>
+          <span>n</span>
+        <span>t</span>
     </h1>
 
     <div class="box-container">
@@ -227,8 +231,9 @@
    
          <c:forEach var="res" items="${res}" varStatus="status">
         <div class="box">
+            
             <i > <img src="${res.image}" alt="" style="width: "30%"></i>
-            <h3>${res.restaurantName}</h3>
+          <h3><a href="<%=request.getContextPath()%>/DetailCustomerRestaurant?id=${res.restaurantId}">    ${res.restaurantName}</a></h3>
             <p>${res.description}</p>
         </div>
        </c:forEach>    
@@ -243,13 +248,11 @@
 <section class="gallery" id="gallery">
 
     <h1 class="heading">
-        <span>g</span>
-        <span>a</span>
-        <span>l</span>
-        <span>l</span>
+        <span>h</span>
+        <span>o</span>
+        <span>t</span>
         <span>e</span>
-        <span>r</span>
-        <span>y</span>
+        <span>l</span>
     </h1>
 <div class="box-container">
 
@@ -260,9 +263,9 @@
         <div class="box">
             <img src="${data.imgUrl}" alt="">
             <div class="content">
-                <h3>${data.hotelName}</h3>
+                <h3>${data.hotelName}</a></h3>
                 <p>${data.description}</p>
-                <a href="#" class="btn">see more</a>
+                <a href="<%=request.getContextPath()%>/DetailHotelCustomer?id=${data.hotelId}" class="btn">see more</a>
             </div>
         </div>
           

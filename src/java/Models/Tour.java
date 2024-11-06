@@ -4,6 +4,7 @@
  */
 package model;
 
+import Models.UserBooking;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,27 +19,48 @@ public class Tour {
     private Date startDate;
     private Date endDate;
     private String description;
-    private Account acount;
     private TravelAgent agent;
     private ArrayList<Vehicle> vechicle;
     private ArrayList<Restaurant> restaurant;
+     private ArrayList<Hotel> hotel;
     private String image;
-
+    private ArrayList<UserBooking> userBooking;
+    private ArrayList<Account> account;
     public Tour() {
     }
 
-    public Tour(int tourId, String tourName, double price, Date startDate, Date endDate,String description, Account acount, TravelAgent agent, ArrayList<Vehicle> vechicle, ArrayList<Restaurant> restaurant, String image) {
+    public ArrayList<Account> getAccount() {
+        return account;
+    }
+
+    public void setAccount(ArrayList<Account> account) {
+        this.account = account;
+    }
+
+    public Tour(int tourId, String tourName, double price, Date startDate, Date endDate, String description, TravelAgent agent, ArrayList<Vehicle> vechicle, ArrayList<Restaurant> restaurant, ArrayList<Hotel> hotel, String image, ArrayList<UserBooking> userBooking, ArrayList<Account> account) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-        this.acount = acount;
         this.agent = agent;
         this.vechicle = vechicle;
         this.restaurant = restaurant;
+        this.hotel = hotel;
         this.image = image;
+        this.userBooking = userBooking;
+        this.account = account;
+    }
+
+    
+
+    public ArrayList<UserBooking> getUserBooking() {
+        return userBooking;
+    }
+
+    public void setUserBooking(ArrayList<UserBooking> userBooking) {
+        this.userBooking = userBooking;
     }
 
     public String getDescription() {
@@ -89,14 +111,7 @@ public class Tour {
         this.endDate = endDate;
     }
 
-    public Account getAcount() {
-        return acount;
-    }
-
-    public void setAcount(Account acount) {
-        this.acount = acount;
-    }
-
+   
     public TravelAgent getAgent() {
         return agent;
     }
@@ -119,6 +134,14 @@ public class Tour {
 
     public void setRestaurant(ArrayList<Restaurant> restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public ArrayList<Hotel> getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(ArrayList<Hotel> hotel) {
+        this.hotel = hotel;
     }
 
     public String getImage() {

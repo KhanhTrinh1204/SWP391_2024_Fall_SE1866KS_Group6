@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Hotel;
 import model.Restaurant;
 import model.Tour;
 import model.TravelAgent;
@@ -64,12 +65,12 @@ public class UpdateTour extends HttpServlet {
             List<TravelAgent> agents = tourDao.getAllAgents();
             List<Restaurant> restaurants = tourDao.getAllRestaurants();
             List<Vehicle> vehicles = tourDao.getAllVehicles();
-
+             List<Hotel> hotels = tourDao.getAllHotels();
             request.setAttribute("tour", tour);
             request.setAttribute("agents", agents);
             request.setAttribute("restaurants", restaurants);
             request.setAttribute("vehicles", vehicles);
-
+            request.setAttribute("hotels", hotels);
             request.getRequestDispatcher("updateTour.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             Logger.getLogger(UpdateTour.class.getName()).log(Level.SEVERE, "Invalid tour ID", e);
@@ -100,14 +101,15 @@ public class UpdateTour extends HttpServlet {
         String agentIdStr = request.getParameter("agentId");
         String vehicleIdStr = request.getParameter("vehicleId");
         String restaurantIdStr = request.getParameter("restaurantId");
-
+        String hotelIdStr = request.getParameter("hotelId");
+          String fileName = request.getParameter("image");
         try {
             // Chuyển đổi các giá trị từ String sang kiểu dữ liệu tương ứng
             double price = Double.parseDouble(priceStr);
             int agentId = Integer.parseInt(agentIdStr);
             int vehicleId = Integer.parseInt(vehicleIdStr);
             int restaurantId = Integer.parseInt(restaurantIdStr);
-
+            int hotelId = Integer.parseInt(hotelIdStr);
             Date startDate = null;
             Date endDate = null;
             try {
@@ -121,28 +123,7 @@ public class UpdateTour extends HttpServlet {
             }
 
             // Lấy file ảnh nếu có
-            Part filePart = request.getPart("image");
-            String fileName = "";
-            if (filePart != null && filePart.getSize() > 0) {
-                fileName = getSubmittedFileName(filePart);
-                String uploadPath = getServletContext().getRealPath("") + File.separator + "img";
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                try (InputStream input = filePart.getInputStream();
-                     OutputStream output = new FileOutputStream(uploadPath + File.separator + fileName)) {
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = input.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                }
-            } else {
-                // Giữ nguyên ảnh cũ nếu không chọn ảnh mới
-                fileName = request.getParameter("existingImage");
-            }
+   
 
             // Tạo đối tượng Tour
             Tour tour = new Tour();
@@ -166,9 +147,12 @@ public class UpdateTour extends HttpServlet {
             restaurant.setRestaurantId(restaurantId);
             tour.setRestaurant(new ArrayList<>(List.of(restaurant)));
 
+            Hotel hotel = new Hotel();
+            hotel.setHotelId(hotelId);
+            tour.setHotel(new ArrayList<>(List.of(hotel)));
             // Cập nhật thông tin Tour
             TourDao tourDao = new TourDao();
-            boolean success = tourDao.editTour(tour);
+            boolean success = tourDao.editTour(tour, agentId,vehicleId,restaurantId,hotelId);
 
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/tour/list");

@@ -39,7 +39,6 @@ public class BookingTour extends HttpServlet {
            TourDao tourDb = new TourDao();
            tourDb.insertBookingTour(tourid,Integer.parseInt(user.getAccountId()));
            session.setAttribute("bookingSuccess", "Booking completed successfully!");
-
         request.getRequestDispatcher("/view/home").forward(request, response);
 
     }

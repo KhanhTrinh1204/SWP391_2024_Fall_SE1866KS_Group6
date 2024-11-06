@@ -25,45 +25,62 @@
             <div class="sidebar-header">
                 <h3><img src="${pageContext.request.contextPath}/img/logo.png" class="img-fluid" alt="Logo"/><span>Travel System</span></h3>
             </div>
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
-                        <i class="material-icons">dashboard</i>
-                        <span>Manage Staff</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/vehicle/list">
-                        <i class="material-icons">date_range</i>
-                        <span>Manage Vehicle</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/restaurant/list">
-                        <i class="material-icons">library_books</i>
-                        <span>Manage Restaurant</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/feedback/list">
-                        <i class="material-icons">feedback</i>
-                        <span>Manage feedback</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="<%=request.getContextPath()%>/tour/list">
-                        <i class="material-icons">tour</i>
-                        <span>Manage tour</span>
-                    </a>
-                </li>
-                  <li>
-                    <a href="<%=request.getContextPath()%>/hotel/list">
-                        <i class="material-icons">hotel</i>
-                        <span>Manage hotel</span>
-                    </a>
-                </li>
-            </ul>
+            <ul class="list-unstyled components" id="menu">
+    <li >
+        <a href="<%=request.getContextPath()%>/staff/list" class="dashboard">
+            <i class="material-icons">dashboard</i>
+            <span>Manage User</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/vehicle/list">
+            <i class="material-icons">date_range</i>
+            <span>Manage Vehicle</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/restaurant/list">
+            <i class="material-icons">library_books</i>
+            <span>Manage Restaurant</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/feedback/list">
+            <i class="material-icons">feedback</i>
+            <span>Manage Feedback</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/tour/list">
+            <i class="material-icons">tour</i>
+            <span>Manage Tour</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/hotel/list">
+            <i class="material-icons">hotel</i>
+            <span>Manage Hotel</span>
+        </a>
+    </li>
+    <li>
+        <a href="<%=request.getContextPath()%>/booking/list">
+            <i class="material-icons">tour</i>
+            <span>Manage Booking Tour</span>
+        </a>
+    </li>
+    </ul>
+
+<script>
+    document.querySelectorAll('#menu li').forEach(item => {
+        item.addEventListener('click', () => {
+            // Remove 'active' class from all items
+            document.querySelectorAll('#menu li').forEach(li => li.classList.remove('active'));
+            // Add 'active' class to the clicked item
+            item.classList.add('active');
+        });
+    });
+</script>
+
         </nav>
 
 
@@ -287,7 +304,7 @@ window.onclick = function(event) {
                         document.getElementById('responseModal').style.display = 'none';
                     }
 
-                    function showAlerts() {
+                   function showAlerts() {
             const urlParams = new URLSearchParams(window.location.search);
 
             // Check for delete success/failure

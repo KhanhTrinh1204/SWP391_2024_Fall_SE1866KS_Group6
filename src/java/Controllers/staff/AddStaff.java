@@ -5,6 +5,9 @@
 
 package Controllers.staff;
 
+import dal.ILoginDAO;
+import dal.LoginDAO;
+import dal.SendEmail;
 import dal.StaffDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 import model.Staff;
 import model.TravelAgent;
 
@@ -70,47 +74,29 @@ public class AddStaff extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-          String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String address = request.getParameter("address");
-        String statusRaw = request.getParameter("status");
-
-        StaffDao staffDb = new StaffDao();
-        boolean isEmailExist = staffDb.checkEmailExist(email);
-        boolean isPhoneNumberExist = staffDb.checkPhoneNumberExist(phoneNumber);
-
-        if (isEmailExist) {
-            request.setAttribute("errorMessage", "Email has already existed.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-        } else if (isPhoneNumberExist) {
-            request.setAttribute("errorMessage", "Phone number has already existed.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-        } else {
-            int maxStaffId = staffDb.getMaxStaffId() + 1;
-            boolean status = Boolean.parseBoolean(statusRaw);
-
-            Staff staff = new Staff();
-            staff.setStaffId(maxStaffId);
-            staff.setFullName(fullname);
-            staff.setEmail(email);
-            staff.setPhoneNumber(phoneNumber);
-            staff.setAddress(address);
-            staff.setStatus(status);
-            
-            TravelAgent agent = new TravelAgent();
-            agent.setAgentId(1);
-            staff.setAgent(agent);
-
-       
-
-            HttpSession session = request.getSession();
-            session.setAttribute("successMessage", "Staff added successfully!");
-
-            staffDb.InsertStaff(staff);
-
-            response.sendRedirect(request.getContextPath() + "/staff/list");
+        String username = request.getParameter("username").trim();
+        String fullname = request.getParameter("fullname").trim();
+        String email = request.getParameter("email").trim();
+        String phoneNumber = request.getParameter("phoneNumber").trim();
+        String address = request.getParameter("address").trim();
+        String role = request.getParameter("role").trim();
+         ILoginDAO dao = new LoginDAO();
+        Account checkusername = dao.checkAccount(username);
+          Account chekcemail = dao.getEmail(email);
+        if (checkusername != null || chekcemail != null) {
+            String alertMessage = "Create failed, Email and username exist!";
+            request.setAttribute("alertMessage", alertMessage);
+           response.sendRedirect(request.getContextPath() + "/staff/add");
+        } else
+        {
+              SendEmail sm = new SendEmail();
+              String code = sm.getRandom();
+              dao.createAccount(username, code, email, fullname, address,  phoneNumber,role);
+              sm.sendDetailedEmail(username, code, email, fullname, address, phoneNumber, role);
+             response.sendRedirect(request.getContextPath() + "/staff/list");
         }
+       
+      
     }
 
     /** 
