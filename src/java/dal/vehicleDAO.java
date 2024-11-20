@@ -1,145 +1,277 @@
-/*
+*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dal;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import model.vehicle;
+import model.Vehicle;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.TravelAgent;
 
 /**
  *
- * @author Admin
+ * @author ASUS
  */
-public class vehicleDAO extends DBContext<Object> {
+public class VehicleDao extends DBContext<Vehicle> {
 
-    public List<vehicle> getList() {
-        List<vehicle> list = new ArrayList<>();
-        String sql = "select * from vehicle";
+    @Override
+    public void insert(Vehicle model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Vehicle model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(Vehicle model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ArrayList<Vehicle> list() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public ArrayList<Vehicle> GetVehicleList() {
+        ArrayList<Vehicle> vehicle = new ArrayList<>();
+        String sql = "select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle";
         try {
-            PreparedStatement pre = connection.prepareStatement(sql);
-            ResultSet rs = pre.executeQuery();
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                int vehicleId = rs.getInt("vehicle_id");
-                String vehicleName = rs.getString("vehicle_name");
-                String imgURL = rs.getString("img_URL");
-                String startDate = rs.getString("start_date");
-                String endDate = rs.getString("end_date");
-                String description = rs.getString("description");
-                int travelAgentId = rs.getInt("travel_agent_id");
-                int active = rs.getInt("active");
-                float price = rs.getFloat("price");
-                list.add(new vehicle(vehicleId, vehicleName, imgURL, startDate, endDate, description, travelAgentId, active, price));
+                Vehicle v = new Vehicle();
+                v.setVehicleId(rs.getInt("VehicleID"));
+                v.setVehicleType(rs.getString("VehicleType"));
+                v.setVehicleName(rs.getString("VehicleName"));
+                v.setLicensePlate(rs.getString("LicensePlate"));
+                v.setImage(rs.getString("Image"));
+                vehicle.add(v);
             }
-        } catch (SQLException e) {
-
+        } catch (SQLException ex) {
+            Logger.getLogger(VehicleDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
+        return vehicle;
     }
 
-    public void add(vehicle Vehicle) {
-        String sql = "INSERT INTO vehicle (vehicle_id,vehicle_name,img_URL,start_date,end_date,description,travel_agent_id,active,price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, Vehicle.getVehicleId());
-            statement.setString(2, Vehicle.getVehicleName());
-            statement.setString(3, Vehicle.getImgURL());
-            statement.setString(4, Vehicle.getStartDate());
-            statement.setString(5, Vehicle.getEndDate());
-            statement.setString(6, Vehicle.getDescription());
-            statement.setInt(7, Vehicle.getTravelAgentId());
-            statement.setInt(8, Vehicle.getActive());
-            statement.setFloat(9, Vehicle.getPrice());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public vehicle findVehicle(vehicle Vehicle) {
-        String sql = "select * from vehicle WHERE vehicle_id = ? ";
-        try {
-            PreparedStatement pre = connection.prepareCall(sql);
-            pre.setInt(1, Vehicle.getVehicleId());
-            ResultSet rs = pre.executeQuery();
+    public int GetMaxVehicleId() {
+        int maxVehicleId = 0;
+        String sql = "SELECT MAX(VehicleID) AS MaxID FROM Vehicle";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new vehicle(
-                    rs.getInt("vehicle_id"),
-                    rs.getString("vehicle_name"),
-                    rs.getString("img_URL"),
-                    rs.getString("start_date"),
-                    rs.getString("end_date"),
-                    rs.getString("description"),
-                    rs.getInt("travel_agent_id"),
-                    rs.getInt("active"),
-                    rs.getFloat("price")
-                );
+                maxVehicleId = rs.getInt("MaxID");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return maxVehicleId;
+    }
+
+    public void InsertVehicle(Vehicle vehicle) {
+        String sql = "INSERT INTO [dbo].[Vehicle]\n"
+                + "           ([VehicleID]\n"
+                + "           ,[VehicleType]\n"
+                + "           ,[VehicleName]\n"
+                + "           ,[LicensePlate]\n"
+                + "           ,[Image]\n"
+                + "           ,[Manufacture]\n"
+                + "           ,[ModelYear]\n"
+                + "           ,[Color]\n"
+                + "           ,[EngineType]\n"
+                + "           ,[Mileage]\n"
+                + "           ,[SeatingCapacity]\n"
+                + "           ,[RegistrationDate]\n"
+                + "           ,[Description]\n"
+                + "           ,[AgentID])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?)";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, vehicle.getVehicleId());
+            stm.setString(2, vehicle.getVehicleType());
+            stm.setString(3, vehicle.getVehicleName());
+            stm.setString(4, vehicle.getLicensePlate());
+            stm.setString(5, vehicle.getImage());
+            stm.setString(6, vehicle.getManufacture());
+            stm.setInt(7, vehicle.getModelYear());
+            stm.setString(8, vehicle.getColor());
+            stm.setString(9, vehicle.getEngineType());
+            stm.setInt(10, vehicle.getMileAge());
+            stm.setInt(11, vehicle.getSeatingCapacity());
+            stm.setDate(12, new java.sql.Date(vehicle.getRegistrationDate().getTime()));
+            stm.setString(13, vehicle.getDescription());
+            stm.setInt(14, vehicle.getAgent().getAgentId());
+
+            ResultSet rs = stm.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(VehicleDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Vehicle GetVehicleDetailById(int id) {
+        String sql = "select * from Vehicle where VehicleID = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleId(rs.getInt("VehicleID"));
+                vehicle.setVehicleType(rs.getString("VehicleType"));
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicle.setLicensePlate(rs.getString("LicensePlate"));
+                vehicle.setImage(rs.getString("Image"));
+                return vehicle;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VehicleDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    // Chỉnh sửa thông tin sinh viên
-    public void edit(vehicle Vehicle) {
-        String sql = "UPDATE vehicle  SET vehicle_name = ?, img_URL = ?, start_date = ?,  end_date = ?, description = ?,travel_agent_id = ?, active = ?, price = ? WHERE vehicle_id = ?";
+    public Vehicle GetVehicleDetails(int id) {
+        String sql = "SELECT v.VehicleID, v.VehicleType, v.VehicleName, v.LicensePlate, v.Image, "
+                + "v.Manufacture, v.ModelYear, v.Color, v.EngineType, v.Mileage, "
+                + "v.SeatingCapacity, v.RegistrationDate, v.Description, a.AgentID, a.AgentName "
+                + "FROM Vehicle v "
+                + "JOIN TravelAgent a ON v.AgentID = a.AgentID "
+                + "WHERE v.VehicleID = ?";
+
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(9, Vehicle.getVehicleId());
-            statement.setString(1, Vehicle.getVehicleName());
-            statement.setString(2, Vehicle.getImgURL());
-            statement.setString(3, Vehicle.getStartDate());
-            statement.setString(4, Vehicle.getEndDate());
-            statement.setString(5, Vehicle.getDescription());
-            statement.setInt(6, Vehicle.getTravelAgentId());
-            statement.setInt(7, Vehicle.getActive());
-            statement.setFloat(8, Vehicle.getPrice());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-        }
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
 
+            if (rs.next()) {
+                Vehicle vehicle = new Vehicle();
+                // Set basic vehicle details
+                vehicle.setVehicleId(rs.getInt("VehicleID"));
+                vehicle.setVehicleType(rs.getString("VehicleType"));
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicle.setLicensePlate(rs.getString("LicensePlate"));
+                vehicle.setImage(rs.getString("Image"));
+                vehicle.setManufacture(rs.getString("Manufacture"));
+                vehicle.setModelYear(rs.getInt("ModelYear"));
+                vehicle.setColor(rs.getString("Color"));
+                vehicle.setEngineType(rs.getString("EngineType"));
+                vehicle.setMileAge(rs.getInt("Mileage"));
+                vehicle.setSeatingCapacity(rs.getInt("SeatingCapacity"));
+                vehicle.setRegistrationDate(rs.getDate("RegistrationDate"));
+                vehicle.setDescription(rs.getString("Description"));
+
+                // Set TravelAgent details
+                TravelAgent agent = new TravelAgent();
+                agent.setAgentId(rs.getInt("AgentID"));
+                agent.setAgentName(rs.getString("AgentName"));
+                vehicle.setAgent(agent);
+
+                return vehicle;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VehicleDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    // Xóa một sinh viên
-    public void deleteStudent(vehicle Vehicle) {
-        String sql = "DELETE FROM vehicle WHERE vehicle_id = ?";
+    public boolean updateVehicle(Vehicle vehicle) {
+        String sql = "UPDATE [dbo].[Vehicle] SET "
+                + "[VehicleType] = ?, "
+                + "[VehicleName] = ?, "
+                + "[LicensePlate] = ?, "
+                + "[Image] = ?, "
+                + "[Manufacture] = ?, "
+                + "[ModelYear] = ?, "
+                + "[Color] = ?, "
+                + "[EngineType] = ?, "
+                + "[Mileage] = ?, "
+                + "[SeatingCapacity] = ?, "
+                + "[RegistrationDate] = ?, "
+                + "[Description] = ?, "
+                + "[AgentID] = ? "
+                + "WHERE [VehicleID] = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Thiết lập giá trị cho PreparedStatement
+            ps.setString(1, vehicle.getVehicleType());
+            ps.setString(2, vehicle.getVehicleName());
+            ps.setString(3, vehicle.getLicensePlate());
+            ps.setString(4, vehicle.getImage());
+            ps.setString(5, vehicle.getManufacture());
+            ps.setInt(6, vehicle.getModelYear());
+            ps.setString(7, vehicle.getColor());
+            ps.setString(8, vehicle.getEngineType());
+            ps.setInt(9, vehicle.getMileAge());
+            ps.setInt(10, vehicle.getSeatingCapacity());
+            ps.setDate(11, new java.sql.Date(vehicle.getRegistrationDate().getTime())); // Convert java.util.Date to java.sql.Date
+            ps.setString(12, vehicle.getDescription());
+            ps.setInt(13, vehicle.getAgent().getAgentId());
+            ps.setInt(14, vehicle.getVehicleId());
+
+            // Thực hiện cập nhật
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0; // Trả về true nếu có dòng nào được cập nhật
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+
+    public void DeleteVehicle(int id) {
+        String sql = "DELETE FROM [dbo].[Vehicle]\n"
+                + "      WHERE VehicleID = ?";
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, Vehicle.getVehicleId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-    
-    
-
-    @Override
-    public ArrayList<Object> list() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public Object get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Vehicle> SearchVehicle(String search) {
+        ArrayList<Vehicle> vehicleList = new ArrayList<>();
+        String sql = "select VehicleID, VehicleType, VehicleName, LicensePlate, Image from Vehicle\n"
+                + "where 1=1";
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " and VehicleType like ?";
+        }
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            if (search != null && !search.trim().isEmpty()) {
+                stm.setString(1, "%" + search + "%");
+            }
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleId(rs.getInt("VehicleID"));
+                vehicle.setVehicleType(rs.getString("VehicleType"));
+                vehicle.setVehicleName(rs.getString("VehicleName"));
+                vehicle.setLicensePlate(rs.getString("LicensePlate"));
+                vehicle.setImage(rs.getString("Image"));
+                vehicleList.add(vehicle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicleList;
     }
 
-    @Override
-    public void insert(Object model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void update(Object model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(Object model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
